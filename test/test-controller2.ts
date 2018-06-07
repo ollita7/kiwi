@@ -1,22 +1,22 @@
 import { Get, Post, JsonController } from '../lib/index';
 
-@JsonController('testcontroller')
-export class TestController {
+@JsonController('testcontroller2')
+export class TestController2 {
     @Get('/getAction')
     public get(){
-        return "get test";
+        return "get test2";
     }
 
     @Post('/postAction')
     public post(){
-        return "post test";
+        return "post test2";
     }
 
     public put(){
-        return "put test";
+        return "put test2";
     }
 
     public delete(){
-        return "delete test";
+        return "delete test2";
     }
 }

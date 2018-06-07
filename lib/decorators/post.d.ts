@@ -1,0 +1,1 @@
+export declare function Post(path: string): Function;
