@@ -6,5 +6,7 @@ export * from "./decorators/Put";
 export * from "./decorators/Delete";
 export * from "./types/KiwiOptions";
 export * from "./decorators/jsonController";
+export * from "./decorators/param";
+export * from "./decorators/body";
 
 export declare function createKiwiServer(options?: KiwiOptions): any;

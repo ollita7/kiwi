@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/ollita7/kiwi/issues"
   },
-  "homepage": "https://github.com/ollita7/kiwi#readme"
+  "homepage": "https://github.com/ollita7/kiwi#readme",
+  "dependencies": {
+    "lodash": "^4.17.10"
+  }
 }

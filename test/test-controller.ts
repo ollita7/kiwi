@@ -1,22 +1,25 @@
-import { Get, Post, JsonController } from '../lib/index';
+import { Get, Post, JsonController, Param, Body } from '../lib/index';
 
-@JsonController('testcontroller')
+@JsonController('/testcontroller')
 export class TestController {
-    @Get('/getAction')
-    public get(){
+    @Get('/getAction/:id/:id2/:id3')
+    public get(@Param('id') id: string, @Param('id2') id2: string, @Param('id3') id3: string) {
         return "get test";
     }
 
-    @Post('/postAction')
-    public post(){
-        return "post test";
+    @Post('/postAction/:id')
+    public post(@Param('id') id: string, @Body() request: any) {
+        return {
+            method: "post test",
+            request: request
+        };
     }
 
-    public put(){
+    public put() {
         return "put test";
     }
 
-    public delete(){
+    public delete() {
         return "delete test";
     }
 }
