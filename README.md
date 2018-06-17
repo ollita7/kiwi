@@ -4,7 +4,7 @@ Its a simple node server to create rest services.
 # Table of Contents
 * [Sample](#sample)
   
-## sample
+## Sample
 1. Create your firs controller class `TestController.ts`
  ```javascript
  import { Get, Post, JsonController, Param, Body } from '../lib/index';
