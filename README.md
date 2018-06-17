@@ -3,7 +3,7 @@ Its a simple node server to create rest services.
 
 # Table of Contents
 
-  * [Controller sample] (#example-of-usage)
+  * [Sample] (#Sample)
   
 ## Controller sample
 1. Create your firs controller class `TestController.ts`
@@ -46,5 +46,18 @@ Its a simple node server to create rest services.
          return "delete test";
      }
  }
-    ```
+ ```
+ 
+ 2. After you create the controller you must create the server that use that controller.
+ ```javascript
+ import { createKiwiServer } from '../lib/index';
+import { TestController } from './test-controller';
+
+const options = {
+    controllers: [TestController],
+}
+const server = createKiwiServer(options);
+server.listen(8086);
+```
+ 
   
