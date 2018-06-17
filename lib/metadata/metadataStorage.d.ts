@@ -5,4 +5,5 @@ export class MetadataStorage{
     public params: any[];
     public middlewares: any[];
     public interceptors: any[];
+    public authorize: any[];
 }

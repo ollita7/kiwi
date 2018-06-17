@@ -8,5 +8,6 @@ export * from "./types/KiwiOptions";
 export * from "./decorators/jsonController";
 export * from "./decorators/param";
 export * from "./decorators/body";
+export * from "./decorators/authorize";
 
 export declare function createKiwiServer(options?: KiwiOptions): any;
