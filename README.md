@@ -39,7 +39,7 @@ const options = {
 const server = createKiwiServer(options);
 server.listen(8086);
 ```
- ## Authorization
+## Authorization
  1. You have to specify on controller what actions need to be authorized. To do that you have a decorator @Authorization.
  In the sample you can see that we only need authorization to postAction. Also yo can put the authorization in the controller so all the actions must me authorized.
  
