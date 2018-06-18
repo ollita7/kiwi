@@ -92,7 +92,7 @@ Its a simple node server to create rest services.
 
 ## Cors
 You can enable cross domain by configuration
- ```javascript
+    ```javascript
     import { createKiwiServer } from 'kiwi-server';
     import { TestController } from './test-controller';
     import { TestController2 } from './test-controller2';
