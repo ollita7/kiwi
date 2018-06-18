@@ -59,18 +59,10 @@ export class TestController2 {
     public post(){
         return "post test2";
     }
-
-    public put(){
-        return "put test2";
-    }
-
-    public delete(){
-        return "delete test2";
-    }
 }
 ```
 
-2. 
+2. On the server you must define the function that is going to be executed everytime that an action or a controller has the @Authorization decorator. If that function return false the service is going to return 401 http error, in other case it will contnue the normal execution path.
 
 ```javascript
 import { createKiwiServer } from '../lib/index';
