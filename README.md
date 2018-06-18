@@ -2,13 +2,18 @@
 Its a simple node server to create rest services.
 
 # Table of Contents
+* [Installation](#installation)
 * [Sample](#sample)
 * [Authorization](#authorization)
   
+## Installation
+1. Install module:
+    `npm install kiwi-server --save`
+
 ## Sample
 1. Create your firs controller class `TestController.ts`
     ```javascript
-    import { Get, Post, JsonController, Param, Body } from 'kiwiserver';
+    import { Get, Post, JsonController, Param, Body } from 'kiwi-server';
 
     @JsonController('/testcontroller')
     export class TestController {
@@ -30,7 +35,7 @@ Its a simple node server to create rest services.
  
  2. After you create the controller you must create the server that use that controller.
     ```javascript
-    import { createKiwiServer } from 'kiwiserver';
+    import { createKiwiServer } from 'kiwi-server';
     import { TestController } from './test-controller';
 
     const options = {
@@ -44,8 +49,7 @@ Its a simple node server to create rest services.
  In the sample you can see that we only need authorization to postAction. Also yo can put the authorization in the controller so all the actions must me authorized.
  
     ```javascript
-    import { Get, Post, JsonController, Authorize } from 'kiwiserver';
-
+    import { Get, Post, JsonController, Authorize } from 'kiwi-server';
 
     @JsonController('/testcontroller2')
     export class TestController2 {
@@ -65,10 +69,9 @@ Its a simple node server to create rest services.
 2. On the server you must define the function that is going to be executed everytime that an action or a controller has the @Authorization decorator. If that function return false the service is going to return 401 http error, in other case it will contnue the normal execution path.
 
     ```javascript
-    import { createKiwiServer } from 'kiwiserver';
+    import { createKiwiServer } from 'kiwi-server';
     import { TestController } from './test-controller';
     import { TestController2 } from './test-controller2';
-
 
     function validateAuthentication(roles: Array<string>){
         console.log(roles);
