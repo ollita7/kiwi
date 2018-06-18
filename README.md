@@ -5,6 +5,7 @@ Its a simple node server to create rest services.
 * [Installation](#installation)
 * [Sample](#sample)
 * [Authorization](#authorization)
+* [Cors](#cors)
   
 ## Installation
 1. Install module:
@@ -60,8 +61,11 @@ Its a simple node server to create rest services.
 
         @Authorize(['ADMIN', 'USER'])
         @Post('/postAction')
-        public post(){
-            return "post test2";
+        public post(@Body() request: any) {
+            return {
+                method: "post test2",
+                request: request
+            };
         }
     }
     ```
@@ -81,6 +85,27 @@ Its a simple node server to create rest services.
     const options = {
         controllers: [TestController, TestController2],
         authorization: validateAuthentication
+    }
+    const server = createKiwiServer(options);
+    server.listen(8086);
+    ```
+
+## Cors
+You can enable cross domain by configuration
+ ```javascript
+    import { createKiwiServer } from 'kiwi-server';
+    import { TestController } from './test-controller';
+    import { TestController2 } from './test-controller2';
+
+    function validateAuthentication(roles: Array<string>){
+        console.log(roles);
+        return false;
+    }
+
+    const options = {
+        controllers: [TestController, TestController2],
+        authorization: validateAuthentication,
+        cors: true
     }
     const server = createKiwiServer(options);
     server.listen(8086);

@@ -1,4 +1,4 @@
-import { Get, Post, JsonController, Authorize } from '../lib/index';
+import { Get, Post, JsonController, Authorize, Body } from '../lib/index';
 
 
 @JsonController('/testcontroller2')
@@ -10,15 +10,11 @@ export class TestController2 {
 
     @Authorize(['ADMIN', 'USER'])
     @Post('/postAction')
-    public post(){
-        return "post test2";
+    public post(@Body() request: any){
+        return {
+            method: "post test2",
+            request: request
+        };
     }
 
-    public put(){
-        return "put test2";
-    }
-
-    public delete(){
-        return "delete test2";
-    }
 }

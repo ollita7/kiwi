@@ -27,12 +27,4 @@ export class TestController {
             method: "get same url post test",
         };
     }
-
-    public put() {
-        return "put test";
-    }
-
-    public delete() {
-        return "delete test";
-    }
 }
