@@ -8,7 +8,7 @@ Its a simple node server to create rest services.
 ## Sample
 1. Create your firs controller class `TestController.ts`
     ```javascript
-    import { Get, Post, JsonController, Param, Body } from '../lib/index';
+    import { Get, Post, JsonController, Param, Body } from 'kiwiserver';
 
     @JsonController('/testcontroller')
     export class TestController {
@@ -30,7 +30,7 @@ Its a simple node server to create rest services.
  
  2. After you create the controller you must create the server that use that controller.
     ```javascript
-    import { createKiwiServer } from '../lib/index';
+    import { createKiwiServer } from 'kiwiserver';
     import { TestController } from './test-controller';
 
     const options = {
@@ -44,7 +44,7 @@ Its a simple node server to create rest services.
  In the sample you can see that we only need authorization to postAction. Also yo can put the authorization in the controller so all the actions must me authorized.
  
     ```javascript
-    import { Get, Post, JsonController, Authorize } from '../lib/index';
+    import { Get, Post, JsonController, Authorize } from 'kiwiserver';
 
 
     @JsonController('/testcontroller2')
@@ -65,7 +65,7 @@ Its a simple node server to create rest services.
 2. On the server you must define the function that is going to be executed everytime that an action or a controller has the @Authorization decorator. If that function return false the service is going to return 401 http error, in other case it will contnue the normal execution path.
 
     ```javascript
-    import { createKiwiServer } from '../lib/index';
+    import { createKiwiServer } from 'kiwiserver';
     import { TestController } from './test-controller';
     import { TestController2 } from './test-controller2';
 
