@@ -33,6 +33,13 @@ Its a simple node server to create rest services.
         }
     }
     ```
+    You need to have these options in tsconfig.json file of your project:
+    ```javascript
+    {
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
+    }
+    ```
  
  2. After you create the controller you must create the server that use that controller.
     ```javascript
