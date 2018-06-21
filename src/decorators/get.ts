@@ -1,0 +1,12 @@
+var index = require("../index");
+export function Get(path: string | RegExp) {
+    return function (object: Object, methodName: string) {
+        index.getMetadataStorage().actions.push({
+            path: path,
+            method: 'get',
+            methodName: methodName,
+            className: object.constructor.name,
+        })
+       
+    }
+}
