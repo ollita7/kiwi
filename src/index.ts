@@ -52,6 +52,7 @@ async function processRequest(request: http.IncomingMessage , response: http.Ser
     response.writeHead(200, { "Content-Type": "application\json" });
     if (request.method !== 'GET') {
         let body = await parseBody(request);
+        params.push(body);
     }
 
     response.end(JSON.stringify(match.fn.apply(null, params)));

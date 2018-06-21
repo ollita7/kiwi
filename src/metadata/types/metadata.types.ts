@@ -7,7 +7,6 @@ export interface IAuthorize{
 export interface IAction{
     path: string | RegExp;
     method: string;
-    target: Function;
     className: string;
     methodName: string;
 }

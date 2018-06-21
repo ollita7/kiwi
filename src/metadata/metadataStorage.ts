@@ -8,7 +8,17 @@ export class MetadataStorage{
     public middlewares: any[];
     public interceptors: any[];
     public authorize: IAuthorize[];
-    public routes: IRoutes;
+    public routes: any;
+
+    constructor(){
+        this.actions = [];
+        this.controllers = [];
+        this.params = [];
+        this. middlewares = [];
+        this.interceptors = [];
+        this.authorize = [];
+        this.routes = [];
+    }
 
     public init(){
         forEach(this.actions, (action) => {
@@ -42,7 +52,6 @@ export class MetadataStorage{
     public matchRoute(route: string, httpMethod: string): IRoute{
         let match: IRoute = null;
         httpMethod = httpMethod.toLowerCase();
-        var params = [];
         const keys = Object.keys(this.routes);
         var foundMatch = false;
         var i = 0;
@@ -54,7 +63,7 @@ export class MetadataStorage{
                 var routeMatcher2 = new RegExp(keys[i].replace(/:[^\s/]+/g, ':([\\w-]+)'));
                 var urlParamNames = drop(routeMatcher2.exec(keys[i]));
                 match = this.routes[keys[i]][httpMethod];
-                match.paramValues = params;
+                match.paramValues = [];
                 foundMatch = true;
             }
             i++;

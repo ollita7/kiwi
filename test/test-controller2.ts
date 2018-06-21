@@ -1,4 +1,4 @@
-import { Get, Post, JsonController, Authorize, Body } from '../lib/index';
+import { Get, Post, JsonController, Authorize, Body } from '../src/index';
 
 
 @JsonController('/testcontroller2')
