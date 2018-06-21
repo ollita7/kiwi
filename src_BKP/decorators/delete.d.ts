@@ -1,1 +1,0 @@
-export declare function Delete(path: string): Function;

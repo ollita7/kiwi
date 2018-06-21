@@ -1,7 +1,7 @@
-var kiwi = require("../index");
+import {getMetadataStorage} from '../index';
 export function Param(name: string) {
     return function (object: Object, methodName: string, descriptor: number) {
-        kiwi.getMetadataStorage().params.push({
+        getMetadataStorage().params.push({
             order: descriptor,
             name: name,
             type: 'query',

@@ -1,1 +1,0 @@
-export declare function Param(name: string): Function;

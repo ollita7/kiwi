@@ -1,7 +1,7 @@
-var kiwi = require("../index");
+import {getMetadataStorage} from '../index';
 export function Authorize(roles: string[]) {
     return function (object: Object, methodName: string, descriptor: number) {
-        kiwi.getMetadataStorage().authorize.push({
+        getMetadataStorage().authorize.push({
             roles: roles,
             methodName: methodName,
             className: object.constructor.name,

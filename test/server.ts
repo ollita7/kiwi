@@ -1,4 +1,4 @@
-import { createKiwiServer } from '../lib/index';
+import { createKiwiServer } from '../src/index';
 import { TestController } from './test-controller';
 import { TestController2 } from './test-controller2';
 

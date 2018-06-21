@@ -1,7 +1,7 @@
-var index = require("../index");
+import {getMetadataStorage} from '../index';
 export function Post(path: string): Function {
     return function (object: Object, methodName: string) {
-        index.getMetadataStorage().actions.push({
+        getMetadataStorage().actions.push({
             path: path,
             method: 'post',
             methodName: methodName,
