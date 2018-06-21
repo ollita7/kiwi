@@ -1,6 +1,6 @@
 {
   "name": "kiwi-server",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "<h2>KIWI Server</h2>\r Its a simple node server to create rest services.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
