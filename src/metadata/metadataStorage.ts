@@ -1,32 +1,32 @@
-import { IAuthorize, IAction, IRoute } from './types/metadata.types';
-import { forEach, isNil, find, filter, drop } from 'lodash';
+import { IAuthorize, IAction, IRoutes, IRouter, IActionExecutor, IParam } from './types/metadata.types';
+import { forEach, isNil, find, filter, drop, findIndex } from 'lodash';
 
-export class MetadataStorage{
+export class MetadataStorage {
     public actions: IAction[];
     public controllers: any[];
     public params: any[];
     public middlewares: any[];
     public interceptors: any[];
     public authorize: IAuthorize[];
-    public routes: any;
+    public routes: IRouter;
 
-    constructor(){
+    constructor() {
         this.actions = [];
         this.controllers = [];
         this.params = [];
-        this. middlewares = [];
+        this.middlewares = [];
         this.interceptors = [];
         this.authorize = [];
-        this.routes = [];
+        this.routes = {};
     }
 
-    public init(){
+    public init() {
         forEach(this.actions, (action) => {
             const controller = find(this.controllers, (controller) => {
                 return action.className == controller.target.name;
             });
             if (isNil(this.routes[`${controller.path}${action.path}`])) {
-                this.routes[`${controller.path}${action.path}`] = [];
+                this.routes[`${controller.path}${action.path}`] = {};
             }
 
             const authorize = find(this.authorize, (auth) => {
@@ -37,20 +37,18 @@ export class MetadataStorage{
                 fn: controller.target.prototype[action.methodName],
                 params: [],
                 authorize: isNil(authorize),
-                roles: !isNil(authorize)? authorize.roles : []
+                roles: !isNil(authorize) ? authorize.roles : []
             };
             var params = filter(this.params, (param) => {
                 return param.className === action.className && action.methodName === param.methodName;
             });
-            forEach(params, (param) => {
-                this.routes[`${controller.path}${action.path}`][action.method].params[param.order] = param.name;
-            });
+            this.routes[`${controller.path}${action.path}`][action.method].params = params;
 
         });
     }
 
-    public matchRoute(route: string, httpMethod: string): IRoute{
-        let match: IRoute = null;
+    public matchRoute(route: string, httpMethod: string): IActionExecutor {
+        let match: IActionExecutor = null;
         httpMethod = httpMethod.toLowerCase();
         const keys = Object.keys(this.routes);
         var foundMatch = false;
@@ -63,11 +61,22 @@ export class MetadataStorage{
                 var routeMatcher2 = new RegExp(keys[i].replace(/:[^\s/]+/g, ':([\\w-]+)'));
                 var urlParamNames = drop(routeMatcher2.exec(keys[i]));
                 match = this.routes[keys[i]][httpMethod];
-                match.paramValues = [];
-                foundMatch = true;
+                if (!isNil(match)) {
+                    match.paramValues = this.orderParams(urlParamNames, urlParamsValues, match);
+                    foundMatch = true;
+                }
             }
             i++;
         }
         return match;
+    }
+
+    private orderParams(paramNames: Array<string>, paramValues: Array<string>, match: IActionExecutor): Array<any> {
+        const result: Array<any> = [];
+        forEach(match.params, (param: IParam) => {
+            const index = findIndex(paramNames, (name) => name === param.name);
+            result[param.order] = paramValues[index];
+        });
+        return result;
     }
 }

@@ -11,10 +11,6 @@ export interface IAction{
     methodName: string;
 }
 
-export interface IHttpMethod {
-
-}
-
 export interface IParam{
     order: number,
     name: string,
@@ -23,10 +19,18 @@ export interface IParam{
     className: string,
 }
 
-export interface IRoute {
+export interface IActionExecutor {
     fn: Function;
     params: IParam[];
-    paramValues: string[];
+    paramValues?: string[];
     authorize: boolean;
     roles: string[];
+}
+
+export interface IRoutes{
+    [key: string]: IActionExecutor;
+}
+
+export interface IRouter {
+    [key: string]: IRoutes;
 }

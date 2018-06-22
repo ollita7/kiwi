@@ -1,7 +1,7 @@
 import {getMetadataStorage} from '../index';
 export function Body() {
     return function (object: Object, methodName: string, descriptor: number) {
-        getMetadataStorage().params.push({
+        getMetadataStorage().params.unshift({
             order: descriptor,
             name: 'body',
             type: 'body',

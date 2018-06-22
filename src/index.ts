@@ -1,6 +1,6 @@
 import { IKiwiOptions } from './types/kiwiOptions';
 import * as http from 'http';
-import { isNil } from 'lodash';
+import { isNil, findIndex } from 'lodash';
 import { MetadataStorage } from './metadata/metadataStorage';
 export * from "./decorators/Get";
 export * from "./decorators/Post";
@@ -48,14 +48,15 @@ async function processRequest(request: http.IncomingMessage , response: http.Ser
             return;
         }
     }
-    let params = match.paramValues;
+    ;
     response.writeHead(200, { "Content-Type": "application\json" });
     if (request.method !== 'GET') {
         let body = await parseBody(request);
-        params.push(body);
+        const index = findIndex(match.paramValues, (param: string) => param === undefined);
+        match.paramValues[index] = body;
     }
 
-    response.end(JSON.stringify(match.fn.apply(null, params)));
+    response.end(JSON.stringify(match.fn.apply(null, match.paramValues)));
 }
 
 async function parseBody(request: http.IncomingMessage) {
