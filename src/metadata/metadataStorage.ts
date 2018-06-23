@@ -36,7 +36,7 @@ export class MetadataStorage {
             this.routes[`${controller.path}${action.path}`][action.method] = {
                 fn: controller.target.prototype[action.methodName],
                 params: [],
-                authorize: isNil(authorize),
+                authorize: !isNil(authorize),
                 roles: !isNil(authorize) ? authorize.roles : []
             };
             var params = filter(this.params, (param) => {
