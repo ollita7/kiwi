@@ -55,8 +55,8 @@ async function processRequest(request: http.IncomingMessage , response: http.Ser
         const index = findIndex(match.paramValues, (param: string) => param === undefined);
         match.paramValues[index] = body;
     }
-
-    response.end(JSON.stringify(match.fn.apply(null, match.paramValues)));
+    const result = await match.fn.apply(null, match.paramValues);
+    response.end(JSON.stringify(result));
 }
 
 async function parseBody(request: http.IncomingMessage) {
