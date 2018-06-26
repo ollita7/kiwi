@@ -1,11 +1,12 @@
-import { IAuthorize, IAction, IRoutes, IRouter, IActionExecutor, IParam } from './types/metadata.types';
+import { IAuthorize, IAction, IRouter, IActionExecutor, IParam, IMiddleware } from './types/metadata.types';
 import { forEach, isNil, find, filter, drop, findIndex } from 'lodash';
 
 export class MetadataStorage {
     public actions: IAction[];
     public controllers: any[];
     public params: any[];
-    public middlewares: any[];
+    public middlewaresBefore: IMiddleware[];
+    public middlewaresAfter: IMiddleware[];
     public interceptors: any[];
     public authorize: IAuthorize[];
     public routes: IRouter;
@@ -14,7 +15,8 @@ export class MetadataStorage {
         this.actions = [];
         this.controllers = [];
         this.params = [];
-        this.middlewares = [];
+        this.middlewaresBefore = [];
+        this.middlewaresAfter = [];
         this.interceptors = [];
         this.authorize = [];
         this.routes = {};

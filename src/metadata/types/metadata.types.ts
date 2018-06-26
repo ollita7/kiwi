@@ -34,3 +34,12 @@ export interface IRoutes{
 export interface IRouter {
     [key: string]: IRoutes;
 }
+
+export enum MiddlewareType {
+    Before = 'before',
+    After = 'after',
+}
+
+export interface IMiddleware {
+    target: any
+}

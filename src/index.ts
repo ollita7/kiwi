@@ -1,16 +1,20 @@
-import { IKiwiOptions } from './types/kiwiOptions';
+import { IKiwiOptions } from './types/types';
 import * as http from 'http';
-import { isNil, findIndex } from 'lodash';
+import { isNil, findIndex, forEach } from 'lodash';
 import { MetadataStorage } from './metadata/metadataStorage';
+import { IActionExecutor, IMiddleware } from './metadata/types/metadata.types';
 export * from "./decorators/Get";
 export * from "./decorators/Post";
 export * from "./decorators/Put";
 export * from "./decorators/Delete";
-export * from "./types/KiwiOptions";
+export * from "./types/types";
 export * from "./decorators/jsonController";
 export * from "./decorators/param";
 export * from "./decorators/body";
 export * from "./decorators/authorize";
+export * from "./decorators/middlewareBefore";
+export * from "./decorators/middlewareAfter";
+export * from "./middleware";
 
 let internalOptions: IKiwiOptions = {
 };
@@ -24,11 +28,10 @@ export function getMetadataStorage(): MetadataStorage {
 export function createKiwiServer(options?: IKiwiOptions) {
     internalOptions = options;
     getMetadataStorage().init();
-    console.log(getMetadataStorage().routes);
     return http.createServer(processRequest);
 }
 
-async function processRequest(request: http.IncomingMessage , response: http.ServerResponse) {
+async function processRequest(request: http.IncomingMessage, response: http.ServerResponse) {
     if (request.method === 'OPTIONS' && internalOptions.cors) {
         response.setHeader('Access-Control-Allow-Origin', '*');
         response.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -48,15 +51,15 @@ async function processRequest(request: http.IncomingMessage , response: http.Ser
             return;
         }
     }
-    ;
-    response.writeHead(200, { "Content-Type": "application\json" });
+    
     if (request.method !== 'GET') {
         let body = await parseBody(request);
         const index = findIndex(match.paramValues, (param: string) => param === undefined);
         match.paramValues[index] = body;
     }
-    const result = await match.fn.apply(null, match.paramValues);
+    const result = await execute(match, request, response);
     response.end(JSON.stringify(result));
+    response.writeHead(200, { "Content-Type": "application\json" });
 }
 
 async function parseBody(request: http.IncomingMessage) {
@@ -70,4 +73,17 @@ async function parseBody(request: http.IncomingMessage) {
         return JSON.parse(result);
     });
     return body;
+}
+
+async function execute(match: IActionExecutor, request: http.IncomingMessage, response: http.ServerResponse){
+    let middlewares = getMetadataStorage().middlewaresBefore;
+    forEach(middlewares, (middleware: IMiddleware)=>{
+        middleware.target.prototype.execute.apply(null, [request, response])
+    });
+    const result = await match.fn.apply(null, match.paramValues);
+    middlewares = getMetadataStorage().middlewaresAfter;
+    forEach(middlewares, (middleware: IMiddleware)=>{
+        middleware.target.prototype.execute.apply(null, [request, response])
+    });
+    return result;
 }
