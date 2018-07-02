@@ -32,7 +32,7 @@ export function createKiwiServer(options?: IKiwiOptions) {
 }
 
 async function processRequest(request: http.IncomingMessage, response: http.ServerResponse) {
-    if (request.method === 'OPTIONS' && internalOptions.cors) {
+    if (internalOptions.cors) {
         response.setHeader('Access-Control-Allow-Origin', '*');
         response.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
         response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
