@@ -11,7 +11,8 @@ function validateAuthentication(roles: Array<string>){
 const options: IKiwiOptions = {
     controllers: [TestController, TestController2],
     authorization: validateAuthentication,
-    middlewares: [TestMiddleware]
+    middlewares: [TestMiddleware],
+    cors: true
 }
 const server = createKiwiServer(options);
 server.listen(8086);

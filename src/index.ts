@@ -14,7 +14,8 @@ export * from "./decorators/body";
 export * from "./decorators/authorize";
 export * from "./decorators/middlewareBefore";
 export * from "./decorators/middlewareAfter";
-export * from "./middleware";
+export * from "./middlewares/middleware";
+import {CorsMiddleware} from "./middlewares/corsMiddlware";
 
 let internalOptions: IKiwiOptions = {
 };
@@ -28,16 +29,15 @@ export function getMetadataStorage(): MetadataStorage {
 export function createKiwiServer(options?: IKiwiOptions) {
     internalOptions = options;
     getMetadataStorage().init();
+    if(internalOptions.cors){
+        getMetadataStorage().middlewaresBefore.push({
+            target: CorsMiddleware
+        })
+    }
     return http.createServer(processRequest);
 }
 
 async function processRequest(request: http.IncomingMessage, response: http.ServerResponse) {
-    if (internalOptions.cors) {
-        response.setHeader('Access-Control-Allow-Origin', '*');
-        response.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-        response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-        return;
-    }
     const match = getMetadataStorage().matchRoute(request.url, request.method);
     if (isNil(match)) {
         response.writeHead(404);
@@ -59,7 +59,7 @@ async function processRequest(request: http.IncomingMessage, response: http.Serv
     }
     const result = await execute(match, request, response);
     response.end(JSON.stringify(result));
-    response.writeHead(200, { "Content-Type": "application\json" });
+    response.writeHead(200, { "Content-Type": "application/json" });
 }
 
 async function parseBody(request: http.IncomingMessage) {

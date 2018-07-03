@@ -4,6 +4,7 @@ Its a simple node server to create rest services.
 # Table of Contents
 * [Installation](#installation)
 * [Sample](#sample)
+* [Middleware](#middlewares)
 * [Authorization](#authorization)
 * [Cors](#cors)
   
@@ -52,6 +53,24 @@ Its a simple node server to create rest services.
     const server = createKiwiServer(options);
     server.listen(8086);
     ```
+## MIddlewares
+1. You can create middleware to execute activities before and and after the execution of an action.
+For example to enable cors we use a specific middleware that is in charge to add the http headers for that.
+Below is a sample that execute before any action.
+```javascript
+import { IMiddleware } from '../src/middlewares/middleware';
+import { MiddlewareBefore } from '../src/decorators/middlewareBefore';
+import * as http from 'http';
+@MiddlewareBefore()
+export class TestMiddleware implements IMiddleware{
+    execute(request: http.IncomingMessage, response: http.ServerResponse){
+        response.setHeader( 'Authorization', 'hola' );
+        console.log('TestMiddleware execute');
+        return;
+    }
+}
+```
+
 ## Authorization
  1. You have to specify on controller what actions need to be authorized. To do that you have a decorator @Authorization.
  In the sample you can see that we only need authorization to postAction. Also yo can put the authorization in the controller so all the actions must me authorized.
