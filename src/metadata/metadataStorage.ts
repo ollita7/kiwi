@@ -12,6 +12,7 @@ export class MetadataStorage {
     public routes: IRouter;
 
     constructor() {
+        
         this.actions = [];
         this.controllers = [];
         this.params = [];
