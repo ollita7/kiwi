@@ -53,23 +53,23 @@ Its a simple node server to create rest services.
     const server = createKiwiServer(options);
     server.listen(8086);
     ```
-## MIddlewares
+## Middlewares
 1. You can create middleware to execute activities before and and after the execution of an action.
 For example to enable cors we use a specific middleware that is in charge to add the http headers for that.
 Below is a sample that execute before any action.
-```javascript
-import { IMiddleware } from '../src/middlewares/middleware';
-import { MiddlewareBefore } from '../src/decorators/middlewareBefore';
-import * as http from 'http';
-@MiddlewareBefore()
-export class TestMiddleware implements IMiddleware{
-    execute(request: http.IncomingMessage, response: http.ServerResponse){
-        response.setHeader( 'Authorization', 'hola' );
-        console.log('TestMiddleware execute');
-        return;
-    }
-}
-```
+	```javascript
+	import { IMiddleware } from '../src/middlewares/middleware';
+	import { MiddlewareBefore } from '../src/decorators/middlewareBefore';
+	import * as http from 'http';
+	@MiddlewareBefore()
+	export class TestMiddleware implements IMiddleware{
+		execute(request: http.IncomingMessage, response: http.ServerResponse){
+			response.setHeader( 'Authorization', 'hola' );
+			console.log('TestMiddleware execute');
+			return;
+		}
+	}
+	```
 
 ## Authorization
  1. You have to specify on controller what actions need to be authorized. To do that you have a decorator @Authorization.
@@ -118,22 +118,22 @@ export class TestMiddleware implements IMiddleware{
 
 ## Cors
 You can enable cross domain by configuration
-```javascript
-import { createKiwiServer } from 'kiwi-server';
-import { TestController } from './test-controller';
-import { TestController2 } from './test-controller2';
+	```javascript
+	import { createKiwiServer } from 'kiwi-server';
+	import { TestController } from './test-controller';
+	import { TestController2 } from './test-controller2';
 
-function validateAuthentication(roles: Array<string>){
-    console.log(roles);
-    return false;
-}
+	function validateAuthentication(roles: Array<string>){
+		console.log(roles);
+		return false;
+	}
 
-const options = {
-    controllers: [TestController, TestController2],
-    authorization: validateAuthentication,
-    cors: true
-}
-const server = createKiwiServer(options);
-server.listen(8086);
-```
+	const options = {
+		controllers: [TestController, TestController2],
+		authorization: validateAuthentication,
+		cors: true
+	}
+	const server = createKiwiServer(options);
+	server.listen(8086);
+	```
   
