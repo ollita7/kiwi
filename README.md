@@ -1,6 +1,6 @@
 
-# <img src="kiwi.png" width="80" alt="logo">
-Its a simple node server to create rest services.
+# <img src="kiwi.png" width="120" alt="logo">
+Framework to help rest api development using typescript and node.
 
 # Table of Contents
 * [Installation](#installation)
