@@ -5,7 +5,5 @@ import * as http from 'http';
 export class TestMiddleware implements IMiddleware{
     execute(request: http.IncomingMessage, response: http.ServerResponse){
         response.setHeader( 'Authorization', 'hola' );
-        console.log('TestMiddleware execute');
-        return;
     }
 }

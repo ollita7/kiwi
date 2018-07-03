@@ -3,6 +3,8 @@ import * as http from 'http';
 import { isNil, findIndex, forEach } from 'lodash';
 import { MetadataStorage } from './metadata/metadataStorage';
 import { IActionExecutor, IMiddleware } from './metadata/types/metadata.types';
+import {CorsMiddleware} from "./middlewares/corsMiddlware";
+import {LogMiddleware} from "./middlewares/logMiddlware";
 export * from "./decorators/Get";
 export * from "./decorators/Post";
 export * from "./decorators/Put";
@@ -15,7 +17,6 @@ export * from "./decorators/authorize";
 export * from "./decorators/middlewareBefore";
 export * from "./decorators/middlewareAfter";
 export * from "./middlewares/middleware";
-import {CorsMiddleware} from "./middlewares/corsMiddlware";
 
 let internalOptions: IKiwiOptions = {
 };
@@ -29,6 +30,11 @@ export function getMetadataStorage(): MetadataStorage {
 export function createKiwiServer(options?: IKiwiOptions) {
     internalOptions = options;
     getMetadataStorage().init();
+    if(internalOptions.log){
+        getMetadataStorage().middlewaresBefore.push({
+            target: LogMiddleware
+        })
+    }
     if(internalOptions.cors){
         getMetadataStorage().middlewaresBefore.push({
             target: CorsMiddleware
@@ -58,8 +64,9 @@ async function processRequest(request: http.IncomingMessage, response: http.Serv
         match.paramValues[index] = body;
     }
     const result = await execute(match, request, response);
+    response.setHeader("Content-Type", "application\json" );
     response.end(JSON.stringify(result));
-    response.writeHead(200, { "Content-Type": "application/json" });
+    return response;
 }
 
 async function parseBody(request: http.IncomingMessage) {

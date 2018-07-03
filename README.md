@@ -11,6 +11,14 @@ Its a simple node server to create rest services.
 ## Installation
 1. Install module:
     `npm install kiwi-server --save`
+    
+2. You need to have these options in tsconfig.json file of your project:
+    ```javascript
+    {
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
+    }
+    ```
 
 ## Sample
 1. Create your firs controller class `TestController.ts`
@@ -32,13 +40,6 @@ Its a simple node server to create rest services.
                 request: request
             };
         }
-    }
-    ```
-    You need to have these options in tsconfig.json file of your project:
-    ```javascript
-    {
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true
     }
     ```
  
