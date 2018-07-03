@@ -136,5 +136,4 @@ You can enable cross domain by configuration
 	}
 	const server = createKiwiServer(options);
 	server.listen(8086);
-	```
-	
+	```	
