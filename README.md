@@ -1,5 +1,5 @@
 
-# KIWI Server <img src="kiwi.png" width="80" alt="logo">
+# <img src="kiwi.png" width="80" alt="logo">
 Its a simple node server to create rest services.
 
 # Table of Contents
