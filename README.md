@@ -1,4 +1,4 @@
-![logo](https://github.com/ollita7/kiwi/edit/master/logo.png)
+![logo](/kiwi/kiwi.png)
 # KIWI Server
 Its a simple node server to create rest services.
 
