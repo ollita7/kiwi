@@ -117,23 +117,22 @@ Below is a sample that execute before any action.
     ```
 
 ## Cors
-You can enable cross domain by configuration
-	
-```javascript
-	import { createKiwiServer } from 'kiwi-server';
-	import { TestController } from './test-controller';
-	import { TestController2 } from './test-controller2';
+1. You can enable cross domain by configuration
+    
+    ```javascript
+    import { createKiwiServer } from 'kiwi-server';
+    import { TestController } from './test-controller';
+    import { TestController2 } from './test-controller2';
 
-	function validateAuthentication(roles: Array<string>){
-		console.log(roles);
-		return false;
-	}
+    function validateAuthentication(roles: Array<string>){
+        console.log(roles);
+        return false;
+    }
 
-	const options = {
-		controllers: [TestController, TestController2],
-		authorization: validateAuthentication,
-		cors: true
-	}
-	const server = createKiwiServer(options);
-	server.listen(8086);
-```
+    const options = {
+        controllers: [TestController, TestController2],
+        authorization: validateAuthentication
+    }
+    const server = createKiwiServer(options);
+    server.listen(8086);
+    ```
