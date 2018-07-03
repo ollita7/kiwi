@@ -125,14 +125,9 @@ Below is a sample that execute before any action.
     import { TestController } from './test-controller';
     import { TestController2 } from './test-controller2';
 
-    function validateAuthentication(roles: Array<string>){
-        console.log(roles);
-        return false;
-    }
-
     const options = {
         controllers: [TestController, TestController2],
-        authorization: validateAuthentication
+        cors: true
     }
     const server = createKiwiServer(options);
     server.listen(8086);
