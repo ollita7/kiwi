@@ -119,7 +119,7 @@ Below is a sample that execute before any action.
 ## Cors
 You can enable cross domain by configuration
 	
-```javascript
+	```javascript
 	import { createKiwiServer } from 'kiwi-server';
 	import { TestController } from './test-controller';
 	import { TestController2 } from './test-controller2';
@@ -136,4 +136,4 @@ You can enable cross domain by configuration
 	}
 	const server = createKiwiServer(options);
 	server.listen(8086);
-```
+	```
