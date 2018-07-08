@@ -6,7 +6,8 @@
   "types": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "tsc"
+    "compile": "tsc",
+    "test-load": "node ./tests/load.test.js"
   },
   "repository": {
     "type": "git",
@@ -24,9 +25,11 @@
   "dependencies": {
     "@types/lodash": "^4.14.110",
     "@types/request": "^2.47.1",
+    "fs": "0.0.1-security",
     "lodash": "^4.17.10"
   },
   "devDependencies": {
-    "@types/node": "^10.3.4"
+    "@types/node": "^10.3.4",
+    "loadtest": "^3.0.3"
   }
 }

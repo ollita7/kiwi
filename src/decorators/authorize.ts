@@ -1,7 +1,7 @@
-import {getMetadataStorage} from '../index';
+import { MetadataStorage } from '../metadata/metadataStorage';
 export function Authorize(roles?: Array<string>) {
     return function (object: Object, methodName: string) {
-        getMetadataStorage().authorize.push({
+        MetadataStorage.authorize.push({
             roles: roles,
             methodName: methodName,
             className: object.constructor.name,

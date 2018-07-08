@@ -16,7 +16,7 @@
             "externalConsole": false,
             "name": "DEBUG",
             "outDir": "${workspaceRoot}/dist",
-            "program": "${workspaceRoot}/dist/test/server.js",
+            "program": "${workspaceRoot}/dist/samples/server.js",
             "request": "launch",
             "runtimeArgs": [
                 "--nolazy"

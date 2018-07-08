@@ -1,7 +1,7 @@
-import {getMetadataStorage} from '../index';
+import { MetadataStorage } from '../metadata/metadataStorage';
 export function Param(name: string) {
     return function (object: Object, methodName: string, descriptor: number) {
-        getMetadataStorage().params.unshift({
+        MetadataStorage.params.unshift({
             order: descriptor,
             name: name,
             type: 'query',

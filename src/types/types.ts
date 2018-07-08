@@ -5,5 +5,6 @@ export interface IKiwiOptions{
     log?: boolean;
     documentation?: boolean;
     cors? : boolean;
+    port: number;
 }
 

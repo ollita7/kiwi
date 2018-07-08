@@ -1,7 +1,7 @@
-import {getMetadataStorage} from '../index';
+import { MetadataStorage } from '../metadata/metadataStorage';
 export function JsonController(path: string| RegExp) {
     return function decorator(object: Object) {
-        getMetadataStorage().controllers.push({
+        MetadataStorage.controllers.push({
             path: path,
             target: object,
         })

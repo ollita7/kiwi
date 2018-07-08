@@ -1,7 +1,7 @@
-import {getMetadataStorage} from '../index';
+import { MetadataStorage } from '../metadata/metadataStorage';
 export function Post(path: string): Function {
     return function (object: Object, methodName: string) {
-        getMetadataStorage().actions.push({
+        MetadataStorage.actions.push({
             path: path,
             method: 'post',
             methodName: methodName,

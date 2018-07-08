@@ -1,8 +1,8 @@
-import {getMetadataStorage} from '../index';
+import { MetadataStorage } from '../metadata/metadataStorage';
 
 export function MiddlewareBefore() {
     return function decorator(object: Object) {
-        getMetadataStorage().middlewaresBefore.push({
+        MetadataStorage.middlewaresBefore.push({
             target: object
         })
     }
