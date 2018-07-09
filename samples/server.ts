@@ -1,6 +1,8 @@
 import { createKiwiServer, IKiwiOptions } from '../src/index';
 import { TestController } from './test-controller';
 import { TestController2 } from './test-controller2';
+import { TestController3 } from './test-controller3';
+import { TestMiddleware2 } from './test-middlware2';
 import { TestMiddleware } from './test-middlware';
 
 function validateAuthentication(roles: Array<string>){
@@ -9,9 +11,9 @@ function validateAuthentication(roles: Array<string>){
 }
 
 const options: IKiwiOptions = {
-    controllers: [TestController, TestController2],
+    controllers: [TestController, TestController2, TestController3],
     authorization: validateAuthentication,
-    middlewares: [TestMiddleware],
+    middlewares: [TestMiddleware, TestMiddleware2],
     cors: true,
     documentation: true,
     log: true,

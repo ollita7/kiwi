@@ -21,6 +21,7 @@ export interface IParam{
 
 export interface IActionExecutor {
     fn: Function;
+    executor: any;
     params: IParam[];
     paramValues?: string[];
     authorize: boolean;

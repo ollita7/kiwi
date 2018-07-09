@@ -5,6 +5,8 @@ import { MetadataStorage } from './metadata/metadataStorage';
 import { IActionExecutor, IMiddleware } from './metadata/types/metadata.types';
 import { CorsMiddleware } from "./middlewares/corsMiddlware";
 import { LogMiddleware } from "./middlewares/logMiddlware";
+import { DocMiddleware } from './middlewares/docMiddleware';
+
 export * from "./decorators/Get";
 export * from "./decorators/Post";
 export * from "./decorators/Put";
@@ -25,7 +27,12 @@ let internalOptions: IKiwiOptions = {
 export function createKiwiServer(options?: IKiwiOptions) {
     internalOptions = options;
     MetadataStorage.init();
+    console.log((global as any).metadata);
+    console.log(MetadataStorage.routes);
     if (internalOptions.documentation) {
+        MetadataStorage.middlewaresBefore.push({
+            target: DocMiddleware
+        })
         MetadataStorage.generateDoc();
     }
     if (internalOptions.log) {
@@ -47,15 +54,11 @@ export function createKiwiServer(options?: IKiwiOptions) {
 
 async function processRequest(request: http.IncomingMessage, response: http.ServerResponse) {
     try {
-        console.log(`${request.method.toUpperCase()} ${request.url}`);
-        if (request.url === '/doc') {
-            processDocumentations('/index.html', response);
+        const beforeReponse = await executeBefore(request, response)
+        if (isNil(beforeReponse)) {
             return;
         }
-        if (request.url.startsWith('/swagger')) {
-            processDocumentations(request.url, response);
-            return;
-        }
+
         const match = MetadataStorage.matchRoute(request.url, request.method);
         if (isNil(match)) {
             response.writeHead(404);
@@ -76,6 +79,10 @@ async function processRequest(request: http.IncomingMessage, response: http.Serv
             match.paramValues[index] = body;
         }
         const result = await execute(match, request, response);
+        const afterReponse = await executeAfter(request, response)
+        if (isNil(afterReponse)) {
+            return;
+        }
         response.setHeader("Content-Type", "application\json");
         response.end(JSON.stringify(result));
         return response;
@@ -99,35 +106,48 @@ async function parseBody(request: http.IncomingMessage) {
     return body;
 }
 
-function processDocumentations(resource: string, response: any) {
-    const pathToSwaggerUi = './src/documentation-ui';
-    const fs = require('fs');
-    fs.readFile(`${pathToSwaggerUi}${resource}`, (err: any, data: any) => {
-        if (/[a-zA-Z0-9]*.css/.test(resource)) {
-            response.writeHead(200, { 'Content-Type': 'text/css' });
-        } else if (/^\/[a-zA-Z0-9\/]*.js$/.test(resource)) {
-            response.writeHead(200, { 'Content-Type': 'text/javascript' });
-        }
-        else if (/^\/[a-zA-Z0-9\/]*.json$/.test(resource)) {
-            response.writeHead(200, { 'Content-Type': 'application/json' });
-        } else {
-            response.writeHead(200, { 'Content-Type': 'text/html' });
-        }
-        response.write(data);
-        response.end();
-    });
-
+async function execute(match: IActionExecutor, request: http.IncomingMessage, response: http.ServerResponse) {
+    const instance: any = getInstance(match.executor);
+    const result = await instance[match.fn.name].apply(instance, match.paramValues);
+    return result;
 }
 
-async function execute(match: IActionExecutor, request: http.IncomingMessage, response: http.ServerResponse) {
-    let middlewares = MetadataStorage.middlewaresBefore;
+async function executeBefore(request: http.IncomingMessage, response: http.ServerResponse) {
+    const middlewares = MetadataStorage.middlewaresBefore;
+    var resolver: any = Promise.resolve();
     forEach(middlewares, (middleware: IMiddleware) => {
-        middleware.target.prototype.execute.apply(null, [request, response])
+        resolver = resolver.then(() => {
+            return new Promise((resolve, reject) => {
+                const instance: any = getInstance(middleware.target.prototype);
+                return instance.execute.apply(instance, [request, response, resolve]);
+            });
+        });
     });
-    const result = await match.fn.apply(null, match.paramValues);
-    middlewares = MetadataStorage.middlewaresAfter;
+    resolver = resolver.then(() => {
+        return true;
+    });
+    const result = await resolver;
+    return result;
+}
+
+function getInstance<T>(prototype: any , ...args: any[]): T {
+    return new prototype.constructor();
+}
+
+async function executeAfter(request: http.IncomingMessage, response: http.ServerResponse) {
+    const middlewares = MetadataStorage.middlewaresAfter;
+    var resolver: any = Promise.resolve();
     forEach(middlewares, (middleware: IMiddleware) => {
-        middleware.target.prototype.execute.apply(null, [request, response])
+        resolver = resolver.then(() => {
+            return new Promise((resolve, reject) => {
+                const instance: any = getInstance(middleware.target.prototype);
+                return instance.execute.apply(instance, [request, response, resolve]);
+            });
+        });
     });
+    resolver = resolver.then(() => {
+        return true;
+    });
+    const result = await resolver;
     return result;
 }

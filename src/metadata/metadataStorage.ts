@@ -68,6 +68,7 @@ export class MetadataStorage {
             console.log(`${action.method.toUpperCase()} ${controller.path}${action.path}`);
             MetadataStorage.routes[`${controller.path}${action.path}`][action.method] = {
                 fn: controller.target.prototype[action.methodName],
+                executor: controller.target.prototype,
                 params: [],
                 authorize: !isNil(authorize),
                 roles: !isNil(authorize) ? authorize.roles : []

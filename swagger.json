@@ -120,6 +120,43 @@
                     }
                 ]
             }
+        },
+        "/testcontroller3/getAction": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": []
+            }
+        },
+        "/testcontroller3/postAction/:param1/:param2": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "param2",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": ""
+                    },
+                    {
+                        "name": "param1",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": ""
+                    }
+                ]
+            }
         }
     },
     "swagger": "2.0"
