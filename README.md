@@ -58,6 +58,7 @@ Framework to help rest api development using typescript and node.
 ## Middlewares
 1. You can create middleware to execute activities before and and after the execution of an action.
 For example to enable cors we use a specific middleware that is in charge to add the http headers for that.
+Its important to execute next if you want that the flow continue executing. In other case the flow finish and you must do something with the response, if you dont do anything the client never gets a response.
 Below is a sample that execute before any action.
 	```javascript
 	import { IMiddleware } from '../src/middlewares/middleware';
@@ -65,10 +66,10 @@ Below is a sample that execute before any action.
 	import * as http from 'http';
 	@MiddlewareBefore()
 	export class TestMiddleware implements IMiddleware{
-		execute(request: http.IncomingMessage, response: http.ServerResponse){
+		execute(request: http.IncomingMessage, response: http.ServerResponse, next: any){
 			response.setHeader( 'Authorization', 'hola' );
 			console.log('TestMiddleware execute');
-			return;
+			next();
 		}
 	}
 	```
