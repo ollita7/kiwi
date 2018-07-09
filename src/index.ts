@@ -27,8 +27,6 @@ let internalOptions: IKiwiOptions = {
 export function createKiwiServer(options?: IKiwiOptions) {
     internalOptions = options;
     MetadataStorage.init();
-    console.log((global as any).metadata);
-    console.log(MetadataStorage.routes);
     if (internalOptions.documentation) {
         MetadataStorage.middlewaresBefore.push({
             target: DocMiddleware
