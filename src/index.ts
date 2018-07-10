@@ -26,7 +26,7 @@ let internalOptions: IKiwiOptions = {
 
 export function createKiwiServer(options?: IKiwiOptions) {
     internalOptions = options;
-    MetadataStorage.init();
+    MetadataStorage.init(internalOptions);
     if (internalOptions.documentation) {
         MetadataStorage.middlewaresBefore.push({
             target: DocMiddleware
@@ -52,7 +52,7 @@ export function createKiwiServer(options?: IKiwiOptions) {
 
 async function processRequest(request: http.IncomingMessage, response: http.ServerResponse) {
     try {
-        const beforeReponse = await executeBefore(request, response)
+        const beforeReponse = await executeMiddlewares(MetadataStorage.middlewaresBefore, request, response);
         if (isNil(beforeReponse)) {
             return;
         }
@@ -77,7 +77,7 @@ async function processRequest(request: http.IncomingMessage, response: http.Serv
             match.paramValues[index] = body;
         }
         const result = await execute(match, request, response);
-        const afterReponse = await executeAfter(request, response)
+        const afterReponse = await executeMiddlewares(MetadataStorage.middlewaresAfter, request, response);
         if (isNil(afterReponse)) {
             return;
         }
@@ -110,8 +110,7 @@ async function execute(match: IActionExecutor, request: http.IncomingMessage, re
     return result;
 }
 
-async function executeBefore(request: http.IncomingMessage, response: http.ServerResponse) {
-    const middlewares = MetadataStorage.middlewaresBefore;
+async function executeMiddlewares(middlewares: Array<IMiddleware>,request: http.IncomingMessage, response: http.ServerResponse) {
     var resolver: any = Promise.resolve();
     forEach(middlewares, (middleware: IMiddleware) => {
         resolver = resolver.then(() => {
@@ -130,22 +129,4 @@ async function executeBefore(request: http.IncomingMessage, response: http.Serve
 
 function getInstance<T>(prototype: any , ...args: any[]): T {
     return new prototype.constructor();
-}
-
-async function executeAfter(request: http.IncomingMessage, response: http.ServerResponse) {
-    const middlewares = MetadataStorage.middlewaresAfter;
-    var resolver: any = Promise.resolve();
-    forEach(middlewares, (middleware: IMiddleware) => {
-        resolver = resolver.then(() => {
-            return new Promise((resolve, reject) => {
-                const instance: any = getInstance(middleware.target.prototype);
-                return instance.execute.apply(instance, [request, response, resolve]);
-            });
-        });
-    });
-    resolver = resolver.then(() => {
-        return true;
-    });
-    const result = await resolver;
-    return result;
 }

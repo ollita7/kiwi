@@ -1,6 +1,7 @@
 import { IAuthorize, IAction, IRouter, IActionExecutor, IParam, IMiddleware } from './types/metadata.types';
 import { forEach, isNil, find, filter, drop, findIndex } from 'lodash';
 import { Metadata } from './metadata';
+import { IKiwiOptions } from '../types/types';
 
 export class MetadataStorage {
     public static get actions(): IAction[] {
@@ -51,9 +52,12 @@ export class MetadataStorage {
         return (global as any).metadata.routes;
     };
 
-    public static init() {
+    public static init(internalOptions: IKiwiOptions) {
         if (!(global as any).metadata)
             (global as any).metadata = new Metadata();
+        const actions = filter(MetadataStorage.actions, (action) => {
+            return findIndex(internalOptions.controllers, (controller: any) => { return controller.name == action.className;}) >= 0;
+        });
         forEach(MetadataStorage.actions, (action) => {
             const controller = find(MetadataStorage.controllers, (controller) => {
                 return action.className == controller.target.name;
