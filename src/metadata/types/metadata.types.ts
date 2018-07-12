@@ -42,5 +42,6 @@ export enum MiddlewareType {
 }
 
 export interface IMiddleware {
-    target: any
+    target: any,
+    order?: number
 }

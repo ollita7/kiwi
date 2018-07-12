@@ -2,7 +2,7 @@ import { IMiddleware } from '../src/middlewares/middleware';
 import { MiddlewareBefore } from '../src/decorators/middlewareBefore';
 import * as http from 'http';
 import { Utils } from './utils';
-@MiddlewareBefore()
+@MiddlewareBefore(2)
 export class TestMiddleware2 implements IMiddleware{
     public utils: Utils;
     constructor(){

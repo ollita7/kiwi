@@ -43,7 +43,7 @@ export function createKiwiServer(options?: IKiwiOptions) {
             target: CorsMiddleware
         })
     }
-
+    
     const server = http.createServer(processRequest);
     server.listen(options.port, () => {
         console.log(`--------- SERVER STARTED on port ${options.port}---------`);

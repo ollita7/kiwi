@@ -11,7 +11,7 @@ function validateAuthentication(roles: Array<string>){
 }
 
 const options: IKiwiOptions = {
-    controllers: [TestController, TestController2],
+    controllers: [TestController, TestController2, TestController3],
     authorization: validateAuthentication,
     middlewares: [TestMiddleware, TestMiddleware2],
     cors: true,

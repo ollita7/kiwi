@@ -1,5 +1,5 @@
 import { IAuthorize, IAction, IRouter, IActionExecutor, IParam, IMiddleware } from './types/metadata.types';
-import { forEach, isNil, find, filter, drop, findIndex } from 'lodash';
+import { forEach, isNil, find, filter, drop, findIndex, orderBy } from 'lodash';
 import { Metadata } from './metadata';
 import { IKiwiOptions } from '../types/types';
 
@@ -56,7 +56,7 @@ export class MetadataStorage {
         if (!(global as any).metadata)
             (global as any).metadata = new Metadata();
         const actions = filter(MetadataStorage.actions, (action) => {
-            return findIndex(internalOptions.controllers, (controller: any) => { return controller.name == action.className;}) >= 0;
+            return findIndex(internalOptions.controllers, (controller: any) => { return controller.name == action.className; }) >= 0;
         });
         forEach(MetadataStorage.actions, (action) => {
             const controller = find(MetadataStorage.controllers, (controller) => {
@@ -83,6 +83,7 @@ export class MetadataStorage {
             MetadataStorage.routes[`${controller.path}${action.path}`][action.method].params = params;
 
         });
+        MetadataStorage.orderMiddlewares(internalOptions);
     }
 
     public static matchRoute(route: string, httpMethod: string): IActionExecutor {
@@ -109,13 +110,15 @@ export class MetadataStorage {
         return match;
     }
 
-    private static orderParams(paramNames: Array<string>, paramValues: Array<string>, match: IActionExecutor): Array<any> {
-        const result: Array<any> = [];
-        forEach(match.params, (param: IParam) => {
-            const index = findIndex(paramNames, (name) => name === param.name);
-            result[param.order] = paramValues[index];
+    public static orderMiddlewares(internalOptions: IKiwiOptions) {
+        let middlewaresAfter = filter((global as any).metadata.middlewaresAfter, (middleware: IMiddleware) => {
+            return findIndex(internalOptions.middlewares, (middlewareOption: any) => { return middlewareOption.name == middleware.target.nameae; }) >= 0;
         });
-        return result;
+        let middlewaresBefore = filter((global as any).metadata.middlewaresBefore, (middleware: IMiddleware) => {
+            return findIndex(internalOptions.middlewares, (middlewareOption: any) => { return middlewareOption.name == middleware.target.name; }) >= 0;
+        });
+        (global as any).metadata.middlewaresAfter = orderBy(middlewaresAfter, ['order'], ['asc']);
+        (global as any).metadata.middlewaresBefore = orderBy(middlewaresBefore, ['order'], ['asc']);
     }
 
     public static async  generateDoc() {
@@ -139,6 +142,16 @@ export class MetadataStorage {
         });
         const resultFile = fs.writeFileSync(`swagger.json`, JSON.stringify(swagger, null, 4), 'utf8');
     }
+
+    private static orderParams(paramNames: Array<string>, paramValues: Array<string>, match: IActionExecutor): Array<any> {
+        const result: Array<any> = [];
+        forEach(match.params, (param: IParam) => {
+            const index = findIndex(paramNames, (name) => name === param.name);
+            result[param.order] = paramValues[index];
+        });
+        return result;
+    }
+
     private static getParameters(params: Array<IParam>) {
         const swParams: Array<any> = [];
         forEach(params, (param) => {
