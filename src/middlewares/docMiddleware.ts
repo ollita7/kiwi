@@ -15,9 +15,8 @@ export class DocMiddleware implements IMiddleware {
     private processDocumentations(resource: string, response: any) {
         let pathToSwaggerUi = '.';
         if (resource === '/index.html'|| resource === '/swager.json') {
-            pathToSwaggerUi = './src/resources/documentation-ui';
+            pathToSwaggerUi = __dirname + '/../resources/documentation-ui';
         }
-        
         const fs = require('fs');
         fs.readFile(`${pathToSwaggerUi}${resource}`, (err: any, data: any) => {
             if (/[a-zA-Z0-9]*.css/.test(resource)) {
