@@ -93,11 +93,11 @@ export class MetadataStorage {
         var foundMatch = false;
         var i = 0;
         while (!foundMatch && i < keys.length) {
-            var exp = `^${keys[i].replace(/:[^\s/]+/g, '([\\w-])')}$`;
+            var exp = `^${keys[i].replace(/:[^\s/]+/g, '([\\w-]*)')}$`;
             var routeMatcher = new RegExp(exp);
             if (routeMatcher.test(route)) {
                 var urlParamsValues = drop(routeMatcher.exec(route));
-                var routeMatcher2 = new RegExp(keys[i].replace(/:[^\s/]+/g, ':([\\w-]+)'));
+                var routeMatcher2 = new RegExp(keys[i].replace(/:[^\s/]+/g, ':([\\w-]*)'));
                 var urlParamNames = drop(routeMatcher2.exec(keys[i]));
                 match = MetadataStorage.routes[keys[i]][httpMethod];
                 if (!isNil(match)) {
