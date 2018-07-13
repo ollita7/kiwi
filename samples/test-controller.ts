@@ -3,8 +3,13 @@ import { Get, Post, JsonController, Param, Body } from '../src/index';
 @JsonController('/testcontroller')
 export class TestController {
     
+    @Get('/octobot/:name')
+    public get2(@Param('name') name: string){
+        return {test: name};
+    }
+
     @Get('/getAction/:id/:id2/:id3')
-    public get(@Param('id') id: string, @Param('id2') id2: string, @Param('id3') id3: string) {
+    public get(@Param('id3') id: string, @Param('id2') id2: string, @Param('id') id3: string) {
         return "get test";
     }
 

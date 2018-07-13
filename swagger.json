@@ -4,6 +4,25 @@
         "http"
     ],
     "paths": {
+        "/testcontroller/octobot/:name": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": ""
+                    }
+                ]
+            }
+        },
         "/testcontroller/getAction/:id/:id2/:id3": {
             "get": {
                 "consumes": [
@@ -14,7 +33,7 @@
                 ],
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "id3",
                         "in": "path",
                         "required": true,
                         "type": "string",
@@ -28,7 +47,7 @@
                         "description": ""
                     },
                     {
-                        "name": "id3",
+                        "name": "id",
                         "in": "path",
                         "required": true,
                         "type": "string",
