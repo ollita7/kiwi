@@ -19,6 +19,7 @@ export * from "./decorators/authorize";
 export * from "./decorators/middlewareBefore";
 export * from "./decorators/middlewareAfter";
 export * from "./middlewares/middleware";
+export * from "./decorators/model";
 
 let internalOptions: IKiwiOptions = {
     port: 8080

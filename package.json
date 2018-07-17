@@ -24,12 +24,23 @@
   "homepage": "https://github.com/ollita7/kiwi#readme",
   "dependencies": {
     "@types/lodash": "^4.14.110",
+    "@types/reflect-metadata": "^0.1.0",
     "@types/request": "^2.47.1",
+    "class-validator": "^0.8.5",
+    "class-validator-jsonschema": "^1.1.1",
     "fs": "0.0.1-security",
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.10",
+    "reflect-metadata": "^0.1.12",
+    "swagger-ui-dist": "^3.17.3"
   },
   "devDependencies": {
     "@types/node": "^10.3.4",
-    "loadtest": "^3.0.3"
+    "gulp": "^3.9.1",
+    "gulp-exec": "^3.0.2",
+    "gulp-sequence": "^1.0.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-typescript": "^5.0.0-alpha.3",
+    "loadtest": "^3.0.3",
+    "typescript": "^2.9.2"
   }
 }

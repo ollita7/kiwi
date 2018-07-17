@@ -1,6 +1,7 @@
 import { MetadataStorage } from '../metadata/metadataStorage';
+
 export function Body() {
-    return function (object: Object, methodName: string, descriptor: number) {
+    return function (object: any, methodName: string, descriptor: number) {
         MetadataStorage.params.unshift({
             order: descriptor,
             name: 'body',
