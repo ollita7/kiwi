@@ -22,7 +22,7 @@ Framework to help rest api development using typescript and node.
     ```
 
 ## Sample
-1. Create your firs controller class `TestController.ts`
+1. Create your first controller class `TestController.ts`
     ```javascript
     import { Get, Post, JsonController, Param, Body } from 'kiwi-server';
 
