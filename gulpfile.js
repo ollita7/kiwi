@@ -16,6 +16,9 @@ gulp.task('compile', () => {
 gulp.task('copy', () => {
 	gulp.src(['package.json', 'README.md'])
 		.pipe(gulp.dest('release/'));
+
+	gulp.src(['src/resources/documentation-ui/index.html'])
+		.pipe(gulp.dest('release/resources/documentation-ui/'));
 });
 
 gulp.task('publish-package', function (cb) {

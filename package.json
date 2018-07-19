@@ -31,7 +31,8 @@
     "fs": "0.0.1-security",
     "lodash": "^4.17.10",
     "reflect-metadata": "^0.1.12",
-    "swagger-ui-dist": "^3.17.3"
+    "swagger-ui-dist": "^3.17.3",
+    "ts-node": "^7.0.0"
   },
   "devDependencies": {
     "@types/node": "^10.3.4",
