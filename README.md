@@ -8,7 +8,7 @@ Framework to help rest api development using typescript and node.
 * [Middleware](#middlewares)
 * [Authorization](#authorization)
 * [Cors](#cors)
-* [Documentation](#documetnation)
+* [Documentation](#documentation)
   
 ## Installation
 1. Install module:
@@ -61,11 +61,12 @@ Framework to help rest api development using typescript and node.
 For example to enable cors we use a specific middleware that is in charge to add the http headers for that.
 Its important to execute next if you want that the flow continue executing. In other case the flow finish and you must do something with the response, if you dont do anything the client never gets a response.
 Below is a sample that execute before any action.
+Also you can add the order that you want to execute your middlewares like the sample bellow.
 	```javascript
 	import { IMiddleware } from 'kiwi-server';
 	import { MiddlewareBefore } from 'kiwi-server';
 	import * as http from 'http';
-	@MiddlewareBefore()
+	@MiddlewareBefore(7)
 	export class TestMiddleware implements IMiddleware{
 		execute(request: http.IncomingMessage, response: http.ServerResponse, next: any){
 			response.setHeader( 'Authorization', 'hola' );
