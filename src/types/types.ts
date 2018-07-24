@@ -3,8 +3,12 @@ export interface IKiwiOptions{
     authorization?: Function;
     middlewares?: Function[];
     log?: boolean;
-    documentation?: boolean;
+    documentation?: IDocumentationOption;
     cors? : boolean;
     port: number;
 }
 
+export interface IDocumentationOption {
+    enabled: boolean;
+    path?: string;
+}

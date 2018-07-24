@@ -3,7 +3,8 @@ import * as http from 'http';
 export class DocMiddleware implements IMiddleware {
     
     public execute(request: http.IncomingMessage, response: http.ServerResponse, next: any): any{
-        if (request.url === '/doc') {
+        
+        if (request.url === (global as any).options.documentation.path) {
             return this.processDocumentations('/index.html', response);
         } else if (request.url.startsWith('/node_modules/swagger') || request.url.startsWith('/swagger')) {
             return this.processDocumentations(request.url, response);

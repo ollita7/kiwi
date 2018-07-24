@@ -1,8 +1,9 @@
 import { IMiddleware } from '../src/middlewares/middleware';
-import { MiddlewareBefore } from '../src/decorators/middlewareBefore';
+import { MiddlewareAfter } from '../src/decorators/MiddlewareAfter';
 import * as http from 'http';
 import { Utils } from './utils';
-@MiddlewareBefore(2)
+
+@MiddlewareAfter(1)
 export class TestMiddleware2 implements IMiddleware{
     public utils: Utils;
     constructor(){

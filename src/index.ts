@@ -22,13 +22,17 @@ export * from "./middlewares/middleware";
 export * from "./decorators/model";
 
 let internalOptions: IKiwiOptions = {
-    port: 8080
+    port: 8080,
+    documentation: {
+        enabled: false
+    }
 };
 
 export function createKiwiServer(options?: IKiwiOptions) {
     internalOptions = options;
+    (global as any).options = options;
     MetadataStorage.init(internalOptions);
-    if (internalOptions.documentation) {
+    if (internalOptions.documentation.enabled) {
         MetadataStorage.middlewaresBefore.push({
             target: DocMiddleware
         })

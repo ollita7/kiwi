@@ -8,6 +8,7 @@ Framework to help rest api development using typescript and node.
 * [Middleware](#middlewares)
 * [Authorization](#authorization)
 * [Cors](#cors)
+* [Documentation](#documetnation)
   
 ## Installation
 1. Install module:
@@ -135,3 +136,22 @@ Below is a sample that execute before any action.
     server.listen(8086);
     ```
 
+## Documentation
+1. You can enable cross domain by configuration
+    
+    ```javascript
+    import { createKiwiServer } from 'kiwi-server';
+    import { TestController } from './test-controller';
+    import { TestController2 } from './test-controller2';
+
+    const options = {
+        controllers: [TestController, TestController2],
+        cors: true,
+        documentation: {
+            enabled: true,
+            path: '/apidoc'
+        }
+    }
+    const server = createKiwiServer(options);
+    server.listen(8086);
+    ```
