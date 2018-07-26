@@ -1,8 +1,13 @@
-import { Get, Post, JsonController, Param, Body } from '../src/index';
+import { Get, Post, JsonController, Param, Body, QueryParam } from '../src/index';
 
 @JsonController('/testcontroller')
 export class TestController {
     
+    @Get('/queryparam/:id')
+    public queryparam(@QueryParam() object: any, @Param('id') id: string){
+        return object;
+    }
+
     @Get('/octobot/:name')
     public get2(@Param('name') name: string){
         return {test: name};

@@ -7,7 +7,7 @@ export class TestController3 {
     }
 
     @Post()
-    public get(@Body() body: User){
+    public post(@Body() body: User){
         return body;
     }
 }

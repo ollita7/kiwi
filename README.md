@@ -44,6 +44,15 @@ Framework to help rest api development using typescript and node.
         }
     }
     ```
+
+    ```javascript
+    @Get('/queryparam/:id')
+    public queryparam(@QueryParam() object: any, @Param('id') id: string){
+        return object;
+    }
+    ```
+    We can use QueryParams to get an object with tha key values that we send on the url.
+    For example if you send something like that http://*******/testcontroller/queryparam/1?name=guille&lastname=fernandez you will recevie a json like beloow
  
  2. After you create the controller you must create the server that use that controller.
     ```javascript

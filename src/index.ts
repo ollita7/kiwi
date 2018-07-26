@@ -14,11 +14,13 @@ export * from "./decorators/Delete";
 export * from "./types/types";
 export * from "./decorators/jsonController";
 export * from "./decorators/param";
+export * from "./decorators/quertParam";
 export * from "./decorators/body";
 export * from "./decorators/authorize";
 export * from "./decorators/middlewareBefore";
 export * from "./decorators/middlewareAfter";
 export * from "./middlewares/middleware";
+export * from './middlewares/errorMiddleware';
 export * from "./decorators/model";
 
 let internalOptions: IKiwiOptions = {
@@ -62,7 +64,11 @@ async function processRequest(request: http.IncomingMessage, response: http.Serv
             return;
         }
 
-        const match = MetadataStorage.matchRoute(request.url, request.method);
+        const split_url = request.url.split('?');
+        const url = split_url[0];
+        const queryParam = split_url.length === 2 ? split_url[1] : null;
+
+        const match = MetadataStorage.matchRoute(url, request.method);
         if (isNil(match)) {
             response.writeHead(404);
             response.end(`Method doesnt match`);
@@ -75,7 +81,8 @@ async function processRequest(request: http.IncomingMessage, response: http.Serv
                 return;
             }
         }
-
+        const index = findIndex(match.params, (param: any) => param.name === 'queryParam');
+        match.paramValues[index] = parseQueryParam(queryParam);
         if (request.method !== 'GET') {
             let body = await parseBody(request);
             const index = findIndex(match.paramValues, (param: string) => param === undefined);
@@ -94,6 +101,20 @@ async function processRequest(request: http.IncomingMessage, response: http.Serv
         response.writeHead(500);
         response.end(`Internal error`);
     }
+}
+
+function parseQueryParam(queryParams: string){
+    if (isNil(queryParams)){
+        return null;
+    } 
+    const obj:any = {};
+    const params = queryParams.split('&');
+    forEach(params, (param) =>{
+        const val = param.split('=');
+        obj[val[0]] = val[1];
+    })
+    return obj;
+
 }
 
 async function parseBody(request: http.IncomingMessage) {
