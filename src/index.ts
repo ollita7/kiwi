@@ -14,7 +14,7 @@ export * from "./decorators/Delete";
 export * from "./types/types";
 export * from "./decorators/jsonController";
 export * from "./decorators/param";
-export * from "./decorators/quertParam";
+export * from "./decorators/queryParam";
 export * from "./decorators/body";
 export * from "./decorators/authorize";
 export * from "./decorators/middlewareBefore";
