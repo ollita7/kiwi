@@ -15,6 +15,7 @@ Framework to help rest api development using typescript and node.
     `npm install kiwi-server --save`
     
     `npm install kiwi-server-cli -g`
+    
     Optional: https://github.com/ollita7/kiwi-c
     
 2. You need to have these options in tsconfig.json file of your project:
