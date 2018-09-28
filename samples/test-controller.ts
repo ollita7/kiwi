@@ -3,6 +3,11 @@ import { Get, Post, JsonController, Param, Body, QueryParam } from '../src/index
 @JsonController('/testcontroller')
 export class TestController {
     
+    @Post('/meetupjs')
+    public test23(@Body() body: any){
+        return body;
+    }
+
     @Get('/queryparam/:id')
     public queryparam(@QueryParam() object: any, @Param('id') id: string){
         return object;

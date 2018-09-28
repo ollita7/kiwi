@@ -112,7 +112,7 @@ export class MetadataStorage {
 
     public static orderMiddlewares(internalOptions: IKiwiOptions) {
         let middlewaresAfter = filter((global as any).metadata.middlewaresAfter, (middleware: IMiddleware) => {
-            return findIndex(internalOptions.middlewares, (middlewareOption: any) => { return middlewareOption.name == middleware.target.nameae; }) >= 0;
+            return findIndex(internalOptions.middlewares, (middlewareOption: any) => { return middlewareOption.name == middleware.target.name; }) >= 0;
         });
         let middlewaresBefore = filter((global as any).metadata.middlewaresBefore, (middleware: IMiddleware) => {
             return findIndex(internalOptions.middlewares, (middlewareOption: any) => { return middlewareOption.name == middleware.target.name; }) >= 0;

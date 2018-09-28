@@ -4,6 +4,17 @@
         "http"
     ],
     "paths": {
+        "/testcontroller/meetupjs": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": []
+            }
+        },
         "/testcontroller/queryparam/:id": {
             "get": {
                 "consumes": [
