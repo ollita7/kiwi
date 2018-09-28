@@ -4,8 +4,9 @@ import { TestController2 } from './test-controller2';
 import { TestController3 } from './test-controller3';
 import { TestMiddleware2 } from './test-middlware2';
 import { TestMiddleware } from './test-middlware';
+import * as http from 'http';
 
-function validateAuthentication(roles: Array<string>){
+function validateAuthentication(request: http.IncomingMessage, roles: Array<string>){
     console.log(roles);
     return true;
 }
