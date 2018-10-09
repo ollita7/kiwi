@@ -126,6 +126,9 @@ async function parseBody(request: http.IncomingMessage) {
     });
 
     var body = await p.then((result: any) => {
+        if(isNil(result)){
+            return null;
+        }
         return JSON.parse(result);
     });
     return body;
