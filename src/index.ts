@@ -50,7 +50,7 @@ export function createKiwiServer(options?: IKiwiOptions) {
             target: CorsMiddleware
         })
     }
-    
+
     const server = http.createServer(processRequest);
     server.listen(options.port, () => {
         console.log(`--------- SERVER STARTED on port ${options.port}---------`);
@@ -104,13 +104,13 @@ async function processRequest(request: http.IncomingMessage, response: http.Serv
     }
 }
 
-function parseQueryParam(queryParams: string){
-    if (isNil(queryParams)){
+function parseQueryParam(queryParams: string) {
+    if (isNil(queryParams)) {
         return null;
-    } 
-    const obj:any = {};
+    }
+    const obj: any = {};
     const params = queryParams.split('&');
-    forEach(params, (param) =>{
+    forEach(params, (param) => {
         const val = param.split('=');
         obj[val[0]] = val[1];
     })
@@ -126,7 +126,7 @@ async function parseBody(request: http.IncomingMessage) {
     });
 
     var body = await p.then((result: any) => {
-        if(isNil(result)){
+        if (isNil(result) || result === '') {
             return null;
         }
         return JSON.parse(result);
@@ -140,7 +140,7 @@ async function execute(match: IActionExecutor, request: http.IncomingMessage, re
     return result;
 }
 
-async function executeMiddlewares(middlewares: Array<IMiddleware>,request: http.IncomingMessage, response: http.ServerResponse) {
+async function executeMiddlewares(middlewares: Array<IMiddleware>, request: http.IncomingMessage, response: http.ServerResponse) {
     var resolver: any = Promise.resolve();
     forEach(middlewares, (middleware: IMiddleware) => {
         resolver = resolver.then(() => {
@@ -157,6 +157,6 @@ async function executeMiddlewares(middlewares: Array<IMiddleware>,request: http.
     return result;
 }
 
-function getInstance<T>(prototype: any , ...args: any[]): T {
+function getInstance<T>(prototype: any, ...args: any[]): T {
     return new prototype.constructor();
 }
