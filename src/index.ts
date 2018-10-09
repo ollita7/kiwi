@@ -75,7 +75,8 @@ async function processRequest(request: http.IncomingMessage, response: http.Serv
             return;
         }
         if (match.authorize) {
-            if (!internalOptions.authorization.apply(null, [request, match.roles])) {
+            let result = await internalOptions.authorization.apply(null, [request, match.roles]);
+            if (!result) {
                 response.writeHead(401);
                 response.end(`Not athorized`);
                 return;
