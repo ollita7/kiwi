@@ -1,5 +1,5 @@
 import { IAuthorize, IAction, IRouter, IActionExecutor, IParam, IMiddleware } from './types/metadata.types';
-import { forEach, isNil, find, filter, drop, findIndex, orderBy } from 'lodash';
+import { forEach, isNil, find, filter, drop, findIndex, orderBy, replace } from 'lodash';
 import { Metadata } from './metadata';
 import { IKiwiOptions } from '../types/types';
 
@@ -62,15 +62,16 @@ export class MetadataStorage {
             const controller = find(MetadataStorage.controllers, (controller) => {
                 return action.className == controller.target.name;
             });
-            if (isNil(MetadataStorage.routes[`${controller.path}${action.path}`])) {
-                MetadataStorage.routes[`${controller.path}${action.path}`] = {};
+            const path = MetadataStorage.generatePath(controller.path, action.path, internalOptions.prefix)
+            if (isNil(MetadataStorage.routes[path])) {
+                MetadataStorage.routes[path] = {};
             }
 
             const authorize = find(MetadataStorage.authorize, (auth) => {
                 return (auth.methodName === action.methodName && auth.className === controller.target.name);
             });
-            console.log(`${action.method.toUpperCase()} ${controller.path}${action.path}`);
-            MetadataStorage.routes[`${controller.path}${action.path}`][action.method] = {
+            console.log(`${action.method.toUpperCase()} ${path}`);
+            MetadataStorage.routes[path][action.method] = {
                 fn: controller.target.prototype[action.methodName],
                 executor: controller.target.prototype,
                 params: [],
@@ -80,7 +81,7 @@ export class MetadataStorage {
             var params = filter(MetadataStorage.params, (param) => {
                 return param.className === action.className && action.methodName === param.methodName;
             });
-            MetadataStorage.routes[`${controller.path}${action.path}`][action.method].params = params;
+            MetadataStorage.routes[path][action.method].params = params;
 
         });
         MetadataStorage.orderMiddlewares(internalOptions);
@@ -141,6 +142,12 @@ export class MetadataStorage {
             })
         });
         const resultFile = fs.writeFileSync(`swagger.json`, JSON.stringify(swagger, null, 4), 'utf8');
+    }
+
+    private static generatePath(controller: string, action: any, prefix: string){
+        let path = isNil(prefix) ? `${controller}${action}` : `${prefix}${controller}${action}`; 
+        path = replace(path, '//', '/');
+        return path;
     }
 
     private static orderParams(paramNames: Array<string>, paramValues: Array<string>, match: IActionExecutor): Array<any> {

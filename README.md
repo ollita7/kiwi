@@ -8,6 +8,7 @@ Framework to help rest api development using typescript and node.
 * [Middleware](#middlewares)
 * [Authorization](#authorization)
 * [Cors](#cors)
+* [Prefix](#prefix)
 * [Documentation](#documentation)
   
 ## Installation
@@ -153,6 +154,23 @@ Also you can add the order that you want to execute your middlewares like the sa
     const options = {
         controllers: [TestController, TestController2],
         cors: true
+    }
+    const server = createKiwiServer(options);
+    server.listen(8086);
+    ```
+
+## Prefix
+1. You can add a prefix for all urls. If you see the sample you will have all url with v1 prefixed.
+    
+    ```javascript
+    import { createKiwiServer } from 'kiwi-server';
+    import { TestController } from './test-controller';
+    import { TestController2 } from './test-controller2';
+
+    const options = {
+        controllers: [TestController, TestController2],
+        cors: true,
+        prefix: 'v1/'
     }
     const server = createKiwiServer(options);
     server.listen(8086);

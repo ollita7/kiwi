@@ -4,7 +4,7 @@
         "http"
     ],
     "paths": {
-        "/testcontroller/meetupjs": {
+        "/v1/testcontroller/meetupjs": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -15,7 +15,7 @@
                 "parameters": []
             }
         },
-        "/testcontroller/queryparam/:id": {
+        "/v1/testcontroller/queryparam/:id": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -34,7 +34,7 @@
                 ]
             }
         },
-        "/testcontroller/octobot/:name": {
+        "/v1/testcontroller/octobot/:name": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -53,7 +53,7 @@
                 ]
             }
         },
-        "/testcontroller/getAction/:id/:id2/:id3": {
+        "/v1/testcontroller/getAction/:id/:id2/:id3": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -86,7 +86,7 @@
                 ]
             }
         },
-        "/testcontroller/getActionWithoutParam": {
+        "/v1/testcontroller/getActionWithoutParam": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -97,7 +97,7 @@
                 "parameters": []
             }
         },
-        "/testcontroller/postAction/:id": {
+        "/v1/testcontroller/postAction/:id": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -133,7 +133,7 @@
                 ]
             }
         },
-        "/testcontroller2/getAction": {
+        "/v1/testcontroller2/getAction": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -144,7 +144,7 @@
                 "parameters": []
             }
         },
-        "/testcontroller2/postAction/:param1/:param2": {
+        "/v1/testcontroller2/postAction/:param1/:param2": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -170,7 +170,7 @@
                 ]
             }
         },
-        "/user": {
+        "/v1/user": {
             "post": {
                 "consumes": [
                     "application/json"

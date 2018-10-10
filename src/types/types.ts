@@ -6,6 +6,7 @@ export interface IKiwiOptions{
     documentation?: IDocumentationOption;
     cors? : boolean;
     port: number;
+    prefix?: string
 }
 
 export interface IDocumentationOption {

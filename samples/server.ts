@@ -21,6 +21,7 @@ const options: IKiwiOptions = {
         path: '/apidoc'
     },
     log: true,
-    port: 8086
+    port: 8086,
+    prefix: '/v1'
 }
 const server = createKiwiServer(options);
