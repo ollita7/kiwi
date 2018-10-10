@@ -68,7 +68,8 @@ export class MetadataStorage {
             }
 
             const authorize = find(MetadataStorage.authorize, (auth) => {
-                return (auth.methodName === action.methodName && auth.className === controller.target.name);
+                return (isNil(auth.methodName) && auth.className === controller.target.name) ||
+                    (auth.methodName === action.methodName && auth.className === controller.target.name);
             });
             console.log(`${action.method.toUpperCase()} ${path}`);
             MetadataStorage.routes[path][action.method] = {

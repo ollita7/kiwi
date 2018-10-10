@@ -1,5 +1,6 @@
-import { Get, Post, JsonController, Param, Body, QueryParam } from '../src/index';
+import { Get, Post, JsonController, Param, Body, QueryParam, Authorize } from '../src/index';
 
+@Authorize(['role1, role2'])
 @JsonController('/testcontroller')
 export class TestController {
     
@@ -8,6 +9,7 @@ export class TestController {
         return body;
     }
 
+    //@Authorize(['role3'])
     @Get('/queryparam/:id')
     public queryparam(@QueryParam() object: any, @Param('id') id: string){
         return object;
