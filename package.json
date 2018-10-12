@@ -16,6 +16,12 @@
   "keywords": [
     "node"
   ],
+  "tags": [
+    "nodejs",
+    "typescript",
+    "server",
+    "controllers"
+  ],
   "author": "guillermo.fernandez",
   "license": "ISC",
   "bugs": {
