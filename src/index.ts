@@ -6,7 +6,6 @@ import { IActionExecutor, IMiddleware } from './metadata/types/metadata.types';
 import { CorsMiddleware } from "./middlewares/corsMiddlware";
 import { LogMiddleware } from "./middlewares/logMiddlware";
 import { DocMiddleware } from './middlewares/docMiddleware';
-import { Utils } from '../samples/utils';
 export * from "./decorators/Get";
 export * from "./decorators/Post";
 export * from "./decorators/Put";
