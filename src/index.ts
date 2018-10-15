@@ -6,7 +6,7 @@ import { IActionExecutor, IMiddleware } from './metadata/types/metadata.types';
 import { CorsMiddleware } from "./middlewares/corsMiddlware";
 import { LogMiddleware } from "./middlewares/logMiddlware";
 import { DocMiddleware } from './middlewares/docMiddleware';
-
+import { Utils } from '../samples/utils';
 export * from "./decorators/Get";
 export * from "./decorators/Post";
 export * from "./decorators/Put";
@@ -157,6 +157,12 @@ async function executeMiddlewares(middlewares: Array<IMiddleware>, request: http
     return result;
 }
 
-function getInstance<T>(prototype: any, ...args: any[]): T {
-    return new prototype.constructor();
+function getInstance<T>(prototype: any): T {
+    const params: any[] = Reflect.getMetadata("design:paramtypes", prototype.constructor) || [];
+    let args: any[] = [];
+    forEach(params, (param) => {
+        var instance = new param.prototype.constructor();
+        args.push(instance);
+    })
+    return new prototype.constructor(...args);
 }

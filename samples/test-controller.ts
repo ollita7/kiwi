@@ -1,17 +1,20 @@
 import { Get, Post, JsonController, Param, Body, QueryParam, Authorize } from '../src/index';
+import {Utils} from './utils';
 
 @Authorize(['role1, role2'])
 @JsonController('/testcontroller')
 export class TestController {
+    
+    constructor(private utils: Utils){}
     
     @Post('/meetupjs')
     public test23(@Body() body: any){
         return body;
     }
 
-    //@Authorize(['role3'])
     @Get('/queryparam/:id')
     public queryparam(@QueryParam() object: any, @Param('id') id: string){
+        this.utils.print();
         return object;
     }
 

@@ -1,5 +1,5 @@
 export class Utils{
     public print(){
-        console.log('entre');
+        console.log('entre1');
     }
 }

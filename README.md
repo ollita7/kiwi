@@ -9,6 +9,7 @@ Framework to help rest api development using typescript and node.
 * [Authorization](#authorization)
 * [Cors](#cors)
 * [Prefix](#prefix)
+* [Dependency injection](#dependencyinjection)
 * [Documentation](#documentation)
   
 ## Installation
@@ -176,6 +177,31 @@ Also you can add the order that you want to execute your middlewares like the sa
     server.listen(8086);
     ```
 
+
+## Dependency Injection
+1. You can use dependency injection in your controllers. The only thing that you have to do is to add arguments on the constructor of the controller. Then you can use that in any method that you want.
+
+    ```javascript
+    import { Get, Post, JsonController, Param, Body, QueryParam, Authorize } from 'kiwi-server';
+    import {Utils} from './utils';
+
+    @Authorize(['role1, role2'])
+    @JsonController('/testcontroller')
+    export class TestController {
+        
+        constructor(private utils: Utils){}
+        
+        @Post('/meetupjs')
+        public test23(@Body() body: any){
+            return body;
+        }
+
+        @Get('/queryparam/:id')
+        public queryparam(@QueryParam() object: any, @Param('id') id: string){
+            this.utils.print();
+            return object;
+        }
+    ```
 ## Documentation
 1. You can enable cross domain by configuration
     
