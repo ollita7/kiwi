@@ -9,7 +9,7 @@ Framework to help rest api development using typescript and node.
 * [Authorization](#authorization)
 * [Cors](#cors)
 * [Prefix](#prefix)
-* [Dependency injection](#dependencyinjection)
+* [Dependency Injection](#dependencyinjection)
 * [Documentation](#documentation)
   
 ## Installation
