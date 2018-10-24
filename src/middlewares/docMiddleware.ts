@@ -19,7 +19,8 @@ export class DocMiddleware implements IMiddleware {
     }
 
     private processDocumentations(resource: string, response: any) {
-        let pathToSwaggerUi = '.';
+        let pathToSwaggerUi = (global as any).options.prefix !== '' ? '.' : `./${(global as any).options.prefix}`;
+        pathToSwaggerUi = replace(pathToSwaggerUi, '//', '/');
         if (resource === '/index.html' || resource === '/swager.json') {
             pathToSwaggerUi = __dirname + '/../resources/documentation-ui';
         }
