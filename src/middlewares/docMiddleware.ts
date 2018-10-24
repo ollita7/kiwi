@@ -1,10 +1,14 @@
 import { IMiddleware } from './middleware';
 import * as http from 'http';
+import { replace } from 'lodash';
+
 export class DocMiddleware implements IMiddleware {
-    
-    public execute(request: http.IncomingMessage, response: http.ServerResponse, next: any): any{
-        
-        if (request.url === (global as any).options.documentation.path) {
+
+    public execute(request: http.IncomingMessage, response: http.ServerResponse, next: any): any {
+        let url = (global as any).options.prefix !== undefined ? `${(global as any).options.prefix}/${(global as any).options.documentation.path}`
+            : (global as any).options.documentation.path;
+        url = replace(url, '//', '/');
+        if (request.url === url) {
             return this.processDocumentations('/index.html', response);
         } else if (request.url.startsWith('/node_modules/swagger') || request.url.startsWith('/swagger')) {
             return this.processDocumentations(request.url, response);
@@ -15,7 +19,7 @@ export class DocMiddleware implements IMiddleware {
 
     private processDocumentations(resource: string, response: any) {
         let pathToSwaggerUi = '.';
-        if (resource === '/index.html'|| resource === '/swager.json') {
+        if (resource === '/index.html' || resource === '/swager.json') {
             pathToSwaggerUi = __dirname + '/../resources/documentation-ui';
         }
         const fs = require('fs');
@@ -33,6 +37,6 @@ export class DocMiddleware implements IMiddleware {
             response.write(data);
             response.end();
         });
-    
+
     }
 } 
