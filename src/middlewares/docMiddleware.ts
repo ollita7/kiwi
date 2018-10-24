@@ -10,7 +10,7 @@ export class DocMiddleware implements IMiddleware {
         url = replace(url, '//', '/');
         if (request.url === url) {
             return this.processDocumentations('/index.html', response);
-        } else if (request.url.startsWith('/node_modules/swagger') || request.url.startsWith('/swagger')) {
+        } else if (request.url.startsWith(`${(global as any).options.prefix}/node_modules/swagger`) || request.url.startsWith(`${(global as any).options.prefix}/swagger`)) {
             return this.processDocumentations(request.url, response);
         } else {
             return next();
