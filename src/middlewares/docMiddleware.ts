@@ -19,7 +19,7 @@ export class DocMiddleware implements IMiddleware {
     }
 
     private processDocumentations(resource: string, response: any) {
-        let pathToSwaggerUi = (global as any).options.prefix === '' ? '.' : `./${(global as any).options.prefix}`;
+        let pathToSwaggerUi = './';
         pathToSwaggerUi = replace(pathToSwaggerUi, '//', '/');
         if (resource === '/index.html' || resource === '/swager.json') {
             pathToSwaggerUi = __dirname + '/../resources/documentation-ui';
@@ -27,6 +27,7 @@ export class DocMiddleware implements IMiddleware {
         const fs = require('fs');
         fs.readFile(`${pathToSwaggerUi}${resource}`, (err: any, data: any) => {
             if(err){
+                console.log(err);
                 response.writeHead(404);
                 response.end(`Resource ${pathToSwaggerUi}${resource} not found.`);
                 return;
