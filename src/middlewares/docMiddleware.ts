@@ -25,6 +25,11 @@ export class DocMiddleware implements IMiddleware {
         }
         const fs = require('fs');
         fs.readFile(`${pathToSwaggerUi}${resource}`, (err: any, data: any) => {
+            if(err){
+                response.writeHead(404);
+                response.end(`Resource ${pathToSwaggerUi}${resource} not found.`);
+                return;
+            }
             if (/[a-zA-Z0-9]*.css/.test(resource)) {
                 response.writeHead(200, { 'Content-Type': 'text/css' });
             } else if (/^\/[a-zA-Z0-9\/]*.js$/.test(resource)) {
