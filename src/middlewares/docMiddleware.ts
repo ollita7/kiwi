@@ -5,13 +5,14 @@ import { replace } from 'lodash';
 export class DocMiddleware implements IMiddleware {
 
     public execute(request: http.IncomingMessage, response: http.ServerResponse, next: any): any {
-        let url = (global as any).options.prefix !== undefined ? `${(global as any).options.prefix}/${(global as any).options.documentation.path}`
+        let url = (global as any).options.prefix !== '' ? `${(global as any).options.prefix}/${(global as any).options.documentation.path}`
             : (global as any).options.documentation.path;
         url = replace(url, '//', '/');
         if (request.url === url) {
             return this.processDocumentations('/index.html', response);
         } else if (request.url.startsWith(`${(global as any).options.prefix}/node_modules/swagger`) || request.url.startsWith(`${(global as any).options.prefix}/swagger`)) {
-            return this.processDocumentations(request.url, response);
+            url = replace(request.url, (global as any).options.prefix, '');
+            return this.processDocumentations(url, response);
         } else {
             return next();
         }
