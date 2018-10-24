@@ -26,7 +26,8 @@ let internalOptions: IKiwiOptions = {
     port: 8080,
     documentation: {
         enabled: false
-    }
+    },
+    prefix: ''
 };
 
 export function createKiwiServer(options?: IKiwiOptions) {
