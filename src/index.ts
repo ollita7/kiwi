@@ -136,6 +136,11 @@ async function parseBody(request: http.IncomingMessage) {
 
 async function execute(match: IActionExecutor, request: http.IncomingMessage, response: http.ServerResponse) {
     const instance: any = getInstance(match.executor);
+    if(isNil(match.paramValues)){
+        match.paramValues = [];
+    }
+    match.paramValues.push(request);
+    match.paramValues.push(response);
     const result = await instance[match.fn.name].apply(instance, match.paramValues);
     return result;
 }

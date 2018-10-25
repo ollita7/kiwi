@@ -23,7 +23,7 @@ export interface IActionExecutor {
     fn: Function;
     executor: any;
     params: IParam[];
-    paramValues?: string[];
+    paramValues?: any[];
     authorize: boolean;
     roles: string[];
 }
