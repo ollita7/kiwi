@@ -1,6 +1,6 @@
 import { IKiwiOptions } from './types/types';
 import * as http from 'http';
-import { isNil, findIndex, forEach } from 'lodash';
+import { isNil, findIndex, forEach, filter } from 'lodash';
 import { MetadataStorage } from './metadata/metadataStorage';
 import { IActionExecutor, IMiddleware } from './metadata/types/metadata.types';
 import { CorsMiddleware } from "./middlewares/corsMiddlware";
@@ -14,6 +14,7 @@ export * from "./types/types";
 export * from "./decorators/jsonController";
 export * from "./decorators/param";
 export * from "./decorators/queryParam";
+export * from "./decorators/headerParam";
 export * from "./decorators/body";
 export * from "./decorators/authorize";
 export * from "./decorators/middlewareBefore";
@@ -89,6 +90,8 @@ async function processRequest(request: http.IncomingMessage, response: http.Serv
             const index = findIndex(match.paramValues, (param: string) => param === undefined);
             match.paramValues[index] = body;
         }
+
+        parseHeaderParams(request, match);
         const result = await execute(match, request, response);
         const afterReponse = await executeMiddlewares(MetadataStorage.middlewaresAfter, request, response);
         if (isNil(afterReponse)) {
@@ -118,6 +121,15 @@ function parseQueryParam(queryParams: string) {
 
 }
 
+function parseHeaderParams(request: http.IncomingMessage, match: IActionExecutor) {
+    const headerParams = filter(match.params, (param: any) => param.type === 'headerParam');
+    forEach(headerParams, (headerParam) => {
+        const index = findIndex(match.params, (param: any) => param.name === headerParam.name);
+        match.paramValues[index] = request.headers[headerParam.name];
+    })
+    return match;
+}
+
 async function parseBody(request: http.IncomingMessage) {
     var p = new Promise((resolve, reject) => {
         let body = '';
@@ -136,7 +148,7 @@ async function parseBody(request: http.IncomingMessage) {
 
 async function execute(match: IActionExecutor, request: http.IncomingMessage, response: http.ServerResponse) {
     const instance: any = getInstance(match.executor);
-    if(isNil(match.paramValues)){
+    if (isNil(match.paramValues)) {
         match.paramValues = [];
     }
     match.paramValues.push(request);

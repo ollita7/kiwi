@@ -48,6 +48,7 @@ Framework to help rest api development using typescript and node.
                 request: request
             };
         }
+        
     }
     ```
    
@@ -65,6 +66,16 @@ Framework to help rest api development using typescript and node.
     {
         "name": "guille",
         "lastname": "fernandez"
+    }
+    ```
+
+    We can use HeaderParams to get http headers.
+    In the next sample we are going to receive the token http header if it is in the header.
+    
+    ```javascript
+    @Get('/queryparam/:id')
+    public queryparam(@Param('id') id: string, @HeaderParam('token') token: string){
+        return object;
     }
     ```
  
