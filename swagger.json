@@ -12,7 +12,10 @@
                 "produces": [
                     "application/json"
                 ],
-                "parameters": []
+                "parameters": [],
+                "tags": [
+                    "testcontroller"
+                ]
             }
         },
         "/v1/testcontroller/queryparam/:id": {
@@ -31,6 +34,9 @@
                         "type": "string",
                         "description": ""
                     }
+                ],
+                "tags": [
+                    "testcontroller"
                 ]
             }
         },
@@ -50,6 +56,9 @@
                         "type": "string",
                         "description": ""
                     }
+                ],
+                "tags": [
+                    "testcontroller"
                 ]
             }
         },
@@ -83,6 +92,9 @@
                         "type": "string",
                         "description": ""
                     }
+                ],
+                "tags": [
+                    "testcontroller"
                 ]
             }
         },
@@ -94,7 +106,10 @@
                 "produces": [
                     "application/json"
                 ],
-                "parameters": []
+                "parameters": [],
+                "tags": [
+                    "testcontroller"
+                ]
             }
         },
         "/v1/testcontroller/postAction/:id": {
@@ -113,6 +128,9 @@
                         "type": "string",
                         "description": ""
                     }
+                ],
+                "tags": [
+                    "testcontroller"
                 ]
             },
             "get": {
@@ -130,6 +148,9 @@
                         "type": "string",
                         "description": ""
                     }
+                ],
+                "tags": [
+                    "testcontroller"
                 ]
             }
         },
@@ -141,7 +162,10 @@
                 "produces": [
                     "application/json"
                 ],
-                "parameters": []
+                "parameters": [],
+                "tags": [
+                    "testcontroller2"
+                ]
             }
         },
         "/v1/testcontroller2/postAction/:param1/:param2": {
@@ -167,6 +191,9 @@
                         "type": "string",
                         "description": ""
                     }
+                ],
+                "tags": [
+                    "testcontroller2"
                 ]
             }
         },
@@ -178,7 +205,10 @@
                 "produces": [
                     "application/json"
                 ],
-                "parameters": []
+                "parameters": [],
+                "tags": [
+                    "user"
+                ]
             }
         }
     },

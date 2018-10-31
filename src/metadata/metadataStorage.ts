@@ -1,5 +1,5 @@
 import { IAuthorize, IAction, IRouter, IActionExecutor, IParam, IMiddleware } from './types/metadata.types';
-import { forEach, isNil, find, filter, drop, findIndex, orderBy, replace } from 'lodash';
+import { forEach, isNil, find, filter, drop, findIndex, orderBy, replace, split } from 'lodash';
 import { Metadata } from './metadata';
 import { IKiwiOptions } from '../types/types';
 
@@ -123,7 +123,7 @@ export class MetadataStorage {
         (global as any).metadata.middlewaresBefore = orderBy(middlewaresBefore, ['order'], ['asc']);
     }
 
-    public static async  generateDoc() {
+    public static async  generateDoc(options?: IKiwiOptions) {
         var fs = require('fs');
         const swagger: any = {
             schemes: ["https", "http"],
@@ -134,10 +134,13 @@ export class MetadataStorage {
         forEach(Object.keys(routes), (url: string) => {
             swagger.paths[url] = {};
             forEach(Object.keys(routes[url]), (method) => {
+                let path = replace(url, options.prefix, '');
+                const tags = split(path, '/');
                 swagger.paths[url][method] = {
                     consumes: ["application/json"],
                     produces: ["application/json"],
-                    parameters: this.getParameters(routes[url][method].params)
+                    parameters: this.getParameters(routes[url][method].params),
+                    tags: [tags[1]]
                 }
 
             })

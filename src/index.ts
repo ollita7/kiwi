@@ -39,7 +39,7 @@ export function createKiwiServer(options?: IKiwiOptions) {
         MetadataStorage.middlewaresBefore.push({
             target: DocMiddleware
         })
-        MetadataStorage.generateDoc();
+        MetadataStorage.generateDoc(options);
     }
     if (internalOptions.log) {
         MetadataStorage.middlewaresBefore.push({
