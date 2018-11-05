@@ -10,6 +10,7 @@ Framework to help rest api development using typescript and node.
 * [Cors](#cors)
 * [Prefix](#prefix)
 * [Dependency Injection](#dependency-injection)
+* [Sockets](#sockets)
 * [Documentation](#documentation)
   
 ## Installation
@@ -213,6 +214,34 @@ Also you can add the order that you want to execute your middlewares like the sa
             return object;
         }
     ```
+## Sockets
+1. We integrate socket.io to our framework.
+
+    ```javascript
+    const options = {
+        controllers: [TestController, TestController2],
+        cors: true,
+        documentation: {
+            enabled: true,
+            path: '/apidoc'
+        },
+        socket: true
+    }
+    ```
+    You have to enable socket suppor by adding socket property to options.
+    
+    ```javascript
+    const server = createKiwiServer(options, socketInit);
+
+    function socketInit() {
+        const io = getSocket();
+        io.on('connection', (socket: any) => {
+            socket.userId  = socket.handshake.query.user;
+        });
+    }
+    ```
+    Finally you only have to use getSocket in any place of the framework and start using it.
+
 ## Documentation
 1. You can enable cross domain by configuration
     
