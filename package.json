@@ -37,6 +37,7 @@
     "fs": "0.0.1-security",
     "lodash": "^4.17.10",
     "reflect-metadata": "^0.1.12",
+    "socket.io": "^2.1.1",
     "swagger-ui-dist": "^3.17.3"
   },
   "devDependencies": {

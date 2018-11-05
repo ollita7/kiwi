@@ -53,9 +53,18 @@ export function createKiwiServer(options?: IKiwiOptions) {
     }
 
     const server = http.createServer(processRequest);
+    if(options.socket){
+        (global as any).io = require('socket.io')(server);
+    }
     server.listen(options.port, () => {
         console.log(`--------- SERVER STARTED on port ${options.port}---------`);
     });
+}
+
+export class KiwiSocket {
+    get get(){
+        return (global as any).io;
+    }
 }
 
 async function processRequest(request: http.IncomingMessage, response: http.ServerResponse) {
