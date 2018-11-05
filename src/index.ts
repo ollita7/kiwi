@@ -31,7 +31,7 @@ let internalOptions: IKiwiOptions = {
     prefix: ''
 };
 
-export function createKiwiServer(options?: IKiwiOptions) {
+export function createKiwiServer(options?: IKiwiOptions, callback: any) {
     internalOptions = options;
     (global as any).options = options;
     MetadataStorage.init(internalOptions);
@@ -58,6 +58,9 @@ export function createKiwiServer(options?: IKiwiOptions) {
     }
     server.listen(options.port, () => {
         console.log(`--------- SERVER STARTED on port ${options.port}---------`);
+        if(callback){
+            callback();
+        }
     });
 }
 
