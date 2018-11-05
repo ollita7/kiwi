@@ -31,7 +31,7 @@ let internalOptions: IKiwiOptions = {
     prefix: ''
 };
 
-export function createKiwiServer(options?: IKiwiOptions, callback: any) {
+export function createKiwiServer(options: IKiwiOptions, callback: any) {
     internalOptions = options;
     (global as any).options = options;
     MetadataStorage.init(internalOptions);
