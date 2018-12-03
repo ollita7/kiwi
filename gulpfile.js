@@ -6,7 +6,9 @@ var gulp = require('gulp'),
 
 var tsProject = ts.createProject('tsconfig.json', {});
 
-gulp.task('publish', gulpSequence('compile', 'tsc', 'copy', 'test', 'publish-package'));
+gulp.task('publish', gulpSequence('compile', 'compile-tests', 'copy', 'execute-tests', 'publish-package'));
+
+gulp.task('test', gulpSequence('compile-tests', 'execute-tests'));
 
 gulp.task('compile', () => {
 	return gulp.src(['src/**/*.ts'])
@@ -14,15 +16,14 @@ gulp.task('compile', () => {
 		.pipe(gulp.dest("release"));
 });
 
-gulp.task('tsc', function (cb) {
-	exec('tsc', {cwd: 'release'
+gulp.task('compile-tests', function (cb) {
+	exec('npm run compile', {
 	}, function (err, stdout, stderr) {
 		console.log(stdout);
 		console.log(stderr);
 		cb(err);
 	});
 })
-
 
 gulp.task('copy', () => {
 	gulp.src(['package.json', 'README.md'])
@@ -32,7 +33,7 @@ gulp.task('copy', () => {
 		.pipe(gulp.dest('release/resources/documentation-ui/'));
 });
 
-gulp.task('test', function () {
+gulp.task('execute-tests', function () {
 	return gulp.src(['dist/tests/*.test.js'], { read: false })
 		.pipe(mocha({
 			reporter: 'spec'
@@ -40,8 +41,8 @@ gulp.task('test', function () {
 });
 
 gulp.task('publish-package', function (cb) {
-	exec('npm publish', {
-		cwd: 'release'
+	exec('npm run publish', {
+		
 	}, function (err, stdout, stderr) {
 		console.log(stdout);
 		console.log(stderr);

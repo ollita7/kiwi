@@ -53,6 +53,7 @@
     "gulp-typescript": "^5.0.0-alpha.3",
     "loadtest": "^3.0.3",
     "mocha-typescript": "^1.1.17",
+    "node-mocks-http": "^1.7.3",
     "nyc": "^13.1.0",
     "source-map-support": "^0.5.9",
     "typescript": "^2.9.2"

@@ -69,7 +69,7 @@ export function getSocket() {
     return (global as any).io;
 }
 
-async function processRequest(request: http.IncomingMessage, response: http.ServerResponse) {
+export async function processRequest(request: http.IncomingMessage, response: http.ServerResponse) {
     try {
         const beforeReponse = await executeMiddlewares(MetadataStorage.middlewaresBefore, request, response);
         if (isNil(beforeReponse)) {
@@ -86,7 +86,7 @@ async function processRequest(request: http.IncomingMessage, response: http.Serv
             response.end(`Method doesnt match`);
             return;
         }
-        if (match.authorize) {
+        if (match.authorize && internalOptions.authorization != null) {
             let result = await internalOptions.authorization.apply(null, [request, match.roles]);
             if (!result) {
                 response.writeHead(401);

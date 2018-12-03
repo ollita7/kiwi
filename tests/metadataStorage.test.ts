@@ -1,4 +1,5 @@
-import { suite, test, slow, timeout } from "mocha-typescript";
+import { suite, test } from "mocha-typescript";
+import { assert } from 'chai';
 import { IKiwiOptions } from '../src/index';
 import { TestController } from '../samples/test-controller';
 import { TestController2 } from '../samples/test-controller2';
@@ -6,7 +7,6 @@ import { TestController3 } from '../samples/test-controller3';
 import { TestMiddleware2 } from '../samples/test-middlware2';
 import { TestMiddleware } from '../samples/test-middlware';
 import { MetadataStorage } from '../src/metadata/metadataStorage';
-import { assert } from 'chai';
 
 const options: IKiwiOptions = {
     controllers: [TestController, TestController2, TestController3],
@@ -46,7 +46,7 @@ describe("Metadata storage test", () => {
 
     }
 
-    @test 'it must create metadata for server'() {
+    @test 'It must exist 9 routes'() {
         assert.equal(9, Object.keys(MetadataStorage.routes).length);
     }
 
@@ -58,6 +58,14 @@ describe("Metadata storage test", () => {
     @test 'it doesn`t must match route'() {
         const match = MetadataStorage.matchRoute('/v1/testcontroller/queryparam/1/2', 'get');
         assert.isNull(match);
+    }
+
+    @test 'it must exist one middleware after'(){
+        assert.equal(1, MetadataStorage.middlewaresAfter.length);
+    }
+
+    @test 'it must exist one middleware before'(){
+        assert.equal(1, MetadataStorage.middlewaresBefore.length);
     }
 
     static after() {

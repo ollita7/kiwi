@@ -19,9 +19,9 @@ export class TestController {
         return object;
     }
 
-    @Get('/octobot/:name')
+    @Get('/testinguy/:name')
     public get2(@Param('name') name: string) {
-        return { test: name };
+        return { name: name };
     }
 
     @Get('/getAction/:id/:id2/:id3')
