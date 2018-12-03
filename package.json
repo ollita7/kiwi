@@ -5,9 +5,9 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tsc",
-    "test-load": "node ./tests/load.test.js"
+    "test-load": "node ./tests/load.test.js",
+    "test": "nyc mocha ./dist/tests/metadataStorage.test.js"
   },
   "repository": {
     "type": "git",
@@ -36,18 +36,25 @@
     "class-validator-jsonschema": "^1.1.1",
     "fs": "0.0.1-security",
     "lodash": "^4.17.10",
+    "mocha": "^5.2.0",
     "reflect-metadata": "^0.1.12",
     "socket.io": "^2.1.1",
     "swagger-ui-dist": "^3.17.3"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.7",
     "@types/node": "^10.3.4",
+    "chai": "^4.2.0",
     "gulp": "^3.9.1",
     "gulp-exec": "^3.0.2",
+    "gulp-mocha": "^6.0.0",
     "gulp-sequence": "^1.0.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-typescript": "^5.0.0-alpha.3",
     "loadtest": "^3.0.3",
+    "mocha-typescript": "^1.1.17",
+    "nyc": "^13.1.0",
+    "source-map-support": "^0.5.9",
     "typescript": "^2.9.2"
   }
 }

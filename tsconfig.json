@@ -12,7 +12,8 @@
     "experimentalDecorators": true
   },
   "include": [
-    "samples/**/*"
+    "samples/**/*",
+    "tests/**/*"
   ],
   "exclude": [
     "src"

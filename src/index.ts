@@ -6,6 +6,7 @@ import { IActionExecutor, IMiddleware } from './metadata/types/metadata.types';
 import { CorsMiddleware } from "./middlewares/corsMiddlware";
 import { LogMiddleware } from "./middlewares/logMiddlware";
 import { DocMiddleware } from './middlewares/docMiddleware';
+import { ParserHelper } from './helpers/parser';
 export * from "./decorators/Get";
 export * from "./decorators/Post";
 export * from "./decorators/Put";
@@ -31,7 +32,7 @@ let internalOptions: IKiwiOptions = {
     prefix: ''
 };
 
-export function createKiwiServer(options: IKiwiOptions, callback: any) {
+export function createKiwiServer(options: IKiwiOptions, callback?: any) {
     internalOptions = options;
     (global as any).options = options;
     MetadataStorage.init(internalOptions);
@@ -96,7 +97,8 @@ async function processRequest(request: http.IncomingMessage, response: http.Serv
         const index = findIndex(match.params, (param: any) => param.name === 'queryParam');
         match.paramValues[index] = parseQueryParam(queryParam);
         if (request.method !== 'GET') {
-            let body = await parseBody(request);
+            const parser = new ParserHelper();
+            let body = await parser.parse(request);
             const index = findIndex(match.paramValues, (param: string) => param === undefined);
             match.paramValues[index] = body;
         }
