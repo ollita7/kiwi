@@ -10,6 +10,18 @@ export class MetadataStorage {
         return (global as any).metadata.actions;
     };
 
+    public static get options(): IKiwiOptions {
+        if (!(global as any).metadata)
+            (global as any).options = new Metadata();
+        return (global as any).metadata.options;
+    };
+
+    public static set options(value: IKiwiOptions){
+        if (!(global as any).metadata)
+            (global as any).metadata = new Metadata();
+            (global as any).metadata.options = value;
+    }
+
     public static get controllers(): any[] {
         if (!(global as any).metadata)
             (global as any).metadata = new Metadata();
@@ -55,6 +67,7 @@ export class MetadataStorage {
     public static init(internalOptions: IKiwiOptions) {
         if (!(global as any).metadata)
             (global as any).metadata = new Metadata();
+        MetadataStorage.options = internalOptions;
         const actions = filter(MetadataStorage.actions, (action) => {
             return findIndex(internalOptions.controllers, (controller: any) => { return controller.name == action.className; }) >= 0;
         });
@@ -148,8 +161,8 @@ export class MetadataStorage {
         const resultFile = fs.writeFileSync(`swagger.json`, JSON.stringify(swagger, null, 4), 'utf8');
     }
 
-    private static generatePath(controller: string, action: any, prefix: string){
-        let path = isNil(prefix) ? `${controller}${action}` : `${prefix}${controller}${action}`; 
+    private static generatePath(controller: string, action: any, prefix: string) {
+        let path = isNil(prefix) ? `${controller}${action}` : `${prefix}${controller}${action}`;
         path = replace(path, '//', '/');
         return path;
     }

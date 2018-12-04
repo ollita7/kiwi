@@ -40,7 +40,7 @@
                 ]
             }
         },
-        "/v1/testcontroller/octobot/:name": {
+        "/v1/testcontroller/testinguy/:name": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -149,6 +149,20 @@
                         "description": ""
                     }
                 ],
+                "tags": [
+                    "testcontroller"
+                ]
+            }
+        },
+        "/v1/testcontroller/testHeaders": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
                 "tags": [
                     "testcontroller"
                 ]

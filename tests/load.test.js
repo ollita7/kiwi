@@ -6,13 +6,13 @@ const options = {
 	method: 'POST',
 	body:'',
 	requestsPerSecond:5,
-	maxSeconds:30,
+	maxSeconds: 30,
 	requestGenerator: (params, options, client, callback) => {
 		const message = '{"name": "guille"}';
 		options.headers['Content-Length'] = message.length;
 		options.headers['Content-Type'] = 'application/json';
 		options.body = '';
-		options.path = '/testcontroller/postAction/1';
+		options.path = '/v1/testcontroller/postAction/1';
 		const request = client(options, callback);
 		request.write(message);
 		return request;

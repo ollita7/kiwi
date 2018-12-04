@@ -34,29 +34,62 @@ const options: IKiwiOptions = {
 
     @test async 'It must return the param 1'() {
         const param = 'pepe';
-        var request  = httpMocks.createRequest({
+        var request = httpMocks.createRequest({
             method: 'GET',
-            url: `/v1/testcontroller/testinguy/${param}`           
+            url: `/v1/testcontroller/testinguy/${param}`
         });
-    
+
         var response = httpMocks.createResponse();
         await processRequest(request, response);
         var data = JSON.parse(response._getData());
-        assert.equal(response.statusCode , 200);
-        assert.equal(data.name , param);
+        assert.equal(response.statusCode, 200);
+        assert.equal(data.name, param);
     }
 
     @test async 'It must return 404 http error'() {
-        var request  = httpMocks.createRequest({
+        var request = httpMocks.createRequest({
             method: 'GET',
-            url: '/v1/testcontroller/queryparadsdm/1'           
+            url: '/v1/testcontroller/queryparadsdm/1'
         });
-    
+
         var response = httpMocks.createResponse();
         await processRequest(request, response);
         var data = response._getData();
-        assert.equal(response.statusCode , 404);
+        assert.equal(response.statusCode, 404);
         assert.equal(data, 'Method doesnt match');
+    }
+
+    @test async 'It must create an object with query params values as properies'() {
+        var request = httpMocks.createRequest({
+            method: 'GET',
+            url: '/v1/testcontroller/queryparam/1?name=guille'
+        });
+
+        var response = httpMocks.createResponse();
+        await processRequest(request, response);
+        var data = JSON.parse(response._getData());
+        assert.equal(response.statusCode, 200);
+        assert.equal(data.name, 'guille');
+    }
+
+    @test async 'It must add two header params'() { 
+        const h1 = 'header1';
+        const h2 = 'header2';
+        var request = httpMocks.createRequest({
+            method: 'GET',
+            url: '/v1/testcontroller/testHeaders',
+            headers: {
+                h1: h1,
+                h2: h2
+            }
+        });
+
+        var response = httpMocks.createResponse();
+        await processRequest(request, response);
+        var data = JSON.parse(response._getData());
+        assert.equal(response.statusCode, 200);
+        assert.equal(data.h1, h1);
+        assert.equal(data.h2, h2);
     }
 
     static after() {

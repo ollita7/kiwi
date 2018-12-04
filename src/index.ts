@@ -86,11 +86,13 @@ export async function processRequest(request: http.IncomingMessage, response: ht
             response.end(`Method doesnt match`);
             return;
         }
-        if (match.authorize && internalOptions.authorization != null) {
-            let result = await internalOptions.authorization.apply(null, [request, match.roles]);
+        
+        if (match.authorize && MetadataStorage.options.authorization != null) {
+            let result = await MetadataStorage.options.authorization.apply(null, [request, match.roles]);
+            
             if (!result) {
                 response.writeHead(401);
-                response.end(`Not athorized`);
+                response.end(`Not authorized`);
                 return;
             }
         }

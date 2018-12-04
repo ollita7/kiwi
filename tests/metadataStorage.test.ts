@@ -46,8 +46,8 @@ describe("Metadata storage test", () => {
 
     }
 
-    @test 'It must exist 9 routes'() {
-        assert.equal(9, Object.keys(MetadataStorage.routes).length);
+    @test 'It must exist 10 routes'() {
+        assert.equal(10, Object.keys(MetadataStorage.routes).length);
     }
 
     @test 'it must match route'() {

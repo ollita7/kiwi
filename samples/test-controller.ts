@@ -1,5 +1,6 @@
 import { Get, Post, JsonController, Param, Body, QueryParam, Authorize, HeaderParam } from '../src/index';
 import { Utils } from './utils';
+import { setInterval } from 'timers';
 
 @Authorize(['role1, role2'])
 @JsonController('/testcontroller')
@@ -47,5 +48,13 @@ export class TestController {
         return {
             method: "get same url post test",
         };
+    }
+
+    @Get('/testHeaders')
+    public testHeaders(@HeaderParam('h1') h1: string, @HeaderParam('h2') h2: string) {
+        return {
+            h1: h1,
+            h2: h2
+        }
     }
 }
