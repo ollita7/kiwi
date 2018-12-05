@@ -16,7 +16,6 @@ var callback = sinon.spy();
 var options: IKiwiOptions = {
     controllers: [TestController, TestController2, TestController3],
     authorization: function(request: http.IncomingMessage, roles: Array<string>){
-        console.log(roles);
         callback();
         return true;
     },
