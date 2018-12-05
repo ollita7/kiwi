@@ -21,7 +21,7 @@ export class TestController {
     }
 
     @Get('/testinguy/:name')
-    public get2(@Param('name') name: string) {
+    public get2(@Param('name') name: number) {
         return { name: name };
     }
 

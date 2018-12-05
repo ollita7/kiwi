@@ -41,8 +41,8 @@ gulp.task('execute-tests', function () {
 });
 
 gulp.task('publish-package', function (cb) {
-	exec('npm run publish', {
-		
+	exec('npm publish', {
+		cwd: 'release'
 	}, function (err, stdout, stderr) {
 		console.log(stdout);
 		console.log(stderr);
