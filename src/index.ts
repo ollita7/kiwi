@@ -129,7 +129,7 @@ function parseQueryParam(queryParams: string) {
     const params = queryParams.split('&');
     forEach(params, (param) => {
         const val = param.split('=');
-        obj[val[0]] = val[1];
+        obj[val[0]] = decodeURIComponent(val[1]);
     })
     return obj;
 
