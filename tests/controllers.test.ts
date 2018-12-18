@@ -62,7 +62,7 @@ const options: IKiwiOptions = {
     @test async 'It must create an object with query params values as properies'() {
         var request = httpMocks.createRequest({
             method: 'GET',
-            url: '/v1/testcontroller/queryparam/1?name=guille2 si sr'
+            url: '/v1/testcontroller/queryparam/1?name=guille'
         });
 
         var response = httpMocks.createResponse();
