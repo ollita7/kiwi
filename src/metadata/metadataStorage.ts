@@ -171,7 +171,7 @@ export class MetadataStorage {
         const result: Array<any> = [];
         forEach(match.params, (param: IParam) => {
             const index = findIndex(paramNames, (name) => name === param.name);
-            result[param.order] = isNaN(parseInt(paramValues[index])) ? paramValues[index] : parseInt(paramValues[index]);
+            result[param.order] = isNaN(Number(paramValues[index])) ? paramValues[index] : parseInt(paramValues[index]);
         });
         return result;
     }
