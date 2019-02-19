@@ -13,7 +13,7 @@ export class ParserHelper {
             if (isNil(result) || result === '') {
                 return null;
             }
-            if(request.headers["content-type"] === "application/json"){
+            if(request.headers["content-type"].startsWith("application/json")){
                 return JSON.parse(result);
             }
             return result;

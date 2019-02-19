@@ -144,22 +144,6 @@ function parseHeaderParams(request: http.IncomingMessage, match: IActionExecutor
     return match;
 }
 
-async function parseBody(request: http.IncomingMessage) {
-    var p = new Promise((resolve, reject) => {
-        let body = '';
-        request.on('data', chunk => body += chunk);
-        request.on('end', () => resolve(body));
-    });
-
-    var body = await p.then((result: any) => {
-        if (isNil(result) || result === '') {
-            return null;
-        }
-        return JSON.parse(result);
-    });
-    return body;
-}
-
 async function execute(match: IActionExecutor, request: http.IncomingMessage, response: http.ServerResponse) {
     const instance: any = getInstance(match.executor);
     if (isNil(match.paramValues)) {
