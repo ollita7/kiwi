@@ -8,7 +8,7 @@ export class CorsMiddleware implements IMiddleware {
         let origin = '';
         if(isNil(domains) || domains.length === 0){
             origin = '*';
-        } else if(!isNil(request.headers.origin) && indexOf(domains, request.headers.orgin) > 0){
+        } else if(!isNil(request.headers.origin) && indexOf(domains, request.headers.origin) > 0){
             origin = request.headers.orgin as string;
         }
         if (request.method === 'OPTIONS') {
