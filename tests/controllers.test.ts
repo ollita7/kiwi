@@ -13,7 +13,9 @@ const options: IKiwiOptions = {
     controllers: [TestController, TestController2, TestController3],
     authorization: null,
     middlewares: [TestMiddleware2, TestMiddleware],
-    cors: true,
+    cors: {
+        enabled: true
+    },
     documentation: {
         enabled: true,
         path: '/apidoc'

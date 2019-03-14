@@ -5,6 +5,7 @@ import { TestController3 } from './test-controller3';
 import { TestMiddleware2 } from './test-middlware2';
 import { TestMiddleware } from './test-middlware';
 import * as http from 'http';
+import { environment } from './environments/environment';
 
 function validateAuthentication(request: http.IncomingMessage, roles: Array<string>){
     console.log(roles);
@@ -15,7 +16,10 @@ const options: IKiwiOptions = {
     controllers: [TestController, TestController2, TestController3],
     authorization: validateAuthentication,
     middlewares: [TestMiddleware2, TestMiddleware],
-    cors: true,
+    cors: {
+        enabled: true,
+        domains: environment.domains
+    },
     documentation: {
         enabled: true,
         path: '/apidoc'

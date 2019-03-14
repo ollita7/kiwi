@@ -1,3 +1,4 @@
 export const environment = {
-    name: 'local'
+    name: 'local',
+    domains: ['http://localhosts:4200', 'http://localhosts:4201']
 }

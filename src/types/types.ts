@@ -4,7 +4,7 @@ export interface IKiwiOptions{
     middlewares?: Function[];
     log?: boolean;
     documentation?: IDocumentationOption;
-    cors? : boolean;
+    cors? : ICorsOption;
     port: number;
     prefix?: string,
     socket?: boolean;
@@ -13,4 +13,9 @@ export interface IKiwiOptions{
 export interface IDocumentationOption {
     enabled: boolean;
     path?: string;
+}
+
+export interface ICorsOption {
+    enabled: boolean;
+    domains?: Array<string>;
 }

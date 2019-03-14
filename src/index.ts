@@ -47,7 +47,7 @@ export function createKiwiServer(options: IKiwiOptions, callback?: any) {
             target: LogMiddleware
         })
     }
-    if (internalOptions.cors) {
+    if (internalOptions.cors && internalOptions.cors.enabled) {
         MetadataStorage.middlewaresBefore.push({
             target: CorsMiddleware
         })

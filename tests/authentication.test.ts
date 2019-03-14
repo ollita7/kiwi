@@ -20,7 +20,9 @@ var options: IKiwiOptions = {
         return true;
     },
     middlewares: [TestMiddleware2, TestMiddleware],
-    cors: true,
+    cors: {
+        enabled: true
+    },
     documentation: {
         enabled: true,
         path: '/apidoc'
