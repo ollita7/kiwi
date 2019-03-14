@@ -166,7 +166,10 @@ Also you can add the order that you want to execute your middlewares like the sa
 
     const options = {
         controllers: [TestController, TestController2],
-        cors: true
+        cors: {
+            enabled: true,
+            domains: ['domain1.com', 'domain2.com']
+        }
     }
     const server = createKiwiServer(options);
     server.listen(8086);
@@ -182,7 +185,6 @@ Also you can add the order that you want to execute your middlewares like the sa
 
     const options = {
         controllers: [TestController, TestController2],
-        cors: true,
         prefix: 'v1/'
     }
     const server = createKiwiServer(options);
@@ -220,7 +222,6 @@ Also you can add the order that you want to execute your middlewares like the sa
     ```javascript
     const options = {
         controllers: [TestController, TestController2],
-        cors: true,
         documentation: {
             enabled: true,
             path: '/apidoc'
