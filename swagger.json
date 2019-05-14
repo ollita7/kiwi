@@ -4,7 +4,7 @@
         "http"
     ],
     "paths": {
-        "/v1/user/login": {
+        "/v1/user/login/:id": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -12,7 +12,14 @@
                 "produces": [
                     "application/json"
                 ],
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {}
+                    }
+                ],
                 "tags": [
                     "user"
                 ],

@@ -7,6 +7,7 @@ export function Param(name: string) {
             type: 'query',
             methodName: methodName,
             className: object.constructor.name,
+            object: object
         })
        
     }
