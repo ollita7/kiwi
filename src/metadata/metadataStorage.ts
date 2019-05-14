@@ -201,7 +201,7 @@ export class KiwiMetadataStorage {
                         in: "path",
                         required: true,
                         schema: {
-                            type: type
+                            type: type.name
                         }
                     }
                 )
