@@ -1,7 +1,7 @@
 import { IKiwiOptions } from './types/types';
 import * as http from 'http';
 import { isNil, findIndex, forEach, filter } from 'lodash';
-import { KiwiMetadataStorage } from './metadata/MetadataStorage';
+import { KiwiMetadataStorage } from './metadata/metadataStorage';
 import { IActionExecutor, IMiddleware } from './metadata/types/metadata.types';
 import { CorsMiddleware } from "./middlewares/corsMiddlware";
 import { LogMiddleware } from "./middlewares/logMiddlware";
