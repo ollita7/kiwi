@@ -1,8 +1,8 @@
-import { MetadataStorage } from '../metadata/metadataStorage';
+import { KiwiMetadataStorage } from '../metadata/metadataStorage';
 
 export function MiddlewareBefore(order?: number) {
     return function decorator(object: Object) {
-        MetadataStorage.middlewaresBefore.push({
+        KiwiMetadataStorage.middlewaresBefore.push({
             target: object,
             order: order == undefined? 0 : order
         })

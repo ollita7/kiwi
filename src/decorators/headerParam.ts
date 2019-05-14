@@ -1,7 +1,7 @@
-import { MetadataStorage } from '../metadata/metadataStorage';
+import { KiwiMetadataStorage } from '../metadata/metadataStorage';
 export function HeaderParam(name: string) {
     return function (object: Object, methodName: string, descriptor: number) {
-        MetadataStorage.params.unshift({
+        KiwiMetadataStorage.params.unshift({
             order: descriptor,
             name: name,
             type: 'headerParam',

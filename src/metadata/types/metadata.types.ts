@@ -17,6 +17,7 @@ export interface IParam{
     type: string,
     methodName: string,
     className: string,
+    object: any;
 }
 
 export interface IActionExecutor {

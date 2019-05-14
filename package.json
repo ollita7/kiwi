@@ -33,7 +33,6 @@
     "@types/reflect-metadata": "^0.1.0",
     "@types/request": "^2.47.1",
     "class-validator": "^0.8.5",
-    "class-validator-jsonschema": "^1.1.1",
     "fs": "0.0.1-security",
     "lodash": "^4.17.10",
     "mocha": "^5.2.0",

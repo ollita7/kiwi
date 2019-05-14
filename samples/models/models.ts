@@ -1,15 +1,14 @@
-import { Model } from "../../src/decorators/model";
+import { ValidateNested, IsString, IsNumber, IsArray } from 'class-validator'
 
-@Model()
+export class AddressModel {
+    @IsString() public street: string;
+    @IsNumber() public number: number;
+}
+
 export class User {
-    public name: string;
-    public lastname: string;
-    public age: number;
-    public address: Array<Address>;
+    @IsString()  public name: string;
+    @IsString()  public lastname: string;
+    @IsNumber() public age: number;
+    @ValidateNested({each: true}) public address: AddressModel[];
 }
 
-@Model()
-export class Address{
-    public street: string;
-    public number: number;
-}

@@ -1,8 +1,7 @@
-import { MetadataStorage } from '../metadata/metadataStorage';
-import 'reflect-metadata';
+import { KiwiMetadataStorage } from '../metadata/metadataStorage';
 export function Post(path?: string): Function {
     return function (object: Object, methodName: string) {
-        MetadataStorage.actions.push({
+        KiwiMetadataStorage.actions.push({
             path: path? path : '',
             method: 'post',
             methodName: methodName,

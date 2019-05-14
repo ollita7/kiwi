@@ -1,7 +1,7 @@
 import { IKiwiOptions } from './types/types';
 import * as http from 'http';
 import { isNil, findIndex, forEach, filter } from 'lodash';
-import { MetadataStorage } from './metadata/metadataStorage';
+import { KiwiMetadataStorage } from './metadata/MetadataStorage';
 import { IActionExecutor, IMiddleware } from './metadata/types/metadata.types';
 import { CorsMiddleware } from "./middlewares/corsMiddlware";
 import { LogMiddleware } from "./middlewares/logMiddlware";
@@ -22,7 +22,6 @@ export * from "./decorators/middlewareBefore";
 export * from "./decorators/middlewareAfter";
 export * from "./middlewares/middleware";
 export * from './middlewares/errorMiddleware';
-export * from "./decorators/model";
 
 let internalOptions: IKiwiOptions = {
     port: 8080,
@@ -35,20 +34,20 @@ let internalOptions: IKiwiOptions = {
 export function createKiwiServer(options: IKiwiOptions, callback?: any) {
     internalOptions = options;
     (global as any).options = options;
-    MetadataStorage.init(internalOptions);
+    KiwiMetadataStorage.init(internalOptions);
     if (internalOptions.documentation.enabled) {
-        MetadataStorage.middlewaresBefore.push({
+        KiwiMetadataStorage.middlewaresBefore.push({
             target: DocMiddleware
         })
-        MetadataStorage.generateDoc(options);
+        KiwiMetadataStorage.generateDoc(options);
     }
     if (internalOptions.log) {
-        MetadataStorage.middlewaresBefore.push({
+        KiwiMetadataStorage.middlewaresBefore.push({
             target: LogMiddleware
         })
     }
     if (internalOptions.cors && internalOptions.cors.enabled) {
-        MetadataStorage.middlewaresBefore.push({
+        KiwiMetadataStorage.middlewaresBefore.push({
             target: CorsMiddleware
         })
     }
@@ -71,7 +70,7 @@ export function getSocket() {
 
 export async function processRequest(request: http.IncomingMessage, response: http.ServerResponse) {
     try {
-        const beforeReponse = await executeMiddlewares(MetadataStorage.middlewaresBefore, request, response);
+        const beforeReponse = await executeMiddlewares(KiwiMetadataStorage.middlewaresBefore, request, response);
         if (isNil(beforeReponse)) {
             return;
         }
@@ -80,15 +79,15 @@ export async function processRequest(request: http.IncomingMessage, response: ht
         const url = split_url[0];
         const queryParam = split_url.length === 2 ? split_url[1] : null;
 
-        const match = MetadataStorage.matchRoute(url, request.method);
+        const match = KiwiMetadataStorage.matchRoute(url, request.method);
         if (isNil(match)) {
             response.writeHead(404);
             response.end(`Method doesnt match`);
             return;
         }
         
-        if (match.authorize && MetadataStorage.options.authorization != null) {
-            let result = await MetadataStorage.options.authorization.apply(null, [request, match.roles]);
+        if (match.authorize && KiwiMetadataStorage.options.authorization != null) {
+            let result = await KiwiMetadataStorage.options.authorization.apply(null, [request, match.roles]);
             
             if (!result) {
                 response.writeHead(401);
@@ -107,7 +106,7 @@ export async function processRequest(request: http.IncomingMessage, response: ht
 
         parseHeaderParams(request, match);
         const result = await execute(match, request, response);
-        const afterReponse = await executeMiddlewares(MetadataStorage.middlewaresAfter, request, response);
+        const afterReponse = await executeMiddlewares(KiwiMetadataStorage.middlewaresAfter, request, response);
         if (isNil(afterReponse)) {
             return;
         }

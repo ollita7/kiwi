@@ -6,7 +6,7 @@ import { TestController2 } from '../samples/test-controller2';
 import { TestController3 } from '../samples/test-controller3';
 import { TestMiddleware2 } from '../samples/test-middlware2';
 import { TestMiddleware } from '../samples/test-middlware';
-import { MetadataStorage } from '../src/metadata/metadataStorage';
+import { KiwiMetadataStorage } from '../src/metadata/metadataStorage';
 var httpMocks = require('node-mocks-http');
 
 const options: IKiwiOptions = {
@@ -27,7 +27,7 @@ const options: IKiwiOptions = {
 
 @suite class ControllersSuite {
     static before() {
-        MetadataStorage.init(options);
+        KiwiMetadataStorage.init(options);
     }
 
     before() {

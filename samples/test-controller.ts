@@ -1,6 +1,7 @@
 import { Get, Post, JsonController, Param, Body, QueryParam, Authorize, HeaderParam } from '../src/index';
 import { Utils } from './utils';
 import { setInterval } from 'timers';
+import { User } from './models/models';
 
 @Authorize(['role1, role2'])
 @JsonController('/testcontroller')
@@ -14,7 +15,7 @@ export class TestController {
     }
 
     @Get('/queryparam/:id')
-    public queryparam(@QueryParam() object: any, @Param('id') id: string, @HeaderParam('token1') token1: string,
+    public queryparam(@QueryParam() object: User, @Param('id') id: string, @HeaderParam('token1') token1: string,
         @HeaderParam('token2') token2: string) {
         this.utils.print();
         return object;

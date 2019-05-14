@@ -6,7 +6,7 @@ import { TestController2 } from '../samples/test-controller2';
 import { TestController3 } from '../samples/test-controller3';
 import { TestMiddleware2 } from '../samples/test-middlware2';
 import { TestMiddleware } from '../samples/test-middlware';
-import { MetadataStorage } from '../src/metadata/metadataStorage';
+import { KiwiMetadataStorage } from '../src/metadata/MetadataStorage';
 
 const options: IKiwiOptions = {
     controllers: [TestController, TestController2, TestController3],
@@ -27,21 +27,21 @@ const options: IKiwiOptions = {
 /*
 describe("Metadata storage test", () => {
     it("it must create metadata for server", () => {
-        MetadataStorage.init(options);
-        assert.equal(9, Object.keys(MetadataStorage.routes).length);
+        KiwiMetadataStorage.init(options);
+        assert.equal(9, Object.keys(KiwiMetadataStorage.routes).length);
     });
 
     it("it must match route", () => {
-        MetadataStorage.init(options);
-        const match = MetadataStorage.matchRoute('/v1/testcontroller/queryparam/1', 'get');
+        KiwiMetadataStorage.init(options);
+        const match = KiwiMetadataStorage.matchRoute('/v1/testcontroller/queryparam/1', 'get');
         assert.isNotNull(match);
     });
 });
 */
 
-@suite class MetadataStorageSuite {
+@suite class KiwiMetadataStorageSuite {
     static before() {
-        MetadataStorage.init(options);
+        KiwiMetadataStorage.init(options);
     }
 
     before() {
@@ -49,25 +49,25 @@ describe("Metadata storage test", () => {
     }
 
     @test 'It must exist 10 routes'() {
-        assert.equal(10, Object.keys(MetadataStorage.routes).length);
+        assert.equal(10, Object.keys(KiwiMetadataStorage.routes).length);
     }
 
     @test 'it must match route'() {
-        const match = MetadataStorage.matchRoute('/v1/testcontroller/queryparam/1', 'get');
+        const match = KiwiMetadataStorage.matchRoute('/v1/testcontroller/queryparam/1', 'get');
         assert.isNotNull(match);
     }
 
     @test 'it doesn`t must match route'() {
-        const match = MetadataStorage.matchRoute('/v1/testcontroller/queryparam/1/2', 'get');
+        const match = KiwiMetadataStorage.matchRoute('/v1/testcontroller/queryparam/1/2', 'get');
         assert.isNull(match);
     }
 
     @test 'it must exist one middleware after'(){
-        assert.equal(1, MetadataStorage.middlewaresAfter.length);
+        assert.equal(1, KiwiMetadataStorage.middlewaresAfter.length);
     }
 
     @test 'it must exist one middleware before'(){
-        assert.equal(1, MetadataStorage.middlewaresBefore.length);
+        assert.equal(1, KiwiMetadataStorage.middlewaresBefore.length);
     }
 
     static after() {

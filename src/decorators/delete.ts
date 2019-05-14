@@ -1,7 +1,7 @@
-import { MetadataStorage } from '../metadata/metadataStorage';
+import { KiwiMetadataStorage } from '../metadata/metadataStorage';
 export function Delete(path: string | RegExp) {
     return function (object: Object, methodName: string) {
-        MetadataStorage.actions.push({
+        KiwiMetadataStorage.actions.push({
             path: path? path : '',
             method: 'delete',
             methodName: methodName,

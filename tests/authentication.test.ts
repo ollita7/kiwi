@@ -6,7 +6,7 @@ import { TestController2 } from '../samples/test-controller2';
 import { TestController3 } from '../samples/test-controller3';
 import { TestMiddleware2 } from '../samples/test-middlware2';
 import { TestMiddleware } from '../samples/test-middlware';
-import { MetadataStorage } from '../src/metadata/metadataStorage';
+import { KiwiMetadataStorage } from '../src/metadata/metadataStorage';
 import * as http from 'http';
 var sinon = require('sinon');
 var httpMocks = require('node-mocks-http');
@@ -34,7 +34,7 @@ var options: IKiwiOptions = {
 
 @suite class AuthenticationSuite {
     static before() {
-        MetadataStorage.init(options);
+        KiwiMetadataStorage.init(options);
     }
 
     before() {

@@ -6,6 +6,8 @@ import { TestMiddleware2 } from './test-middlware2';
 import { TestMiddleware } from './test-middlware';
 import * as http from 'http';
 import { environment } from './environments/environment';
+import { getFromContainer, IsOptional, IsString, MaxLength, MetadataStorage } from 'class-validator'
+import { validationMetadatasToSchemas } from 'class-validator-jsonschema'
 
 function validateAuthentication(request: http.IncomingMessage, roles: Array<string>){
     console.log(roles);
@@ -13,7 +15,7 @@ function validateAuthentication(request: http.IncomingMessage, roles: Array<stri
 }
 
 const options: IKiwiOptions = {
-    controllers: [TestController, TestController2, TestController3],
+    controllers: [/*TestController, TestController2,*/ TestController3],
     authorization: validateAuthentication,
     middlewares: [TestMiddleware2, TestMiddleware],
     cors: {
@@ -29,3 +31,4 @@ const options: IKiwiOptions = {
     prefix: '/v1'
 }
 const server = createKiwiServer(options, null);
+

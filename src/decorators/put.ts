@@ -1,7 +1,7 @@
-import { MetadataStorage } from '../metadata/metadataStorage';
+import { KiwiMetadataStorage } from '../metadata/metadataStorage';
 export function Put(path: string | RegExp) {
     return function (object: Object, methodName: string) {
-        MetadataStorage.actions.push({
+        KiwiMetadataStorage.actions.push({
             path: path? path : '',
             method: 'put',
             methodName: methodName,

@@ -2,8 +2,10 @@ import { IAuthorize, IAction, IRouter, IActionExecutor, IParam, IMiddleware } fr
 import { forEach, isNil, find, filter, drop, findIndex, orderBy, replace, split } from 'lodash';
 import { Metadata } from './metadata';
 import { IKiwiOptions } from '../types/types';
+import { getFromContainer, IsOptional, IsString, MaxLength, MetadataStorage } from 'class-validator'
+import { validationMetadatasToSchemas } from 'class-validator-jsonschema'
 
-export class MetadataStorage {
+export class KiwiMetadataStorage {
     public static get actions(): IAction[] {
         if (!(global as any).metadata)
             (global as any).metadata = new Metadata();
@@ -16,10 +18,10 @@ export class MetadataStorage {
         return (global as any).metadata.options;
     };
 
-    public static set options(value: IKiwiOptions){
+    public static set options(value: IKiwiOptions) {
         if (!(global as any).metadata)
             (global as any).metadata = new Metadata();
-            (global as any).metadata.options = value;
+        (global as any).metadata.options = value;
     }
 
     public static get controllers(): any[] {
@@ -67,44 +69,44 @@ export class MetadataStorage {
     public static init(internalOptions: IKiwiOptions) {
         if (!(global as any).metadata)
             (global as any).metadata = new Metadata();
-        MetadataStorage.options = internalOptions;
-        const actions = filter(MetadataStorage.actions, (action) => {
+        KiwiMetadataStorage.options = internalOptions;
+        const actions = filter(KiwiMetadataStorage.actions, (action) => {
             return findIndex(internalOptions.controllers, (controller: any) => { return controller.name == action.className; }) >= 0;
         });
-        forEach(MetadataStorage.actions, (action) => {
-            const controller = find(MetadataStorage.controllers, (controller) => {
+        forEach(KiwiMetadataStorage.actions, (action) => {
+            const controller = find(KiwiMetadataStorage.controllers, (controller) => {
                 return action.className == controller.target.name;
             });
-            const path = MetadataStorage.generatePath(controller.path, action.path, internalOptions.prefix)
-            if (isNil(MetadataStorage.routes[path])) {
-                MetadataStorage.routes[path] = {};
+            const path = KiwiMetadataStorage.generatePath(controller.path, action.path, internalOptions.prefix)
+            if (isNil(KiwiMetadataStorage.routes[path])) {
+                KiwiMetadataStorage.routes[path] = {};
             }
 
-            const authorize = find(MetadataStorage.authorize, (auth) => {
+            const authorize = find(KiwiMetadataStorage.authorize, (auth) => {
                 return (isNil(auth.methodName) && auth.className === controller.target.name) ||
                     (auth.methodName === action.methodName && auth.className === controller.target.name);
             });
             //console.log(`${action.method.toUpperCase()} ${path}`);
-            MetadataStorage.routes[path][action.method] = {
+            KiwiMetadataStorage.routes[path][action.method] = {
                 fn: controller.target.prototype[action.methodName],
                 executor: controller.target.prototype,
                 params: [],
                 authorize: !isNil(authorize),
                 roles: !isNil(authorize) ? authorize.roles : []
             };
-            var params = filter(MetadataStorage.params, (param) => {
+            var params = filter(KiwiMetadataStorage.params, (param) => {
                 return param.className === action.className && action.methodName === param.methodName;
             });
-            MetadataStorage.routes[path][action.method].params = params;
+            KiwiMetadataStorage.routes[path][action.method].params = params;
 
         });
-        MetadataStorage.orderMiddlewares(internalOptions);
+        KiwiMetadataStorage.orderMiddlewares(internalOptions);
     }
 
     public static matchRoute(route: string, httpMethod: string): IActionExecutor {
         let match: IActionExecutor = null;
         httpMethod = httpMethod.toLowerCase();
-        const keys = Object.keys(MetadataStorage.routes);
+        const keys = Object.keys(KiwiMetadataStorage.routes);
         var foundMatch = false;
         var i = 0;
         while (!foundMatch && i < keys.length) {
@@ -114,7 +116,7 @@ export class MetadataStorage {
                 var urlParamsValues = drop(routeMatcher.exec(route));
                 var routeMatcher2 = new RegExp(keys[i].replace(/:[^\s/]+/g, ':([\\w-]*)'));
                 var urlParamNames = drop(routeMatcher2.exec(keys[i]));
-                match = MetadataStorage.routes[keys[i]][httpMethod];
+                match = KiwiMetadataStorage.routes[keys[i]][httpMethod];
                 if (!isNil(match)) {
                     match.paramValues = this.orderParams(urlParamNames, urlParamsValues, match);
                     foundMatch = true;
@@ -141,9 +143,16 @@ export class MetadataStorage {
         const swagger: any = {
             schemes: ["https", "http"],
             paths: {},
-            swagger: "2.0"
+            openapi: "3.0.0",
+            components: {}
         };
-        const routes = MetadataStorage.routes;
+        const metadatas = (getFromContainer(MetadataStorage) as any).validationMetadatas;
+        const schemas = validationMetadatasToSchemas(metadatas, {
+            refPointerPrefix: '#/components/schemas'
+        })
+        swagger['components']['schemas'] = schemas;
+
+        const routes = KiwiMetadataStorage.routes;
         forEach(Object.keys(routes), (url: string) => {
             swagger.paths[url] = {};
             forEach(Object.keys(routes[url]), (method) => {
@@ -153,7 +162,8 @@ export class MetadataStorage {
                     consumes: ["application/json"],
                     produces: ["application/json"],
                     parameters: this.getParameters(routes[url][method].params),
-                    tags: [tags[1]]
+                    tags: [tags[1]],
+                    requestBody: this.getRequestBody(routes[url][method].params)
                 }
 
             })
@@ -189,10 +199,26 @@ export class MetadataStorage {
                         description: ''
                     }
                 )
-            } else if (param.type === 'body') {
-
             }
         })
         return swParams;
     }
+
+    private static getRequestBody(params: Array<IParam>) {
+        const body = find(params, (param) => param.type === 'body');
+        const types = Reflect.getMetadata('design:paramtypes', body.object, body.methodName);
+        const type = types[body.order];
+        const requestBody = {
+            content: {
+                "application/json": {
+                    schema: {
+                        "$ref": `#/components/schemas/${type.name}`
+                    }
+                }
+            },
+            "description": type.name,
+            "required": true
+        }
+        return requestBody;
+    } 
 }
