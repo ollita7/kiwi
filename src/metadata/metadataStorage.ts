@@ -162,8 +162,11 @@ export class KiwiMetadataStorage {
                     consumes: ["application/json"],
                     produces: ["application/json"],
                     parameters: this.getParameters(routes[url][method].params),
-                    tags: [tags[1]],
-                    requestBody: this.getRequestBody(routes[url][method].params)
+                    tags: [tags[1]]
+                }
+                const body = this.getRequestBody(routes[url][method].params)
+                if(!isNil(body)){
+                    swagger.paths[url][method]['requestBody'] = body; 
                 }
 
             })
@@ -206,6 +209,9 @@ export class KiwiMetadataStorage {
 
     private static getRequestBody(params: Array<IParam>) {
         const body = find(params, (param) => param.type === 'body');
+        if(isNil(body)){
+            return null;
+        }
         const types = Reflect.getMetadata('design:paramtypes', body.object, body.methodName);
         const type = types[body.order];
         const requestBody = {
