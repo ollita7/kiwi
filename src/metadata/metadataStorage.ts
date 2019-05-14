@@ -193,13 +193,16 @@ export class KiwiMetadataStorage {
         const swParams: Array<any> = [];
         forEach(params, (param) => {
             if (param.type === 'query') {
+                const types = Reflect.getMetadata('design:paramtypes', param.object, param.methodName);
+                const type = types[param.order];
                 swParams.push(
                     {
                         name: param.name,
                         in: "path",
                         required: true,
-                        type: "string",
-                        description: ''
+                        schema: {
+                            type: type
+                        }
                     }
                 )
             }
