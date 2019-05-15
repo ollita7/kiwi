@@ -1,6 +1,6 @@
 
 # <img src="kiwi.png" width="120" alt="logo">
-Framework to help rest api development using typescript and node.
+Framework to help building a REST API using typescript and node.
 
 # Table of Contents
 * [Installation](#installation)
@@ -21,7 +21,7 @@ Framework to help rest api development using typescript and node.
     
     Optional: https://github.com/ollita7/kiwi-cli
     
-2. You need to have these options in tsconfig.json file of your project:
+2. Add these options to the `tsconfig.json` file of your project:
     ```javascript
     {
         "emitDecoratorMetadata": true,
@@ -39,7 +39,7 @@ Framework to help rest api development using typescript and node.
 
         @Get('/getAction/:id/:id2/:id3')
         public get(@Param('id') id: string, @Param('id2') id2: string, @Param('id3') id3: string) {
-            return {method: "get test"};
+            return { method: "get test" };
         }
 
         @Post('/postAction/:id')
@@ -53,12 +53,13 @@ Framework to help rest api development using typescript and node.
     }
     ```
    
-    We can use QueryParams to get an object with tha key values that we send on the url.
-    For example if you send something like that http://*******/testcontroller/queryparam/1?name=guille&lastname=fernandez you will recevie a json like beloow
+    We can use QueryParams to get an object with the keys and values that we send on the url.
+
+    For example if you send something like http://.../testcontroller/queryparam/1?name=guille&lastname=fernandez you will receive an object like below:
 
     ```javascript
     @Get('/queryparam/:id')
-    public queryparam(@QueryParam() object: any, @Param('id') id: string){
+    public queryparam(@QueryParam() object: any, @Param('id') id: string) {
         return object;
     }
     ```
@@ -71,39 +72,42 @@ Framework to help rest api development using typescript and node.
     ```
 
     We can use HeaderParams to get http headers.
-    In the next sample we are going to receive the token http header if it is in the header.
+    In the next example we are going to receive the token HTTP header if it exists.
     
     ```javascript
     @Get('/queryparam/:id')
-    public queryparam(@Param('id') id: string, @HeaderParam('token') token: string){
+    public queryparam(@Param('id') id: string, @HeaderParam('token') token: string) {
         return object;
     }
     ```
  
- 2. After you create the controller you must create the server that use that controller.
+ 2. After creating the controller, create the server that uses that controller.
     ```javascript
     import { createKiwiServer } from 'kiwi-server';
     import { TestController } from './test-controller';
 
     const options = {
         controllers: [TestController],
-    }
+    };
     const server = createKiwiServer(options);
     server.listen(8086);
     ```
 ## Middlewares
-1. You can create middlewares to execute activities before and and after the execution of an action.
-For example to enable cors we use a specific middleware that is in charge to add the http headers for that.
-Its important to execute next if you want that the flow continue executing. In other case the flow finish and you must do something with the response, if you dont do anything the client never gets a response.
-Below is a sample that execute before any action.
-Also you can add the order that you want to execute your middlewares like the sample bellow.
+1. You can create middlewares to execute activities before and after the execution of an action.
+
+  For example to enable CORS we use a specific middleware that is in charge of adding the HTTP headers for that.
+  It's important to execute `next` if you want the flow to continue executing. Otherwise the flow finishes and you must do something with the response, if you don't the client never gets a response.
+  Below is an example that executes before any action.
+
+  Also you can add the order that you want to execute your middlewares:
 	```javascript
 	import { IMiddleware } from 'kiwi-server';
 	import { MiddlewareBefore } from 'kiwi-server';
 	import * as http from 'http';
+
 	@MiddlewareBefore(7)
-	export class TestMiddleware implements IMiddleware{
-		execute(request: http.IncomingMessage, response: http.ServerResponse, next: any){
+	export class TestMiddleware implements IMiddleware {
+		execute(request: http.IncomingMessage, response: http.ServerResponse, next: any) {
 			response.setHeader( 'Authorization', 'hola' );
 			console.log('TestMiddleware execute');
 			next();
@@ -112,8 +116,8 @@ Also you can add the order that you want to execute your middlewares like the sa
 	```
 
 ## Authorization
- 1. You have to specify on controller what actions need to be authorized. To do that you have a decorator @Authorization.
- In the sample you can see that we only need authorization to postAction. Also yo can put the authorization in the controller so all the actions must me authorized.
+ 1. On the controller specify what actions need to be authorized, using the `@Authorize` decorator.
+ In the following example we only need to authorize the `post` action. You can also put the decorator in the controller if all the actions need to be authorized.
  
     ```javascript
     import { Get, Post, JsonController, Authorize } from 'kiwi-server';
@@ -136,14 +140,14 @@ Also you can add the order that you want to execute your middlewares like the sa
     }
     ```
 
-2. On the server you must define the function that is going to be executed everytime that an action or a controller has the @Authorization decorator. If that function return false the service is going to return 401 http error, in other case it will contnue the normal execution path.
+2. On the server define the function that is going to be executed everytime an action or a controller has the `@Authorize` decorator. If that function returns `false` the service is going to return 401 HTTP error, in other case it will continue the normal execution path.
 
     ```javascript
     import { createKiwiServer } from 'kiwi-server';
     import { TestController } from './test-controller';
     import { TestController2 } from './test-controller2';
 
-    function validateAuthentication(roles: Array<string>){
+    function validateAuthentication(roles: Array<string>) {
         console.log(roles);
         return false;
     }
@@ -156,7 +160,7 @@ Also you can add the order that you want to execute your middlewares like the sa
     server.listen(8086);
     ```
 
-## Cors
+## CORS
 1. You can enable cross domain by configuration
     
     ```javascript
@@ -176,7 +180,7 @@ Also you can add the order that you want to execute your middlewares like the sa
     ```
 
 ## Prefix
-1. You can add a prefix for all urls. If you see the sample you will have all url with v1 prefixed.
+1. You can add a prefix for all the URLs. In the following example, all the URLs will have the `v1/` prefix:
     
     ```javascript
     import { createKiwiServer } from 'kiwi-server';
@@ -193,31 +197,32 @@ Also you can add the order that you want to execute your middlewares like the sa
 
 
 ## Dependency Injection
-1. You can use dependency injection in your controllers. The only thing that you have to do is to add arguments on the constructor of the controller. Then you can use that in any method that you want.
+1. You can use dependency injection in your controllers, by adding arguments to the constructor.
+Then you can use that in any method that you want.
 
     ```javascript
     import { Get, Post, JsonController, Param, Body, QueryParam, Authorize } from 'kiwi-server';
-    import {Utils} from './utils';
+    import { Utils } from './utils';
 
     @Authorize(['role1, role2'])
     @JsonController('/testcontroller')
     export class TestController {
         
-        constructor(private utils: Utils){}
+        constructor(private utils: Utils) {}
         
         @Post('/meetupjs')
-        public test23(@Body() body: any){
+        public test23(@Body() body: any) {
             return body;
         }
 
         @Get('/queryparam/:id')
-        public queryparam(@QueryParam() object: any, @Param('id') id: string){
+        public queryparam(@QueryParam() object: any, @Param('id') id: string) {
             this.utils.print();
             return object;
         }
     ```
 ## Sockets
-1. We integrate socket.io to our framework.
+1. socket.io is integrated to our framework. Enable socket support by adding the `socket` property to the options.
 
     ```javascript
     const options = {
@@ -228,10 +233,7 @@ Also you can add the order that you want to execute your middlewares like the sa
         },
         socket: true
     }
-    ```
-    You have to enable socket suppor by adding socket property to options.
-    
-    ```javascript
+
     const server = createKiwiServer(options, socketInit);
 
     function socketInit() {
@@ -241,10 +243,10 @@ Also you can add the order that you want to execute your middlewares like the sa
         });
     }
     ```
-    Finally you only have to use getSocket in any place of the framework and start using it.
+    Finally use `getSocket` in any place of the application and start using it.
 
 ## Documentation
-1. You can enable cross domain by configuration
+1. Enable automatic swagger documentation, setting the path where it will be accessible.
     
     ```javascript
     import { createKiwiServer } from 'kiwi-server';
