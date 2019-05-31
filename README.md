@@ -147,9 +147,10 @@ Framework to help building a REST API using typescript and node.
     import { TestController } from './test-controller';
     import { TestController2 } from './test-controller2';
 
-    function validateAuthentication(roles: Array<string>) {
+    async function validateAuthentication(request: http.IncomingMessage, roles: Array<string>): Promise<AuthorizeResponse | boolean> {
         console.log(roles);
-        return false;
+        return new AuthorizeResponse(403, 'custom message');
+        // return true if want to continue execution
     }
 
     const options = {
