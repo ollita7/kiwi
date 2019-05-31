@@ -11,4 +11,10 @@ export class TestController3 {
     public post(@Body() body: User, @Param('id') id : number){
         return body;
     }
+
+    @Authorize()
+    @Get('')
+    public get(){
+      return '';
+    }
 }
