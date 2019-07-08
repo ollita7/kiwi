@@ -12,9 +12,4 @@ export class TestController3 {
         return body;
     }
 
-    @Authorize()
-    @Get('')
-    public get(){
-      return '';
-    }
 }

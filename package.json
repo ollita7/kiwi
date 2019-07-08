@@ -7,7 +7,7 @@
   "scripts": {
     "compile": "tsc",
     "test-load": "node ./tests/load.test.js",
-    "test": "nyc mocha ./dist/tests/metadataStorage.test.js"
+    "test": "tsc && nyc mocha ./dist/tests/metadataStorage.test.js"
   },
   "repository": {
     "type": "git",
