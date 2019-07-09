@@ -2,7 +2,7 @@
 # <img src="kiwi.png" width="120" alt="logo">
 Framework to help building a REST API using typescript and node.
 
-[![Build Status](https://travis-ci.com/ollita7/kiwi.svg?branch=master)](https://travis-ci.com/ollita7/kiwi)
+[![Build Status](https://travis-ci.com/ollita7/kiwi.svg?branch=master)](https://travis-ci.com/ollita7/kiwi) [![Coverage Status](https://coveralls.io/repos/github/ollita7/kiwi/badge.svg?branch=master)](https://coveralls.io/github/ollita7/kiwi?branch=master)
 # Table of Contents
 * [Installation](#installation)
 * [Sample](#sample)
