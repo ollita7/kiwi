@@ -9,7 +9,7 @@ export class TestController {
 
     constructor(private utils: Utils) { }
 
-    @Post('/meetupjs')
+    @Post('/test123')
     public test23(@Body() body: any) {
         return body;
     }
