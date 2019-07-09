@@ -17,6 +17,7 @@
                 "--colors",
                 "${workspaceFolder}/dist/tests/controllers.test.js"
             ],
+            "preLaunchTask": "compile",
             "internalConsoleOptions": "openOnSessionStart"
         },
         {

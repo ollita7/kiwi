@@ -34,7 +34,7 @@ const options: IKiwiOptions = {
 
   }
 
-  /*@test async 'It must return the param 1'() {
+  @test async 'It must return the param 1'() {
     const param = 'pepe';
     var request = httpMocks.createRequest({
       method: 'GET',
@@ -92,23 +92,25 @@ const options: IKiwiOptions = {
     assert.equal(response.statusCode, 200);
     assert.equal(data.h1, h1);
     assert.equal(data.h2, h2);
-  }*/
+  }
 
   @test async 'It mus parse body'() {
-    const body = JSON.stringify({ name: 'kiwi' });
+    const body = { name: 'kiwi' };
     var request = httpMocks.createRequest({
       method: 'POST',
       url: '/v1/testcontroller/test123',
+      headers:{
+        "content-type": "application/json"
+      }
     });
     var response = httpMocks.createResponse({
       eventEmitter: require('events').EventEmitter
     });
-    
+
+    setImmediate(() => request.send(JSON.stringify(body)));
     await processRequest(request, response);
-    request.send(body);
     var data = JSON.parse(response._getData());
-    assert.equal(response.statusCode, 200);
-    //assert.equal(data.name, body.name);
+    assert.equal(data.name, body.name);
   }
 
   static after() {
