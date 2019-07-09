@@ -6,7 +6,7 @@ import { TestController2 } from '../samples/test-controller2';
 import { TestController3 } from '../samples/test-controller3';
 import { TestMiddleware2 } from '../samples/test-middlware2';
 import { TestMiddleware } from '../samples/test-middlware';
-import { KiwiMetadataStorage } from '../src/metadata/MetadataStorage';
+import { KiwiMetadataStorage } from '../src/metadata/metadataStorage';
 
 const options: IKiwiOptions = {
     controllers: [TestController, TestController2, TestController3],
