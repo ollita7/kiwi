@@ -14,7 +14,8 @@ const options: IKiwiOptions = {
   authorization: null,
   middlewares: [TestMiddleware2, TestMiddleware],
   cors: {
-    enabled: true
+    enabled: true,
+    domains: ['localhost:8086']
   },
   documentation: {
     enabled: true,
