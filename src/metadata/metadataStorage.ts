@@ -4,6 +4,7 @@ import { Metadata } from './metadata';
 import { IKiwiOptions } from '../types/types';
 import { getFromContainer, IsOptional, IsString, MaxLength, MetadataStorage } from 'class-validator'
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema'
+import { defaultMetadataStorage } from 'class-transformer/storage'
 
 export class KiwiMetadataStorage {
     public static get actions(): IAction[] {
@@ -148,7 +149,8 @@ export class KiwiMetadataStorage {
         };
         const metadatas = (getFromContainer(MetadataStorage) as any).validationMetadatas;
         const schemas = validationMetadatasToSchemas(metadatas, {
-            refPointerPrefix: '#/components/schemas'
+            refPointerPrefix: '#/components/schemas/',
+            classTransformerMetadataStorage: <any>defaultMetadataStorage
         })
         swagger['components']['schemas'] = schemas;
 
@@ -166,7 +168,7 @@ export class KiwiMetadataStorage {
                 }
                 const body = this.getRequestBody(routes[url][method].params)
                 if(!isNil(body)){
-                    swagger.paths[url][method]['requestBody'] = body; 
+                    swagger.paths[url][method]['requestBody'] = body;
                 }
 
             })
@@ -229,5 +231,5 @@ export class KiwiMetadataStorage {
             "required": true
         }
         return requestBody;
-    } 
+    }
 }

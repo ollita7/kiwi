@@ -48,8 +48,8 @@ describe("Metadata storage test", () => {
 
     }
 
-    @test 'It must exist 10 routes'() {
-        assert.equal(10, Object.keys(KiwiMetadataStorage.routes).length);
+    @test 'It must exist 11 routes'() {
+        assert.equal(11, Object.keys(KiwiMetadataStorage.routes).length);
     }
 
     @test 'it must match route'() {
