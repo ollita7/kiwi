@@ -14,6 +14,11 @@ export class TestController {
         return body;
     }
 
+    @Post('/user')
+    public nestedArray(@Body() user: User) {
+      return "";
+    }
+
     @Get('/queryparam/:id')
     public queryparam(@QueryParam() object: User, @Param('id') id: string, @HeaderParam('token1') token1: string,
         @HeaderParam('token2') token2: string) {

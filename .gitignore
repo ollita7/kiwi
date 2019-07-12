@@ -3,3 +3,4 @@ node_modules/
 release/
 yarn-error.log
 .nyc_output/
+swagger.json

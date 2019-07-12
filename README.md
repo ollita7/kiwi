@@ -257,6 +257,7 @@ Then you can use that in any method that you want.
 
     const options = {
         controllers: [TestController, TestController2],
+        prefix: 'v1/',
         cors: true,
         documentation: {
             enabled: true,
@@ -266,3 +267,19 @@ Then you can use that in any method that you want.
     const server = createKiwiServer(options);
     server.listen(8086);
     ```
+2. Decorate your models
+    ```javascript
+    import { IsArray, IsInt, IsDate, IsOptional } from 'kiwi-server';
+
+    export class TimesheetEntry {
+      @IsInt() projectId: number;
+      @IsDate() date: Date;
+      @IsOptional() @IsInt() hours?: number;
+    }
+
+    export class TimesheetEntries {
+      @IsArray(() => TimesheetEntry)
+      entries: TimesheetEntry[];
+    }
+    ```
+3. Visit the documentation page, in this example it would be at http://localhost:8086/v1/apidoc

@@ -7,10 +7,12 @@ import { CorsMiddleware } from './middlewares/corsMiddlware';
 import { LogMiddleware } from './middlewares/logMiddlware';
 import { DocMiddleware } from './middlewares/docMiddleware';
 import { ParserHelper } from './helpers/parser';
+export * from './validators';
 export * from './decorators/get';
 export * from './decorators/post';
 export * from './decorators/put';
 export * from './decorators/delete';
+export * from './decorators/isArray';
 export * from './types/types';
 export * from './decorators/jsonController';
 export * from './decorators/param';
@@ -115,7 +117,7 @@ export async function processRequest(request: http.IncomingMessage, response: ht
     if (isNil(afterReponse)) {
       return;
     }
-    response.setHeader('Content-Type', 'applicationjson');
+    response.setHeader('Content-Type', 'application/json');
     response.end(JSON.stringify(result));
     return response;
   } catch (ex) {
