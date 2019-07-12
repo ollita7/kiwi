@@ -15,16 +15,10 @@
                 "--timeout",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/dist/tests/controllers.test.js"
+                "${workspaceFolder}/dist/tests"
             ],
             "preLaunchTask": "compile",
             "internalConsoleOptions": "openOnSessionStart"
-        },
-        {
-            "type": "node",
-            "request": "attach",
-            "name": "Attach",
-            "port": 9229
         },
         {
             "args": [],
