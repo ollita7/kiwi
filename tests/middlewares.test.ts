@@ -2,13 +2,20 @@ import { suite, test } from "mocha-typescript";
 import { assert } from 'chai';
 import { CorsMiddleware } from '../src/middlewares/corsMiddlware';
 import { LogMiddleware } from '../src/middlewares/logMiddlware';
+import { DocMiddleware } from '../src/middlewares/docMiddleware';
 var httpMocks = require('node-mocks-http');
 var sinon = require('sinon');
 
 
 @suite class MIddlewaresSuite {
   static before() {
-    (global as any).options = { cors: { domains: ['test'] } };
+    (global as any).options = {
+      cors: { domains: ['test'] },
+      prefix: '/v1',
+      documentation: {
+        path: "/apidoc"
+      }
+    };
   }
 
   before() {
@@ -62,6 +69,17 @@ var sinon = require('sinon');
     assert.isTrue(next.calledOnce);
   }
 
+  @test 'It must execute doc middleware for post'() {
+    const middleware = new DocMiddleware();
+    var request = httpMocks.createRequest({
+      method: 'POST',
+      url: `/v1/apidoc`
+    });
+    var response = httpMocks.createResponse();
+    var next = sinon.spy();
+    middleware.execute(request, response, next);
+    assert.equal(response.statusCode, 200);
+  }
 
   static after() {
 
