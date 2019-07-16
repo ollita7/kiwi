@@ -1,6 +1,7 @@
 import { suite, test } from "mocha-typescript";
 import { assert } from 'chai';
 import { CorsMiddleware } from '../src/middlewares/corsMiddlware';
+import { LogMiddleware } from '../src/middlewares/logMiddlware';
 var httpMocks = require('node-mocks-http');
 var sinon = require('sinon');
 
@@ -45,6 +46,20 @@ var next = sinon.spy();
     assert.isTrue(next.calledOnce);
   }
 
+  @test 'It must execute log middleware'() {
+    const middleware = new LogMiddleware();
+    const param = 'pepe';
+    var request = httpMocks.createRequest({
+      method: 'POST',
+      url: `/v1/testcontroller/testinguy/${param}`
+    });
+    var response = httpMocks.createResponse();
+    response.getHeaders = function () {
+      return {};
+    };
+    middleware.execute(request, response, next);
+    assert.isTrue(next.calledOnce);
+  }
 
 
   static after() {
