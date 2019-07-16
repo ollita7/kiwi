@@ -5,7 +5,6 @@ import { LogMiddleware } from '../src/middlewares/logMiddlware';
 var httpMocks = require('node-mocks-http');
 var sinon = require('sinon');
 
-var next = sinon.spy();
 
 @suite class MIddlewaresSuite {
   static before() {
@@ -42,6 +41,7 @@ var next = sinon.spy();
     response.getHeaders = function () {
       return {};
     };
+    var next = sinon.spy();
     corsMiddleware.execute(request, response, next);
     assert.isTrue(next.calledOnce);
   }
@@ -57,6 +57,7 @@ var next = sinon.spy();
     response.getHeaders = function () {
       return {};
     };
+    var next = sinon.spy();
     middleware.execute(request, response, next);
     assert.isTrue(next.calledOnce);
   }
