@@ -26,4 +26,4 @@ export class CorsMiddleware implements IMiddleware {
             next();
         }
     }
-} 
+}
