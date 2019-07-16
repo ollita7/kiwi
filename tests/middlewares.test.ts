@@ -2,7 +2,9 @@ import { suite, test } from "mocha-typescript";
 import { assert } from 'chai';
 import { CorsMiddleware } from '../src/middlewares/corsMiddlware';
 var httpMocks = require('node-mocks-http');
+var sinon = require('sinon');
 
+var next = sinon.spy();
 
 @suite class MIddlewaresSuite {
   static before() {
@@ -39,8 +41,8 @@ var httpMocks = require('node-mocks-http');
     response.getHeaders = function () {
       return {};
     };
-    corsMiddleware.execute(request, response, null);
-    //assert.equal(response.statusCode, 200);
+    corsMiddleware.execute(request, response, next);
+    assert.isTrue(next.calledOnce);
   }
 
 
