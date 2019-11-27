@@ -101,19 +101,20 @@ Framework to help building a REST API using typescript and node.
   Below is an example that executes before any action.
 
   Also you can add the order that you want to execute your middlewares:  
-    ```javascript
-	import { IMiddleware } from 'kiwi-server';
-	import { MiddlewareBefore } from 'kiwi-server';
-	import * as http from 'http';
+    
+    ```
+    import { IMiddleware } from 'kiwi-server';
+    import { MiddlewareBefore } from 'kiwi-server';
+    import * as http from 'http';
 
-	@MiddlewareBefore(7)
-	export class TestMiddleware implements IMiddleware {
-		execute(request: http.IncomingMessage, response: http.ServerResponse, next: any) {
-			response.setHeader( 'Authorization', 'hola' );
-			console.log('TestMiddleware execute');
-			next();
-		}
-	}
+    @MiddlewareBefore(7)
+    export class TestMiddleware implements IMiddleware {
+        execute(request: http.IncomingMessage, response: http.ServerResponse, next: any) {
+            response.setHeader( 'Authorization', 'hola' );
+            console.log('TestMiddleware execute');
+            next();
+        }
+    }
     ```
 
 ## Authorization
