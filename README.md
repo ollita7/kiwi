@@ -100,8 +100,9 @@ Framework to help building a REST API using typescript and node.
   It's important to execute `next` if you want the flow to continue executing. Otherwise the flow finishes and you must do something with the response, if you don't the client never gets a response.
   Below is an example that executes before any action.
 
-  Also you can add the order that you want to execute your middlewares:
-	```javascript
+  Also you can add the order that you want to execute your middlewares:  
+ 
+    ```javascript
 	import { IMiddleware } from 'kiwi-server';
 	import { MiddlewareBefore } from 'kiwi-server';
 	import * as http from 'http';
