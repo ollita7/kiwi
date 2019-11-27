@@ -101,7 +101,6 @@ Framework to help building a REST API using typescript and node.
   Below is an example that executes before any action.
 
   Also you can add the order that you want to execute your middlewares:  
- 
     ```javascript
 	import { IMiddleware } from 'kiwi-server';
 	import { MiddlewareBefore } from 'kiwi-server';
