@@ -114,7 +114,7 @@ Framework to help building a REST API using typescript and node.
 			next();
 		}
 	}
-	```
+    ```
 
 ## Authorization
  1. On the controller specify what actions need to be authorized, using the `@Authorize` decorator.
