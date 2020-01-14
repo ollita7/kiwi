@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Mocha Tests",
+            "name": "Tests samples",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "args": [
                 "-u",
@@ -15,7 +15,23 @@
                 "--timeout",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/dist/tests"
+                "${workspaceFolder}/dist/samples/tests"
+            ],
+            "preLaunchTask": "compile",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Tests samples2",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "-u",
+                "tdd",
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/dist/samples2/tests"
             ],
             "preLaunchTask": "compile",
             "internalConsoleOptions": "openOnSessionStart"
@@ -24,9 +40,26 @@
             "args": [],
             "cwd": "${workspaceRoot}",
             "externalConsole": false,
-            "name": "DEBUG",
+            "name": "DEBUG samples",
             "outDir": "${workspaceRoot}/dist",
             "program": "${workspaceRoot}/dist/samples/server.js",
+            "request": "launch",
+            "runtimeArgs": [
+                "--nolazy"
+            ],
+            "preLaunchTask": "compile",
+            "runtimeExecutable": null,
+            "sourceMaps": true,
+            "stopOnEntry": false,
+            "type": "node"
+        },
+        {
+            "args": [],
+            "cwd": "${workspaceRoot}",
+            "externalConsole": false,
+            "name": "DEBUG samples 2",
+            "outDir": "${workspaceRoot}/dist",
+            "program": "${workspaceRoot}/dist/samples2/server.js",
             "request": "launch",
             "runtimeArgs": [
                 "--nolazy"

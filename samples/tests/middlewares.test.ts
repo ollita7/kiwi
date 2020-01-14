@@ -1,8 +1,8 @@
 import { suite, test } from "mocha-typescript";
 import { assert } from 'chai';
-import { CorsMiddleware } from '../src/middlewares/corsMiddlware';
-import { LogMiddleware } from '../src/middlewares/logMiddlware';
-import { DocMiddleware } from '../src/middlewares/docMiddleware';
+import { CorsMiddleware } from '../../src/middlewares/corsMiddlware';
+import { LogMiddleware } from '../../src/middlewares/logMiddlware';
+import { DocMiddleware } from '../../src/middlewares/docMiddleware';
 var httpMocks = require('node-mocks-http');
 var sinon = require('sinon');
 

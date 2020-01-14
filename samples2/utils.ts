@@ -1,5 +1,7 @@
 import { UserModel } from "./models/models";
 
 export class Utils {
-  public static userList: Array<UserModel> = [];
+  public print() {
+    //console.log('entre1');
+  }
 }
