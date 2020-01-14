@@ -1,11 +1,11 @@
 import { suite, test } from "mocha-typescript";
 import { assert } from 'chai';
 import { IKiwiOptions } from '../../src/index';
-import { TestController } from '../test/test-controller';
-import { TestController2 } from '../test/test-controller2';
-import { TestController3 } from '../test/test-controller3';
-import { TestMiddleware2 } from '../test/test-middlware2';
-import { TestMiddleware } from '../test/test-middlware';
+import { TestController } from '../controllers/test-controller';
+import { TestController2 } from '../controllers/test-controller2';
+import { TestController3 } from '../controllers/test-controller3';
+import { TestMiddleware2 } from '../middlewares/test-middlware2';
+import { TestMiddleware } from '../middlewares/test-middlware';
 import { KiwiMetadataStorage } from '../../src/metadata/metadataStorage';
 
 const options: IKiwiOptions = {

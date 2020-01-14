@@ -1,11 +1,11 @@
 import { createKiwiServer, IKiwiOptions, AuthorizeResponse } from '../src/index';
-import { TestController3 } from './test/test-controller3';
-import { TestMiddleware2 } from './test/test-middlware2';
-import { TestMiddleware } from './test/test-middlware';
+import { TestController2 } from './controllers/test-controller2';
+import { TestController3 } from './controllers/test-controller3';
+import { TestController } from './controllers/test-controller';
+import { TestMiddleware } from './middlewares/test-middlware';
+import { TestMiddleware2 } from './middlewares/test-middlware2';
 import * as http from 'http';
 import { environment } from './environments/environment';
-import { TestController2 } from './test/test-controller2';
-import { TestController } from './test/test-controller';
 
 async function validateAuthentication(request: http.IncomingMessage, roles: Array<string>): Promise<AuthorizeResponse | boolean> {
   console.log(roles);

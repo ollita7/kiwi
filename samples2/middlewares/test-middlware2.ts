@@ -4,10 +4,10 @@ import * as http from 'http';
 
 @MiddlewareAfter(1)
 export class TestMiddleware2 implements IMiddleware{
-    
+
     execute(request: http.IncomingMessage, response: http.ServerResponse, next: any){
         response.setHeader( 'Authorization2', 'hola2' );
-        
+
         next();
     }
 }

@@ -7,7 +7,7 @@
   "scripts": {
     "compile": "tsc",
     "test-load": "node ./tests/load.test.js",
-    "test": "tsc && nyc mocha ./dist/tests && nyc report --reporter=text-lcov | coveralls"
+    "test": "tsc && nyc mocha ./dist/samples2/tests && nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",

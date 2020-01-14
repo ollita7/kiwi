@@ -1,11 +1,11 @@
 import { suite, test } from "mocha-typescript";
 import { assert } from 'chai';
-import { IKiwiOptions, createKiwiServer, processRequest } from '../../src/index';
+import { IKiwiOptions, processRequest } from '../../src/index';
 import { TestController } from '../controllers/test-controller';
 import { TestController2 } from '../controllers/test-controller2';
 import { TestController3 } from '../controllers/test-controller3';
-import { TestMiddleware2 } from '../controllers/test-middlware2';
-import { TestMiddleware } from '../controllers/test-middlware';
+import { TestMiddleware2 } from '../middlewares/test-middlware2';
+import { TestMiddleware } from '../middlewares/test-middlware';
 import { KiwiMetadataStorage } from '../../src/metadata/metadataStorage';
 var httpMocks = require('node-mocks-http');
 

@@ -34,7 +34,7 @@ gulp.task('copy', () => {
 });
 
 gulp.task('execute-tests', function () {
-	return gulp.src(['dist/tests/*.test.js'], { read: false })
+	return gulp.src(['dist/samples2/tests/*.test.js'], { read: false })
 		.pipe(mocha({
 			reporter: 'spec'
 		}));

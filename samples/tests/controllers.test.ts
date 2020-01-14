@@ -44,7 +44,7 @@ const options: IKiwiOptions = {
     };
     var request = httpMocks.createRequest({
       method: 'POST',
-      url: '/v1/usercontroller/create',
+      url: '/v1/user/create',
       headers: {
         'content-type': 'application/json'
       }
