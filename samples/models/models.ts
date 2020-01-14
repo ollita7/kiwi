@@ -5,7 +5,8 @@ export class AddressModel {
     @IsNumber() public number: number;
 }
 
-export class User {
+export class UserModel {
+    @IsNumber() public id: number;
     @IsString()  public name: string;
     @IsString()  public lastname: string;
     @IsNumber() public age: number;

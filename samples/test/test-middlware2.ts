@@ -1,7 +1,6 @@
-import { IMiddleware } from '../src/middlewares/middleware';
-import { MiddlewareAfter } from '../src/decorators/middlewareAfter';
+import { IMiddleware } from '../../src/middlewares/middleware';
+import { MiddlewareAfter } from '../../src/decorators/middlewareAfter';
 import * as http from 'http';
-import { Utils } from './utils';
 
 @MiddlewareAfter(1)
 export class TestMiddleware2 implements IMiddleware{
