@@ -12,7 +12,7 @@ export class UserController {
   public create(@Body() user: UserModel) {
     user.id = Utils.userList.length + 1;
     Utils.userList.push(user);
-    return user.id;
+    return user;
   }
 
   @Authorize(['Admin'])

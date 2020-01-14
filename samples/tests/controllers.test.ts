@@ -55,6 +55,7 @@ const options: IKiwiOptions = {
 
     setImmediate(() => request.send(JSON.stringify(body)));
     await processRequest(request, response);
+    assert.equal(response.statusCode, 200);
     var data = JSON.parse(response._getData());
     assert.equal(data.name, body.name);
   }
