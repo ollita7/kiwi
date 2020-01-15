@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
-    "@types/node": "^10.3.4",
+    "@types/node": "^13.1.6",
     "chai": "^4.2.0",
     "coveralls": "^3.0.4",
     "gulp": "^4.0.2",

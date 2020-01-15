@@ -74,7 +74,7 @@ const options: IKiwiOptions = {
     };
     var request = httpMocks.createRequest({
       method: 'PUT',
-      url: `/v1/usercontroller/update/`
+      url: `/v1/user/update/`
     });
 
     var response = httpMocks.createResponse();
@@ -100,7 +100,7 @@ const options: IKiwiOptions = {
   @test async 'It must get'() {
     var request = httpMocks.createRequest({
       method: 'GET',
-      url: '/v1/usercontroller/get/1'
+      url: '/v1/user/get/1'
     });
 
     var response = httpMocks.createResponse();

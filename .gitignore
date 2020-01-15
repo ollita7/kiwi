@@ -7,3 +7,5 @@ swagger.json
 src/**/*.map
 src/**/*.js
 
+*.map
+tsconfig.temp.json
