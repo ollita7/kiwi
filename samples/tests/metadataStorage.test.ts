@@ -34,8 +34,8 @@ const options: IKiwiOptions = {
 
     }
 
-    @test 'It must exist 17 routes'() {
-        assert.equal(17, Object.keys(KiwiMetadataStorage.routes).length);
+    @test 'It must exist 18 routes'() {
+        assert.equal(18, Object.keys(KiwiMetadataStorage.routes).length);
     }
 
     @test 'it must match route'() {

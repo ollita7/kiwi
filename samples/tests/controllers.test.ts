@@ -1,8 +1,8 @@
 import { suite, test } from 'mocha-typescript';
 import { assert } from 'chai';
 import { IKiwiOptions, createKiwiServer, processRequest } from '../../src/index';
-import { UserController } from '../controllers/user/user-controller';
 import { KiwiMetadataStorage } from '../../src/metadata/metadataStorage';
+import { UserController } from '../controllers/user/user-controller';
 import { TestController } from '../controllers/test-controller';
 import { TestController2 } from '../controllers/test-controller2';
 import { TestController3 } from '../controllers/test-controller3';
@@ -133,6 +133,22 @@ class UserControllersSuite {
     var data = JSON.parse(response._getData());
     assert.equal(response.statusCode, 200);
     assert.lengthOf(data, 1);
+  }
+
+  
+  @test async 'It must return list'() {
+    const token = 'token1';
+    var request = httpMocks.createRequest({
+      method: 'GET',
+      url: '/v1/user/search/UserModifyed',
+      headers: {
+        token: token
+      }
+    });
+
+    var response = httpMocks.createResponse();
+    await processRequest(request, response);
+    assert.equal(response.statusCode, 200);
   }
 
   static after() {}

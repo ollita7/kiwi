@@ -2,10 +2,11 @@ import { Get, Post, Put, JsonController, Param, Body, QueryParam, Authorize, Hea
 import { UserModel } from '../../models/models';
 import { isNil } from 'lodash';
 import { Utils } from '../../utils';
+import { AuxiliaryFunctions } from '../../auxiliaryFunctions';
 
 @JsonController('/user')
 export class UserController {
-  constructor() {}
+  constructor(private aux: AuxiliaryFunctions) {}
 
   @Authorize(['Admin'])
   @Post('/create')
@@ -34,13 +35,11 @@ export class UserController {
     return true;
   }
 
-  @Authorize()
   @Get('/list')
   public listAll() {
     return Utils.userList;
   }
 
-  @Authorize()
   @Get('/listFilter')
   public listFilter(@QueryParam() params: any) {
     if (!isNil(params)) {
@@ -58,5 +57,16 @@ export class UserController {
       return obj.id !== id;
     });
     return true;
+  }
+
+  @Get('/search/:name')
+  public queryparam(@Param('name') name: string, @HeaderParam('token') token: string) {
+    this.aux.print(token);
+    if (!isNil(name)) {
+      var users = Utils.userList.filter(function(obj) {
+        return obj.name === name;
+      });
+    }
+    return users;
   }
 }
