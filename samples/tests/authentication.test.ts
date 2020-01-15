@@ -1,8 +1,7 @@
 import { suite, test } from "mocha-typescript";
 import { assert } from 'chai';
 import { IKiwiOptions, createKiwiServer, processRequest } from '../../src/index';
-import { UserController } from '../user/user-controller';
-import { SampleMiddleware } from '../middleware/sampleMiddleware';
+import { UserController } from '../controllers/user/user-controller';
 import { KiwiMetadataStorage } from '../../src/metadata/metadataStorage';
 import * as http from 'http';
 var sinon = require('sinon');
@@ -16,7 +15,7 @@ var options: IKiwiOptions = {
         callback();
         return true;
     },
-    middlewares: [SampleMiddleware],
+    middlewares: [],
     cors: {
         enabled: true
     },
@@ -36,18 +35,6 @@ var options: IKiwiOptions = {
 
     before() {
     }
-
-    // @test async 'It must call validateAuthentication method'() {
-    //     var request = httpMocks.createRequest({
-    //         method: 'GET',
-    //         url: `/v1/testcontroller2/getAction`
-    //     });
-
-    //     var response = httpMocks.createResponse();
-    //     await processRequest(request, response);
-    //     assert.equal(response.statusCode, 200);
-    //     assert.isTrue(callback.calledOnce);
-    // }
 
     static after() {
 

@@ -2,7 +2,7 @@ import { IMiddleware } from '../../src/middlewares/middleware';
 import { MiddlewareAfter } from '../../src/decorators/middlewareAfter';
 import * as http from 'http';
 
-@MiddlewareAfter(1)
+@MiddlewareAfter(2)
 export class TestMiddleware2 implements IMiddleware{
 
     execute(request: http.IncomingMessage, response: http.ServerResponse, next: any){

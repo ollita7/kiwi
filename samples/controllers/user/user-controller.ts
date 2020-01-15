@@ -1,7 +1,7 @@
-import { Get, Post, Put, JsonController, Param, Body, QueryParam, Authorize, HeaderParam, Delete } from '../../src/index';
-import { UserModel } from '../models/models';
+import { Get, Post, Put, JsonController, Param, Body, QueryParam, Authorize, HeaderParam, Delete } from '../../../src/index';
+import { UserModel } from '../../models/models';
 import { isNil } from 'lodash';
-import { Utils } from '../utils';
+import { Utils } from '../../utils';
 
 @JsonController('/user')
 export class UserController {

@@ -1,8 +1,12 @@
 import { createKiwiServer, IKiwiOptions, AuthorizeResponse } from '../src/index';
 import * as http from 'http';
 import { environment } from './environments/environment';
-import { UserController } from './user/user-controller';
-import { SampleMiddleware } from './middleware/sampleMiddleware';
+import { UserController } from './controllers/user/user-controller';
+import { TestController } from './controllers/test-controller';
+import { TestController2 } from './controllers/test-controller2';
+import { TestController3 } from './controllers/test-controller3';
+import { TestMiddleware } from './middlewares/test-middlware';
+import { TestMiddleware2 } from './middlewares/test-middlware2';
 
 async function validateAuthentication(request: http.IncomingMessage, roles: Array<string>): Promise<AuthorizeResponse | boolean> {
   console.log(roles);
@@ -10,9 +14,9 @@ async function validateAuthentication(request: http.IncomingMessage, roles: Arra
 }
 
 const options: IKiwiOptions = {
-  controllers: [UserController],
+  controllers: [UserController, TestController, TestController2, TestController3],
   authorization: validateAuthentication,
-  middlewares: [SampleMiddleware],
+  middlewares: [TestMiddleware2, TestMiddleware],
   cors: {
     enabled: true,
     domains: environment.domains

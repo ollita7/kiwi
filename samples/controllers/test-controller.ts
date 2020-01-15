@@ -21,7 +21,6 @@ export class TestController {
     @Get('/queryparam/:id')
     public queryparam(@QueryParam() object: UserModel, @Param('id') id: string, @HeaderParam('token1') token1: string,
         @HeaderParam('token2') token2: string) {
-        this.utils.print();
         return object;
     }
 
