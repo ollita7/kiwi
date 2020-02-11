@@ -1,14 +1,13 @@
 {
   "name": "kiwi-server",
-  "version": "1.3.10",
+  "version": "1.3.11",
   "description": "<h2>KIWI Server</h2>\r Its a simple node server to create rest services.",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
     "compile": "tsc",
     "test-load": "node ./tests/load.test.js",
-    "test": "tsc && nyc mocha ./dist/samples/tests && nyc report --reporter=text-lcov | coveralls",
-    "publish": "gulp publish"
+    "test": "tsc && nyc mocha ./dist/samples/tests && nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
