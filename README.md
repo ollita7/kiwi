@@ -31,26 +31,52 @@ Framework to help building a REST API using typescript and node.
     ```
 
 ## Sample
-1. Create your first controller class `TestController.ts`
+1. Create your first controller class `user-controller.ts`
     ```javascript
-    import { Get, Post, JsonController, Param, Body } from 'kiwi-server';
+    import { Get, Post, Put, JsonController, Param, Body, QueryParam, Authorize, HeaderParam, Delete } from '../../../src/index';
+    import { UserModel } from '../../models/models';
+    import { isNil } from 'lodash';
+    import { Utils } from '../../utils';
 
-    @JsonController('/testcontroller')
-    export class TestController {
+    @JsonController('/user')
+    export class UserController {
+        constructor() {}
 
-        @Get('/getAction/:id/:id2/:id3')
-        public get(@Param('id') id: string, @Param('id2') id2: string, @Param('id3') id3: string) {
-            return { method: "get test" };
+        @Authorize(['Admin'])
+        @Post('/create')
+        public create(@Body() user: UserModel) {
+            user.id = Utils.userList.length + 1;
+            Utils.userList.push(user);
+            return user;
         }
 
-        @Post('/postAction/:id')
-        public post( @Body() request: any, @Param('id') id: string) {
-            return {
-                method: "post test",
-                request: request
-            };
+        @Authorize(['Admin'])
+        @Get('/get/:id')
+        public getById(@Param('id') id: number) {
+            var user = Utils.userList.filter(function(obj) {
+            return obj.id === id;
+            });
+
+            return user;
         }
-        
+
+        @Authorize(['Admin'])
+        @Put('/update')
+        public update(@Body() user: UserModel) {
+            let userAux = Utils.userList.find(x => x.id == user.id);
+            let index = Utils.userList.indexOf(userAux);
+            Utils.userList[index] = user;
+            return true;
+        }
+
+        @Authorize(['Admin'])
+        @Delete('/delete/:id')
+        public delete(@Param('id') id: number) {
+            Utils.userList = Utils.userList.filter(function(obj) {
+            return obj.id !== id;
+            });
+            return true;
+        }
     }
     ```
    
@@ -59,16 +85,21 @@ Framework to help building a REST API using typescript and node.
     For example if you send something like http://.../testcontroller/queryparam/1?name=guille&lastname=fernandez you will receive an object like below:
 
     ```javascript
-    @Get('/queryparam/:id')
-    public queryparam(@QueryParam() object: any, @Param('id') id: string) {
-        return object;
-    }
+        @Get('/listFilter')
+        public listFilter(@QueryParam() params: any) {
+            if (!isNil(params)) {
+            var users = Utils.userList.filter(function(obj) {
+                return obj.name === params.name && obj.age === +params.age;
+            });
+            }
+            return users;
+        }
     ```
 
     ```javascript
     {
         "name": "guille",
-        "lastname": "fernandez"
+        "age": 33
     }
     ```
 
@@ -76,19 +107,25 @@ Framework to help building a REST API using typescript and node.
     In the next example we are going to receive the token HTTP header if it exists.
     
     ```javascript
-    @Get('/queryparam/:id')
-    public queryparam(@Param('id') id: string, @HeaderParam('token') token: string) {
-        return object;
+    @Get('/search/:name')
+    public queryparam(@Param('name') name: string, @HeaderParam('token') token: string) {
+        this.aux.print(token);
+        if (!isNil(name)) {
+        var users = Utils.userList.filter(function(obj) {
+            return obj.name === name;
+        });
+        }
+        return users;
     }
     ```
  
  2. After creating the controller, create the server that uses that controller.
     ```javascript
     import { createKiwiServer } from 'kiwi-server';
-    import { TestController } from './test-controller';
+    import { UserController } from './controllers/user/user-controller';
 
     const options = {
-        controllers: [TestController],
+        controllers: [UserController],
     };
     const server = createKiwiServer(options);
     server.listen(8086);
@@ -96,22 +133,23 @@ Framework to help building a REST API using typescript and node.
 ## Middlewares
 1. You can create middlewares to execute activities before and after the execution of an action.
 
-  For example to enable CORS we use a specific middleware that is in charge of adding the HTTP headers for that.
-  It's important to execute `next` if you want the flow to continue executing. Otherwise the flow finishes and you must do something with the response, if you don't the client never gets a response.
-  Below is an example that executes before any action.
+    For example to enable CORS we use a specific middleware that is in charge of adding the HTTP headers for that.
+    It's important to execute `next` if you want the flow to continue executing. Otherwise the flow finishes and you must do something with the response, if you don't the client never gets a response.
+    Below is an example that executes before any action.
 
-  Also you can add the order that you want to execute your middlewares:  
-    
-    ```
-    import { IMiddleware } from 'kiwi-server';
-    import { MiddlewareBefore } from 'kiwi-server';
+    Also you can add the order that you want to execute your middlewares:  
+        
+    ```javascript
+    import { IMiddleware } from '../../src/middlewares/middleware';
+    import { MiddlewareAfter } from '../../src/decorators/middlewareAfter';
     import * as http from 'http';
 
-    @MiddlewareBefore(7)
-    export class TestMiddleware implements IMiddleware {
-        execute(request: http.IncomingMessage, response: http.ServerResponse, next: any) {
-            response.setHeader( 'Authorization', 'hola' );
-            console.log('TestMiddleware execute');
+    @MiddlewareAfter(1)
+    export class UserMiddleware implements IMiddleware{
+
+        execute(request: http.IncomingMessage, response: http.ServerResponse, next: any){
+            response.setHeader( 'Authorization', 'token' );
+            console.log('UserMiddleware execute');
             next();
         }
     }
@@ -119,35 +157,30 @@ Framework to help building a REST API using typescript and node.
 
 ## Authorization
  1. On the controller specify what actions need to be authorized, using the `@Authorize` decorator.
- In the following example we only need to authorize the `post` action. You can also put the decorator in the controller if all the actions need to be authorized.
+ In the following example we only need to authorize the `put` action. You can also put the decorator in the controller if all the actions need to be authorized.
  
     ```javascript
-    import { Get, Post, JsonController, Authorize } from 'kiwi-server';
-
-    @JsonController('/testcontroller2')
-    export class TestController2 {
-        @Get('/getAction')
-        public get(){
-            return "get test2";
-        }
-
-        @Authorize(['ADMIN', 'USER'])
-        @Post('/postAction')
-        public post(@Body() request: any) {
-            return {
-                method: "post test2",
-                request: request
-            };
-        }
+    @Get('/list')
+    public listAll() {
+        return Utils.userList;
     }
+    
+    @Authorize(['Admin'])
+    @Put('/update')
+    public update(@Body() user: UserModel) {
+        let userAux = Utils.userList.find(x => x.id == user.id);
+        let index = Utils.userList.indexOf(userAux);
+        Utils.userList[index] = user;
+        return true;
+    }
+
     ```
 
 2. On the server define the function that is going to be executed everytime an action or a controller has the `@Authorize` decorator. If that function returns `false` the service is going to return 401 HTTP error, in other case it will continue the normal execution path.
 
     ```javascript
     import { createKiwiServer } from 'kiwi-server';
-    import { TestController } from './test-controller';
-    import { TestController2 } from './test-controller2';
+    import { UserController } from './controllers/user/user-controller';
 
     async function validateAuthentication(request: http.IncomingMessage, roles: Array<string>): Promise<AuthorizeResponse | boolean> {
         console.log(roles);
@@ -156,7 +189,7 @@ Framework to help building a REST API using typescript and node.
     }
 
     const options = {
-        controllers: [TestController, TestController2],
+        controllers: [UserController],
         authorization: validateAuthentication
     }
     const server = createKiwiServer(options);
@@ -168,11 +201,10 @@ Framework to help building a REST API using typescript and node.
     
     ```javascript
     import { createKiwiServer } from 'kiwi-server';
-    import { TestController } from './test-controller';
-    import { TestController2 } from './test-controller2';
+    import { UserController } from './controllers/user/user-controller';
 
     const options = {
-        controllers: [TestController, TestController2],
+        controllers: [UserController],
         cors: {
             enabled: true,
             domains: ['domain1.com', 'domain2.com']
@@ -187,11 +219,10 @@ Framework to help building a REST API using typescript and node.
     
     ```javascript
     import { createKiwiServer } from 'kiwi-server';
-    import { TestController } from './test-controller';
-    import { TestController2 } from './test-controller2';
+    import { UserController } from './controllers/user/user-controller';
 
     const options = {
-        controllers: [TestController, TestController2],
+        controllers: [UserController],
         prefix: 'v1/'
     }
     const server = createKiwiServer(options);
@@ -204,32 +235,33 @@ Framework to help building a REST API using typescript and node.
 Then you can use that in any method that you want.
 
     ```javascript
-    import { Get, Post, JsonController, Param, Body, QueryParam, Authorize } from 'kiwi-server';
-    import { Utils } from './utils';
+    import { Get, Post, Put, JsonController, Param, Body, QueryParam, Authorize, HeaderParam, Delete } from '../../../src/index';
+    import { UserModel } from '../../models/models';
+    import { isNil } from 'lodash';
+    import { AuxiliaryFunctions } from '../../auxiliaryFunctions';
 
-    @Authorize(['role1, role2'])
-    @JsonController('/testcontroller')
-    export class TestController {
-        
-        constructor(private utils: Utils) {}
-        
-        @Post('/meetupjs')
-        public test23(@Body() body: any) {
-            return body;
-        }
+    @JsonController('/user')
+    export class UserController {
+        constructor(private aux: AuxiliaryFunctions) {}
 
-        @Get('/queryparam/:id')
-        public queryparam(@QueryParam() object: any, @Param('id') id: string) {
-            this.utils.print();
-            return object;
+        @Get('/search/:name')
+        public queryparam(@Param('name') name: string, @HeaderParam('token') token: string) {
+            this.aux.print(token);
+            if (!isNil(name)) {
+            var users = Utils.userList.filter(function(obj) {
+                return obj.name === name;
+            });
+            }
+            return users;
         }
+    }
     ```
 ## Sockets
 1. socket.io is integrated to our framework. Enable socket support by adding the `socket` property to the options.
 
     ```javascript
     const options = {
-        controllers: [TestController, TestController2],
+        controllers: [UserController],
         documentation: {
             enabled: true,
             path: '/apidoc'
@@ -253,11 +285,10 @@ Then you can use that in any method that you want.
     
     ```javascript
     import { createKiwiServer } from 'kiwi-server';
-    import { TestController } from './test-controller';
-    import { TestController2 } from './test-controller2';
+    import { UserController } from '../controllers/user/user-controller';
 
     const options = {
-        controllers: [TestController, TestController2],
+        controllers: [UserController],
         prefix: 'v1/',
         cors: true,
         documentation: {
@@ -270,17 +301,19 @@ Then you can use that in any method that you want.
     ```
 2. Decorate your models
     ```javascript
-    import { IsArray, IsInt, IsDate, IsOptional } from 'kiwi-server';
+    import { IsString, IsNumber, IsArray } from '../../src/index'
 
-    export class TimesheetEntry {
-      @IsInt() projectId: number;
-      @IsDate() date: Date;
-      @IsOptional() @IsInt() hours?: number;
+    export class AddressModel {
+        @IsString() public street: string;
+        @IsNumber() public number: number;
     }
 
-    export class TimesheetEntries {
-      @IsArray(() => TimesheetEntry)
-      entries: TimesheetEntry[];
+    export class UserModel {
+        @IsNumber() public id: number;
+        @IsString()  public name: string;
+        @IsString()  public lastname: string;
+        @IsNumber() public age: number;
+        @IsArray(() => AddressModel) public address: AddressModel[];
     }
     ```
 3. Visit the documentation page, in this example it would be at http://localhost:8086/v1/apidoc

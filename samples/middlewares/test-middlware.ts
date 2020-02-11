@@ -1,5 +1,5 @@
-import { IMiddleware } from '../src/middlewares/middleware';
-import { MiddlewareBefore } from '../src/decorators/middlewareBefore';
+import { IMiddleware } from '../../src/middlewares/middleware';
+import { MiddlewareBefore } from '../../src/decorators/middlewareBefore';
 import * as http from 'http';
 
 @MiddlewareBefore(3)

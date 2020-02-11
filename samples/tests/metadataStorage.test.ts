@@ -1,15 +1,16 @@
 import { suite, test } from "mocha-typescript";
 import { assert } from 'chai';
-import { IKiwiOptions } from '../src/index';
-import { TestController } from '../samples/test-controller';
-import { TestController2 } from '../samples/test-controller2';
-import { TestController3 } from '../samples/test-controller3';
-import { TestMiddleware2 } from '../samples/test-middlware2';
-import { TestMiddleware } from '../samples/test-middlware';
-import { KiwiMetadataStorage } from '../src/metadata/metadataStorage';
+import { IKiwiOptions } from '../../src/index';
+import { TestController } from '../controllers/test-controller';
+import { TestController2 } from '../controllers/test-controller2';
+import { TestController3 } from '../controllers/test-controller3';
+import { UserController } from "../controllers/user/user-controller";
+import { TestMiddleware2 } from '../middlewares/test-middlware2';
+import { TestMiddleware } from '../middlewares/test-middlware';
+import { KiwiMetadataStorage } from '../../src/metadata/metadataStorage';
 
 const options: IKiwiOptions = {
-    controllers: [TestController, TestController2, TestController3],
+    controllers: [UserController, TestController, TestController2, TestController3],
     authorization: null,
     middlewares: [TestMiddleware2, TestMiddleware],
     cors: {
@@ -24,21 +25,6 @@ const options: IKiwiOptions = {
     prefix: '/v1'
 }
 
-/*
-describe("Metadata storage test", () => {
-    it("it must create metadata for server", () => {
-        KiwiMetadataStorage.init(options);
-        assert.equal(9, Object.keys(KiwiMetadataStorage.routes).length);
-    });
-
-    it("it must match route", () => {
-        KiwiMetadataStorage.init(options);
-        const match = KiwiMetadataStorage.matchRoute('/v1/testcontroller/queryparam/1', 'get');
-        assert.isNotNull(match);
-    });
-});
-*/
-
 @suite class KiwiMetadataStorageSuite {
     static before() {
         KiwiMetadataStorage.init(options);
@@ -48,8 +34,8 @@ describe("Metadata storage test", () => {
 
     }
 
-    @test 'It must exist 11 routes'() {
-        assert.equal(11, Object.keys(KiwiMetadataStorage.routes).length);
+    @test 'It must exist 18 routes'() {
+        assert.equal(18, Object.keys(KiwiMetadataStorage.routes).length);
     }
 
     @test 'it must match route'() {

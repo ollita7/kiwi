@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Mocha Tests",
+            "name": "Tests samples",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "args": [
                 "-u",
@@ -15,7 +15,7 @@
                 "--timeout",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/dist/tests"
+                "${workspaceFolder}/dist/samples/tests"
             ],
             "preLaunchTask": "compile",
             "internalConsoleOptions": "openOnSessionStart"
@@ -24,7 +24,7 @@
             "args": [],
             "cwd": "${workspaceRoot}",
             "externalConsole": false,
-            "name": "DEBUG",
+            "name": "DEBUG samples",
             "outDir": "${workspaceRoot}/dist",
             "program": "${workspaceRoot}/dist/samples/server.js",
             "request": "launch",
@@ -36,6 +36,6 @@
             "sourceMaps": true,
             "stopOnEntry": false,
             "type": "node"
-        },
+        }
     ]
 }
