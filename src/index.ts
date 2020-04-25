@@ -151,6 +151,8 @@ function parseHeaderParams(request: http.IncomingMessage, match: IActionExecutor
 
 async function execute(match: IActionExecutor, request: http.IncomingMessage, response: http.ServerResponse) {
   const instance: any = getInstance(match.executor);
+  instance.__proto__.request  = request;
+  instance.__proto__.response  = response;
   if (isNil(match.paramValues)) {
     match.paramValues = [];
   }

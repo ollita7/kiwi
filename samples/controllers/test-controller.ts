@@ -5,12 +5,14 @@ import { UserModel } from '../models/models';
 @Authorize(['role1, role2'])
 @JsonController('/testcontroller')
 export class TestController {
+    private request: any;
+    private response: any;
 
     constructor(private utils: Utils) { }
 
     @Post('/test123')
     public test23(@Body() body: any) {
-        return body;
+      return body;
     }
 
     @Post('/user')
