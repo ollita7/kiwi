@@ -7,6 +7,9 @@ import { CorsMiddleware } from './middlewares/corsMiddlware';
 import { LogMiddleware } from './middlewares/logMiddlware';
 import { DocMiddleware } from './middlewares/docMiddleware';
 import { ParserHelper } from './helpers/parser';
+import { ON_EXCEPTION } from './events';
+// Import events module
+var events = require('events');
 export * from './validators';
 export * from './decorators/get';
 export * from './decorators/post';
@@ -24,6 +27,7 @@ export * from './decorators/middlewareBefore';
 export * from './decorators/middlewareAfter';
 export * from './middlewares/middleware';
 export * from './middlewares/errorMiddleware';
+export * from './events';
 
 let internalOptions: IKiwiOptions = {
   port: 8080,
@@ -54,6 +58,9 @@ export function createKiwiServer(options: IKiwiOptions, callback?: any) {
     });
   }
 
+  // Create an eventEmitter object
+  (global as any).events = new events.EventEmitter();
+
   const server = http.createServer(processRequest);
   if (options.socket) {
     (global as any).io = require('socket.io')(server);
@@ -64,6 +71,18 @@ export function createKiwiServer(options: IKiwiOptions, callback?: any) {
       callback();
     }
   });
+}
+
+export function addKiwiListener(name: string, listener: any){
+  (global as any).events.addListener(name, listener);
+}
+
+export function emitKiwiEvent(name: string, data?: any){
+  (global as any).events.emit(name, data);
+}
+
+export function getKiwiEmitter(){
+  return (global as any).events;
 }
 
 export function getSocket() {
@@ -121,6 +140,7 @@ export async function processRequest(request: http.IncomingMessage, response: ht
     response.end(JSON.stringify(result));
     return response;
   } catch (ex) {
+    (global as any).events.emit(ON_EXCEPTION, ex);
     console.log(`ERROR: ${ex}`);
     response.writeHead(500);
     response.end(`Internal error`);

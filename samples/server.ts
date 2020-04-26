@@ -1,4 +1,4 @@
-import { createKiwiServer, IKiwiOptions, AuthorizeResponse } from '../src/index';
+import { createKiwiServer, IKiwiOptions, AuthorizeResponse, getKiwiEmitter, ON_EXCEPTION, addKiwiListener } from '../src/index';
 import * as http from 'http';
 import { environment } from './environments/environment';
 import { UserController } from './controllers/user/user-controller';
@@ -29,4 +29,13 @@ const options: IKiwiOptions = {
   port: 8086,
   prefix: '/v1'
 };
-const server = createKiwiServer(options, null);
+const server = createKiwiServer(options);
+
+const emitter = getKiwiEmitter();
+emitter.on(ON_EXCEPTION, (ex: any) => {
+  console.log(ex);
+});
+
+addKiwiListener('entre', (data:any) => {
+  console.log(data)
+})
