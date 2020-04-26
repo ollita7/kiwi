@@ -1,4 +1,4 @@
-import { Get, Post, JsonController, Param, Body, QueryParam, Authorize, HeaderParam, emitKiwiEvent } from '../../src/index';
+import { Get, Post, JsonController, Param, Body, QueryParam, Authorize, HeaderParam } from '../../src/index';
 import { Utils } from '../utils';
 import { UserModel } from '../models/models';
 
@@ -23,7 +23,6 @@ export class TestController {
     @Get('/queryparam/:id')
     public queryparam(@QueryParam() object: UserModel, @Param('id') id: string, @HeaderParam('token1') token1: string,
         @HeaderParam('token2') token2: string) {
-        emitKiwiEvent('entre', 'queryparam/1')
         return object;
     }
 
