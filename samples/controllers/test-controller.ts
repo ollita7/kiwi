@@ -23,6 +23,7 @@ export class TestController {
     @Get('/queryparam/:id')
     public queryparam(@QueryParam() object: UserModel, @Param('id') id: string, @HeaderParam('token1') token1: string,
         @HeaderParam('token2') token2: string) {
+          this.response.statusCode = 201;
         return object;
     }
 
