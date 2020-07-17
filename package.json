@@ -36,7 +36,7 @@
     "class-validator": "^0.8.5",
     "class-validator-jsonschema": "^1.2.0",
     "fs": "0.0.1-security",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mocha": "^5.2.0",
     "reflect-metadata": "^0.1.12",
     "socket.io": "^2.1.1",
