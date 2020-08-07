@@ -32,7 +32,7 @@
     "@types/lodash": "^4.14.110",
     "@types/reflect-metadata": "^0.1.0",
     "@types/request": "^2.47.1",
-    "class-transformer": "^0.2.3",
+    "class-transformer": "^0.3.1",
     "class-validator": "^0.8.5",
     "class-validator-jsonschema": "^1.2.0",
     "fs": "0.0.1-security",
