@@ -9,7 +9,12 @@ export interface IKiwiOptions {
   cors?: ICorsOption;
   port: number;
   prefix?: string;
-  socket?: boolean;
+  socket?: ISocketOption;
+}
+
+export interface ISocketOption {
+  enabled: boolean;
+  path?: string;
 }
 
 export interface IDocumentationOption {

@@ -16,6 +16,7 @@ export * from './decorators/post';
 export * from './decorators/put';
 export * from './decorators/delete';
 export * from './decorators/isArray';
+export * from './decorators/IsObject';
 export * from './types/types';
 export * from './decorators/jsonController';
 export * from './decorators/param';
@@ -34,7 +35,10 @@ let internalOptions: IKiwiOptions = {
   documentation: {
     enabled: false
   },
-  prefix: ''
+  prefix: '',
+  socket: {
+    enabled: false
+  }
 };
 
 export function createKiwiServer(options: IKiwiOptions, callback?: any) {
@@ -62,8 +66,8 @@ export function createKiwiServer(options: IKiwiOptions, callback?: any) {
   (global as any).events = new events.EventEmitter();
 
   const server = http.createServer(processRequest);
-  if (options.socket) {
-    (global as any).io = require('socket.io')(server);
+  if (internalOptions.socket.enabled) {
+    (global as any).io = require('socket.io')(server, {path: `${internalOptions.socket.path}/socket.io`});
   }
   server.listen(options.port, () => {
     console.log(`--------- SERVER STARTED on port ${options.port}---------`);

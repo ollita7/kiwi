@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsArray } from '../../src/index'
+import { IsString, IsNumber, IsObject } from '../../src/index'
 
 export class AddressModel {
     @IsString() public street: string;
@@ -10,5 +10,6 @@ export class UserModel {
     @IsString()  public name: string;
     @IsString()  public lastname: string;
     @IsNumber() public age: number;
-    @IsArray(() => AddressModel) public address: AddressModel[];
+    @IsObject(() => AddressModel) public address: AddressModel;
+    //@Isay(() => AddressModel) public address: AddressModel[];
 }
