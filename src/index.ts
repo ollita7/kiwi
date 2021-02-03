@@ -16,7 +16,7 @@ export * from './decorators/post';
 export * from './decorators/put';
 export * from './decorators/delete';
 export * from './decorators/isArray';
-export * from './decorators/IsObject';
+export * from './decorators/isObject';
 export * from './types/types';
 export * from './decorators/jsonController';
 export * from './decorators/param';
