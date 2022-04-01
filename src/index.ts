@@ -138,7 +138,7 @@ export async function processRequest(request: any, response: http.ServerResponse
 
     // Get context
     const context_index = findIndex(match.params, (param: any) => param.type === 'context');
-    if (context_index > 0 ) {
+    if (context_index >= 0 ) {
       const param = find(match.params, (param: any) => param.type === 'context');
       match.paramValues[context_index] = request[param.name]
     }
