@@ -230,12 +230,12 @@ Framework to help building a REST API using typescript and node.
     ```
 
 ## Context
-
+We can set variable in context to use on methods.
 ```javascript
-    @Post('/test123')
-    public test23(@Body() body: any, @Context('ctx') my_context: any) {
-      return body;
-    }
+@Post('/test123')
+public test23(@Body() body: any, @Context('ctx') my_context: any) {
+    return body;
+}
 ```
 
 
