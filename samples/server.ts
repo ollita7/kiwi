@@ -8,8 +8,9 @@ import { TestController3 } from './controllers/test-controller3';
 import { TestMiddleware } from './middlewares/test-middlware';
 import { TestMiddleware2 } from './middlewares/test-middlware2';
 
-async function validateAuthentication(request: http.IncomingMessage, roles: Array<string>): Promise<AuthorizeResponse | boolean> {
+async function validateAuthentication(request: any, roles: Array<string>): Promise<AuthorizeResponse | boolean> {
   console.log(roles);
+  request['ctx'] = roles;
   return true;
 }
 

@@ -1,6 +1,6 @@
 import { IKiwiOptions } from './types/types';
 import * as http from 'http';
-import { isNil, findIndex, forEach, filter } from 'lodash';
+import { isNil, findIndex, forEach, filter, find } from 'lodash';
 import { KiwiMetadataStorage } from './metadata/metadataStorage';
 import { IActionExecutor, IMiddleware } from './metadata/types/metadata.types';
 import { CorsMiddleware } from './middlewares/corsMiddlware';
@@ -8,6 +8,7 @@ import { LogMiddleware } from './middlewares/logMiddlware';
 import { DocMiddleware } from './middlewares/docMiddleware';
 import { ParserHelper } from './helpers/parser';
 import { ON_EXCEPTION } from './events';
+import { Param } from './decorators/param';
 // Import events module
 var events = require('events');
 export * from './validators';
@@ -23,6 +24,7 @@ export * from './decorators/param';
 export * from './decorators/queryParam';
 export * from './decorators/headerParam';
 export * from './decorators/body';
+export * from './decorators/context';
 export * from './decorators/authorize';
 export * from './decorators/middlewareBefore';
 export * from './decorators/middlewareAfter';
@@ -66,7 +68,7 @@ export function createKiwiServer(options: IKiwiOptions, callback?: any) {
   (global as any).events = new events.EventEmitter();
 
   const server = http.createServer(processRequest);
-  if (internalOptions.socket.enabled) {
+  if (internalOptions.socket && internalOptions.socket.enabled) {
     (global as any).io = require('socket.io')(server, {path: `${internalOptions.socket.path}/socket.io`});
   }
   server.listen(options.port, () => {
@@ -93,7 +95,7 @@ export function getSocket() {
   return (global as any).io;
 }
 
-export async function processRequest(request: http.IncomingMessage, response: http.ServerResponse) {
+export async function processRequest(request: any, response: http.ServerResponse) {
   try {
     const beforeReponse = await executeMiddlewares(KiwiMetadataStorage.middlewaresBefore, request, response);
     if (isNil(beforeReponse)) {
@@ -132,6 +134,13 @@ export async function processRequest(request: http.IncomingMessage, response: ht
       let body = await parser.parse(request);
       const index = findIndex(match.paramValues, (param: string) => param === undefined);
       match.paramValues[index] = body;
+    }
+
+    // Get context
+    const context_index = findIndex(match.params, (param: any) => param.type === 'context');
+    if (context_index > 0 ) {
+      const param = find(match.params, (param: any) => param.type === 'context');
+      match.paramValues[context_index] = request[param.name]
     }
 
     parseHeaderParams(request, match);

@@ -229,6 +229,15 @@ Framework to help building a REST API using typescript and node.
     server.listen(8086);
     ```
 
+## Context
+
+```javascript
+    @Post('/test123')
+    public test23(@Body() body: any, @Context('ctx') my_context: any) {
+      return body;
+    }
+```
+
 
 ## Dependency Injection
 1. You can use dependency injection in your controllers, by adding arguments to the constructor.

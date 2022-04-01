@@ -1,4 +1,4 @@
-import { Get, Post, JsonController, Param, Body, QueryParam, Authorize, HeaderParam } from '../../src/index';
+import { Get, Post, JsonController, Param, Body, QueryParam, Authorize, HeaderParam, Context } from '../../src/index';
 import { Utils } from '../utils';
 import { UserModel } from '../models/models';
 
@@ -11,7 +11,7 @@ export class TestController {
     constructor(private utils: Utils) { }
 
     @Post('/test123')
-    public test23(@Body() body: any) {
+    public test23(@Body() body: any, @Context('ctx') my_context: any) {
       return body;
     }
 
