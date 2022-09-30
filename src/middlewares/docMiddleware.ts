@@ -11,7 +11,8 @@ export class DocMiddleware implements IMiddleware {
         if (request.url === url) {
             return this.processDocumentations('/index.html', response);
         } else if (request.url.startsWith(`${(global as any).options.prefix}/node_modules/swagger`) || request.url.startsWith(`${(global as any).options.prefix}/swagger`)) {
-            url = replace(request.url, (global as any).options.prefix, '');
+            const suffix = !(global as any).options.documentation.suffix ? '' : (global as any).options.documentation.suffix;
+            url = replace(request.url, (global as any).options.prefix, suffix);
             return this.processDocumentations(url, response);
         } else {
             return next();
@@ -19,7 +20,7 @@ export class DocMiddleware implements IMiddleware {
     }
 
     private processDocumentations(resource: string, response: any) {
-        let pathToSwaggerUi = './';
+        let pathToSwaggerUi = `${process.cwd()}` ;
         pathToSwaggerUi = replace(pathToSwaggerUi, '//', '/');
         if (resource === '/index.html' || resource === '/swager.json') {
             pathToSwaggerUi = __dirname + '/../resources/documentation-ui';

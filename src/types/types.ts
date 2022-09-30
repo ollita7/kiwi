@@ -20,6 +20,7 @@ export interface ISocketOption {
 export interface IDocumentationOption {
   enabled: boolean;
   path?: string;
+  suffix?: string;
 }
 
 export interface ICorsOption {
