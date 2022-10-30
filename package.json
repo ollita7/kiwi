@@ -39,7 +39,7 @@
     "lodash": "^4.17.15",
     "mocha": "^5.2.0",
     "reflect-metadata": "^0.1.12",
-    "socket.io": "^2.1.1",
+    "socket.io": "^3.0.0",
     "swagger-ui-dist": "^3.17.3"
   },
   "devDependencies": {
