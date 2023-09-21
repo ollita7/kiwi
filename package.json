@@ -1,6 +1,6 @@
 {
   "name": "kiwi-server",
-  "version": "1.5.4",
+  "version": "1.6.1",
   "description": "<h2>KIWI Server</h2>\r Its a simple node server to create rest services.",
   "main": "index.js",
   "types": "index.d.ts",
@@ -39,7 +39,7 @@
     "lodash": "^4.17.15",
     "mocha": "^5.2.0",
     "reflect-metadata": "^0.1.12",
-    "socket.io": "^2.1.1",
+    "socket.io": "^4.7.2",
     "swagger-ui-dist": "^3.17.3"
   },
   "devDependencies": {
