@@ -1,5 +1,6 @@
 import { IKiwiOptions } from './types/types';
 import * as http from 'http';
+import { Server } from "socket.io";
 import { isNil, findIndex, forEach, filter, find } from 'lodash';
 import { KiwiMetadataStorage } from './metadata/metadataStorage';
 import { IActionExecutor, IMiddleware } from './metadata/types/metadata.types';
@@ -39,6 +40,7 @@ let internalOptions: IKiwiOptions = {
   },
   prefix: '',
   socket: {
+    path: '',
     enabled: false
   }
 };
@@ -69,7 +71,9 @@ export function createKiwiServer(options: IKiwiOptions, callback?: any) {
 
   const server = http.createServer(processRequest);
   if (internalOptions.socket && internalOptions.socket.enabled) {
-    (global as any).io = require('socket.io')(server, {path: `${internalOptions.socket.path}/socket.io`});
+    (global as any).io = new Server(server, {
+      path: `${internalOptions.socket.path}/socket.io`
+    });
   }
   server.listen(options.port, () => {
     console.log(`--------- SERVER STARTED on port ${options.port}---------`);
