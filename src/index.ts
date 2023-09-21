@@ -41,7 +41,8 @@ let internalOptions: IKiwiOptions = {
   prefix: '',
   socket: {
     path: '',
-    enabled: false
+    enabled: false,
+    cors: []
   }
 };
 
@@ -72,7 +73,10 @@ export function createKiwiServer(options: IKiwiOptions, callback?: any) {
   const server = http.createServer(processRequest);
   if (internalOptions.socket && internalOptions.socket.enabled) {
     (global as any).io = new Server(server, {
-      path: `${internalOptions.socket.path}/socket.io`
+      path: `${internalOptions.socket.path}`,
+      cors: {
+          origin: internalOptions.socket.cors
+      }
     });
   }
   server.listen(options.port, () => {

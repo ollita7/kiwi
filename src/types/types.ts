@@ -15,6 +15,7 @@ export interface IKiwiOptions {
 export interface ISocketOption {
   enabled: boolean;
   path?: string;
+  cors?: string[];
 }
 
 export interface IDocumentationOption {
