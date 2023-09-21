@@ -1,12 +1,13 @@
 {
   "name": "kiwi-server",
-  "version": "1.6.1",
+  "version": "1.6.3",
   "description": "<h2>KIWI Server</h2>\r Its a simple node server to create rest services.",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
     "compile": "tsc",
     "test-load": "node ./tests/load.test.js",
+    "preinstall": "npx npm-force-resolutions",
     "test": "tsc && nyc mocha ./dist/samples/tests && nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
@@ -47,7 +48,7 @@
     "@types/node": "^13.1.6",
     "chai": "^4.2.0",
     "coveralls": "^3.0.4",
-    "gulp": "3.9.1",
+    "gulp": "^4.0.2",
     "gulp-exec": "^3.0.2",
     "gulp-mocha": "^6.0.0",
     "gulp-sequence": "^1.0.0",
@@ -59,6 +60,6 @@
     "nyc": "^15.0.0",
     "sinon": "^7.1.1",
     "source-map-support": "^0.5.9",
-    "typescript": "^2.9.2"
+    "typescript": "^4.7.1"
   }
 }

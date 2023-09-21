@@ -1,16 +1,11 @@
 var gulp = require('gulp'),
 	exec = require('child_process').exec,
-	gulpSequence = require('gulp-sequence'),
 	mocha = require('gulp-mocha'),
 	ts = require('gulp-typescript');
 
 var tsProject = ts.createProject('tsconfig.json', {});
 
-gulp.task('publish', gulpSequence('compile', 'compile-tests', 'copy', 'execute-tests', 'publish-package'));
-
-gulp.task('test', gulpSequence('compile-tests', 'execute-tests'));
-
-gulp.task('compile', () => {
+gulp.task('compile', function() {
 	return gulp.src(['src/**/*.ts'])
 		.pipe(tsProject())
 		.pipe(gulp.dest("release"));
@@ -25,7 +20,7 @@ gulp.task('compile-tests', function (cb) {
 	});
 })
 
-gulp.task('copy', () => {
+gulp.task('copy', async () => {
 	gulp.src(['package.json', 'README.md'])
 		.pipe(gulp.dest('release/'));
 
@@ -49,4 +44,8 @@ gulp.task('publish-package', function (cb) {
 		cb(err);
 	});
 })
+
+gulp.task('publish', gulp.series('compile', 'compile-tests', 'copy', 'execute-tests', 'publish-package'));
+
+gulp.task('test', gulp.series('compile-tests', 'execute-tests'));
 
