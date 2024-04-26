@@ -92,6 +92,7 @@ export class KiwiMetadataStorage {
                 fn: controller.target.prototype[action.methodName],
                 executor: controller.target.prototype,
                 params: [],
+                contentType: action.contentType,
                 authorize: !isNil(authorize),
                 roles: !isNil(authorize) ? authorize.roles : []
             };

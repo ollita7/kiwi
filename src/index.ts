@@ -14,6 +14,7 @@ import { Param } from './decorators/param';
 var events = require('events');
 export * from './validators';
 export * from './decorators/get';
+export * from './decorators/content_type';
 export * from './decorators/post';
 export * from './decorators/put';
 export * from './decorators/delete';
@@ -157,8 +158,9 @@ export async function processRequest(request: any, response: http.ServerResponse
     if (isNil(afterReponse)) {
       return;
     }
-    response.setHeader('Content-Type', 'application/json');
-    response.end(JSON.stringify(result));
+    response.setHeader('Content-Type', match.contentType);
+    if(match.contentType = "application/json")
+      response.end(JSON.stringify(result));
     return response;
   } catch (ex) {
     (global as any).events.emit(ON_EXCEPTION, ex);

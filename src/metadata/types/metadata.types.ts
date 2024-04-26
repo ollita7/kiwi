@@ -9,6 +9,7 @@ export interface IAction{
     method: string;
     className: string;
     methodName: string;
+    contentType: string;
 }
 
 export interface IParam{
@@ -27,6 +28,7 @@ export interface IActionExecutor {
     paramValues?: any[];
     authorize: boolean;
     roles: string[];
+    contentType: string;
 }
 
 export interface IRoutes{

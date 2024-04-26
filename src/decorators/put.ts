@@ -6,6 +6,7 @@ export function Put(path: string | RegExp) {
             method: 'put',
             methodName: methodName,
             className: object.constructor.name,
+            contentType: 'application/json'
         })
     }
 }

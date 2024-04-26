@@ -6,6 +6,7 @@ export function Post(path?: string): Function {
             method: 'post',
             methodName: methodName,
             className: object.constructor.name,
+            contentType: 'application/json'
         })
     }
 }

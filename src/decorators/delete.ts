@@ -6,6 +6,7 @@ export function Delete(path: string | RegExp) {
             method: 'delete',
             methodName: methodName,
             className: object.constructor.name,
+            contentType: 'application/json'
         })
     }
 }

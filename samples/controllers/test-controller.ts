@@ -1,4 +1,4 @@
-import { Get, Post, JsonController, Param, Body, QueryParam, Authorize, HeaderParam, Context } from '../../src/index';
+import { Get, Post, JsonController, Param, Body, QueryParam, Authorize, HeaderParam, Context, ContentType } from '../../src/index';
 import { Utils } from '../utils';
 import { UserModel } from '../models/models';
 
