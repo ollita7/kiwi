@@ -159,9 +159,13 @@ export async function processRequest(request: any, response: http.ServerResponse
       return;
     }
     response.setHeader('Content-Type', match.contentType);
-    if(match.contentType = "application/json")
+    if (match.contentType == "application/json"){
       response.end(JSON.stringify(result));
-    return response;
+      return response;
+      }
+      else{
+        response.end( result );
+      }
   } catch (ex) {
     (global as any).events.emit(ON_EXCEPTION, ex);
     console.log(`ERROR: ${ex}`);
