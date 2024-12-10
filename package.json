@@ -37,7 +37,7 @@
     "class-validator-jsonschema": "^1.2.0",
     "fs": "0.0.1-security",
     "lodash": "^4.17.15",
-    "mocha": "^5.2.0",
+    "mocha": "^11.0.1",
     "reflect-metadata": "^0.1.12",
     "socket.io": "^4.7.2",
     "swagger-ui-dist": "^3.17.3"
